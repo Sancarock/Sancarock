@@ -1,0 +1,18 @@
+body { margin: 0; padding: 0; }
+nav { width: 100%; background: #333; float: left; padding: 10px 0px; }
+nav ul li { list-style: none; display: inline; }
+nav ul li a { padding: 10px; color: #F00; font: 1.3em Tahoma; }
+#menu, .menu {	display: none; }
+
+@media screen and (max-width: 480px) {
+
+	nav { display: none; }
+	#menu:checked ~ nav {
+		display: block;
+	}
+	.menu { display: block; background: #ccc; padding: 10px; float: right; }
+	nav ul { margin: 0; padding: 0; }
+	nav ul li { display: block; padding: 10px 0px; }
+	nav ul li a { width: 100%; float: left; text-align: center; }
+
+}
