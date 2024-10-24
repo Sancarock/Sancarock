@@ -1,29 +1,25 @@
-// Lista de usuários com login e senha
-        const users = [
-            { username: 'admin', password: '1234' },
-            { username: 'Sancarock', password: 'Sancarock' },
-            { username: 'user2', password: 'senha2' },
-            { username: 'guest', password: 'guest123' }
-        ];
+ // Lista de usuários e senhas para validação
+        const users = {
+            admin: '1234',
+            Sancarock: 'Sancarock',
+            user2: 'senha2',
+            guest: 'guest123'
+        };
 
-        // Função de validação de login
-        function validateLogin(username, password) {
-            return users.some(user => user.username === username && user.password === password);
-        }
-
+        // Validação simples
         document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Previne o comportamento padrão do formulário
+            event.preventDefault();
 
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            // Verifica se o login é válido
-            if (validateLogin(username, password)) {
-                // Se o login for bem-sucedido, armazena o estado de autenticação no localStorage
+            if (users[username] && users[username] === password) {
                 localStorage.setItem('isAuthenticated', 'true');
+                localStorage.setItem('loginCount', (parseInt(localStorage.getItem('loginCount')) || 0) + 1);
                 alert('Login bem-sucedido!');
-                window.location.href = 'movies.html'; // Redireciona para a página de filmes
+                window.location.href = 'movies.html';
             } else {
                 alert('Usuário ou senha incorretos!');
             }
         });
+    </script>
