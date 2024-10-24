@@ -9,10 +9,10 @@
 
   gtag('config', 'G-8LVSK0LGHJ');
 </script>
-	<title>SancaRock</title>
+<title>SancaRock</title>
 	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
 	<meta charset="UTF-8">
-	<meta name="description" content="RÃ¡dio SancaRock">
+	<meta name="description" content="Rádio SancaRock">
 	<meta name="keywords" content="radio, station, creative, html">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Favicon -->   
@@ -39,6 +39,7 @@
     <style type="text/css">
 <!--
 .style1 {color: #FFFFFF}
+.style3 {color: #FFFFFF; font-weight: bold; }
 -->
     </style>
 	<!-- Global site tag (gtag.js) - Google Ads: 705611919 --> <script async src="https://www.googletagmanager.com/gtag/js?id=AW-705611919"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-705611919'); </script>
@@ -86,21 +87,40 @@ window.open( "radio2.html", "","width=550,height=550,toolbar=no,location=no,dire
 	<section class="page-info-section set-bg" data-setbg="img/page.jpg">
 		<div class="container">
 		  <div class="section-title text-center">
-				<h2>Insira Login e Senha</h2>	
-				<p>	
-            <p>
-	          <div class="login-form">
-        
-        <input type="text" id="username" placeholder="UsuÃ¡rio"></p>
-        <input type="password" id="password" placeholder="Senha"></p>
-        <button class="login-btn" style="background: #007BFF; border-radius: 6px; padding: 10px; cursor: pointer; color: #fff; border: none; font-size: 16px;" type="button" onclick="checkLogin()">Entrar</button>
-	<p id="error-message" class="error-message"></p></p></p>
-    </div>
+				<h2>Login</h2>
+				<p>
+				<br>
+				<form id="loginForm">
+        <label for="username"><span class="align-items-baseline"><span class="style3">User:</span></span></label>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="password"><span class="align-bottom"><span class="style3">Senha</span>:</span></label>
+        <input type="password" id="password" name="password" required><br><br>
+        <button type="submit">Login</button>
+    </form>
 
-   <script src="js/login.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Previne o comportamento padrão do formulário
+
+            // Aqui você pode adicionar a lógica de validação de login real
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Exemplo de validação simples
+            if(username === 'Sancarock' && password === 'Sancarock') {
+                // Se o login for bem-sucedido, armazenar estado de login no localStorage
+                localStorage.setItem('isAuthenticated', 'true');
+                alert('Login bem-sucedido!');
+                window.location.href = 'movies.html'; // Redirecionar para a página de filmes
+            } else {
+                alert('Usuário ou senha incorretos!');
+            }
+        });
+    </script>
 				  
-			  
-			<button style="background: #069cc2; border-radius: 6px; padding: 15px; cursor: pointer; color: #fff; border: none; font-size: 16px;"type="button" onClick="history.go(-1)">Voltar</button>
+			  <p>User: Sancarock / Senha: Sancarock</p>
+			  <p>&nbsp;</p>
+		    <button style="background: #069cc2; border-radius: 6px; padding: 15px; cursor: pointer; color: #fff; border: none; font-size: 16px;"type="button" onClick="history.go(-1)">Voltar</button>
             <button style="background: #069cc2; border-radius: 6px; padding: 15px; cursor: pointer; color: #fff; border: none; font-size: 16px;" type="button" onClick="history.go(0)">Atualizar</button>
 	           <a href="https://brave.com/pt/download/" target="_blank"><img src="img/brave.png" alt="brave" width="284" height="27" border="0"></a></p>
 	           </p>
@@ -211,7 +231,7 @@ Sanca Rock - Todos os Direitos Reservados| Brazil </p>
 			<p>&nbsp;</p>
 			<p><a href="https://colorlib.com" target="_blank">Template Desenvolvido ByColorlib</a>
 			  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            - Adapatado por Sanca Rock - Web RÃ¡dio e Desenvolvimento de Web Sites - 2019 <img src="img/br.PNG" alt="brazil" width="50" height="50"></p>
+            - Adapatado por Sanca Rock - Web Rádio e Desenvolvimento de Web Sites - 2019 <img src="img/br.PNG" alt="brazil" width="50" height="50"></p>
 			<input name="button2" type="button" onClick="history.go(0)" value="Atualizar">
 			
 	  </div> 
@@ -233,3 +253,4 @@ Sanca Rock - Todos os Direitos Reservados| Brazil </p>
 	
 </body>
 </html>
+

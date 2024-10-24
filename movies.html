@@ -89,6 +89,16 @@ window.open( "radio2.html", "","width=550,height=550,toolbar=no,location=no,dire
 		<div class="container">
 		  <div class="section-title text-center">				
 		  <h2>Filmes</h2>	 </div>
+		  <script>
+        // Verificar se o usuário está autenticado
+        const isAuthenticated = localStorage.getItem('isAuthenticated');
+
+        if (isAuthenticated !== 'true') {
+            // Se não estiver autenticado, redireciona para a página de login
+            alert('Você precisa fazer login primeiro!');
+            window.location.href = 'auten.html';
+        }
+    </script>
 	  <style>
 	  .paia {
  
@@ -99,7 +109,7 @@ window.open( "radio2.html", "","width=550,height=550,toolbar=no,location=no,dire
 
   }
 </style>
-      <a href="cabecas.html"></a>
+      
       <table width="352" border="0" align="center">
   <tr>
     <td width="352"><div class="paia">
