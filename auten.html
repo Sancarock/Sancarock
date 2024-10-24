@@ -98,25 +98,7 @@ window.open( "radio2.html", "","width=550,height=550,toolbar=no,location=no,dire
         <button type="submit">Login</button>
     </form>
 
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Previne o comportamento padrão do formulário
-
-            // Aqui você pode adicionar a lógica de validação de login real
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            // Exemplo de validação simples
-            if(username === 'Sancarock' && password === 'Sancarock') {
-                // Se o login for bem-sucedido, armazenar estado de login no localStorage
-                localStorage.setItem('isAuthenticated', 'true');
-                alert('Login bem-sucedido!');
-                window.location.href = 'movies.html'; // Redirecionar para a página de filmes
-            } else {
-                alert('Usuário ou senha incorretos!');
-            }
-        });
-    </script>
+    <script src="js/script.js"></script>
 				  
 			  <p>User: Sancarock / Senha: Sancarock</p>
 			  <p>&nbsp;</p>
