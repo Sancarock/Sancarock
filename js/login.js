@@ -1,5 +1,4 @@
-<script>
-        // Lista de logins válidos (usuário: senha)
+ // Lista de logins válidos (usuário: senha)
         const users = {
             "admin": "1234",
             "Sancarock": "Sancarock",
@@ -21,4 +20,4 @@
                 document.getElementById("error-message").textContent = "Usuário ou senha incorretos!";
             }
         }
-    </script>
+    
