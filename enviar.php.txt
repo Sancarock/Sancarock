@@ -1,0 +1,56 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nome = $_POST['nome'];
+    $email = $_POST['email'];
+    $mensagem = $_POST['mensagem'];
+    $destinatario = "sancanight@gmail.com";  // Substitua pelo seu e-mail
+    $assunto = "Mensagem de Contato do Site";
+
+    $corpoEmail = "Nome: $nome\n";
+    $corpoEmail .= "E-mail: $email\n";
+    $corpoEmail .= "Mensagem:\n$mensagem\n";
+
+    // Verificar se há um arquivo anexado
+    if (isset($_FILES['arquivo']) && $_FILES['arquivo']['error'] == 0) {
+        $arquivoTmp = $_FILES['arquivo']['tmp_name'];
+        $nomeArquivo = $_FILES['arquivo']['name'];
+        $arquivoConteudo = file_get_contents($arquivoTmp);
+        $arquivoBase64 = base64_encode($arquivoConteudo);
+        $boundary = md5(time());
+
+        // Cabeçalhos para o envio do e-mail com anexo
+        $headers = "MIME-Version: 1.0\r\n";
+        $headers .= "From: $email\r\n";
+        $headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\r\n";
+
+        // Corpo do e-mail
+        $corpo = "--$boundary\r\n";
+        $corpo .= "Content-Type: text/plain; charset=UTF-8\r\n";
+        $corpo .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+        $corpo .= $corpoEmail . "\r\n";
+        $corpo .= "--$boundary\r\n";
+        $corpo .= "Content-Type: application/octet-stream; name=\"$nomeArquivo\"\r\n";
+        $corpo .= "Content-Transfer-Encoding: base64\r\n";
+        $corpo .= "Content-Disposition: attachment; filename=\"$nomeArquivo\"\r\n\r\n";
+        $corpo .= $arquivoBase64 . "\r\n";
+        $corpo .= "--$boundary--";
+
+        // Enviar e-mail
+        if (mail($destinatario, $assunto, $corpo, $headers)) {
+            echo "Mensagem enviada com sucesso!";
+        } else {
+            echo "Erro ao enviar a mensagem.";
+        }
+    } else {
+        // Enviar e-mail sem anexo
+        $headers = "From: $email\r\n";
+        if (mail($destinatario, $assunto, $corpoEmail, $headers)) {
+            echo "Mensagem enviada com sucesso!";
+        } else {
+            echo "Erro ao enviar a mensagem.";
+        }
+    }
+} else {
+    echo "Método de envio inválido.";
+}
+?>
