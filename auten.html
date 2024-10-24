@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="br">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-7">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <style>
@@ -51,6 +51,15 @@
     </form>
 
    <script src="js/script.js"></script>
-	
+	 <script>
+        // Bloquear a combinação Ctrl + U
+        document.addEventListener('keydown', function(event) {
+            // Verifica se as teclas Ctrl e U estão pressionadas
+            if (event.ctrlKey && (event.key === 'u' || event.key === 'U')) {
+                event.preventDefault(); // Impede a ação padrão
+                alert('A combinação Ctrl + U está desativada nesta página.'); // Mensagem corrigida
+            }
+        });
+    </script>
 </body>
 </html>
