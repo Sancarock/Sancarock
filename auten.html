@@ -4,61 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>Login</title>
 </head>
-    <style>
-        /* Estilos simples para melhorar o carregamento */
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            margin: 0;
-            background-color: #f4f4f4;
-        }
-        form {
-            max-width: 300px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #5cb85c;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #4cae4c;
-        }
-    </style>
-</head>
 <body>
-<p align="center">User: Sancarock / Senha: Sancarock </p>
+    <h2>Usu&aacute;rio e Senha = Sancarock </h2>
     <form id="loginForm">
-        <input type="text" id="username" placeholder="User" required>
-        <input type="password" id="password" placeholder="Senha" required>
-        <button type="submit">Entrar</button>
+        <label for="username">Usuário:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="password">Senha:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <button type="submit">Login</button>
     </form>
 
-   <script src="js/script.js"></script>
-	 <script>
-        // Bloquear a combinação Ctrl + U
-        document.addEventListener('keydown', function(event) {
-            // Verifica se as teclas Ctrl e U estão pressionadas
-            if (event.ctrlKey && (event.key === 'u' || event.key === 'U')) {
-                event.preventDefault(); // Impede a ação padrão
-                alert('A combinação Ctrl + U está desativada nesta página.'); // Mensagem corrigida
-            }
-        });
-    </script>
+  <script src="js/script.js"></script>
 </body>
 </html>
