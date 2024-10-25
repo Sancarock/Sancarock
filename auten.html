@@ -89,19 +89,35 @@ window.open( "radio2.html", "","width=550,height=550,toolbar=no,location=no,dire
 	<section class="page-info-section set-bg" data-setbg="img/page.jpg">
 		<div class="container">
 		  <div class="section-title text-center">
-				<h4>Usu&aacute;rio e Senha = Sancarock </h4>
-				<p>&nbsp;</p>
+				<h4>Login:admin / Senha: 1234</h4>
 				<p>&nbsp;</p>
 				<form id="loginForm">
         <label for="username"><span class="style1">Usuário</span>:</label>
-        <input type="text" id="username" name="username" required>
-		
-        <label for="password"><span class="style1">Senha:</span> </label>
-        <input type="password" id="password" name="password" required>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="password"><span class="style1">Senha</span>:</label>
+        <input type="password" id="password" name="password" required><br><br>
         <button type="submit">Login</button>
     </form>
 
-    <script src="js/script.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Previne o comportamento padrão do formulário
+
+            // Aqui você pode adicionar a lógica de validação de login real
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Exemplo de validação simples
+            if(username === 'admin' && password === '1234') {
+                // Se o login for bem-sucedido, armazenar estado de login no localStorage
+                localStorage.setItem('isAuthenticated', 'true');
+                alert('Login bem-sucedido!');
+                window.location.href = 'movies.html'; // Redirecionar para a página de filmes
+            } else {
+                alert('Usuário ou senha incorretos!');
+            }
+        });
+    </script>
             
 	           <br><br>
 			  
