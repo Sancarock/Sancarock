@@ -1,0 +1,132 @@
+@black:#000;
+@white:#fff;
+
+body{
+  font-family: "Avenir-black", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: lighten(@black, 30%);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}  
+a{
+  color: lighten(@black, 30%);
+  text-decoration: none;
+  &:hover{
+  }
+}
+ul{
+  margin: 0;
+  padding: 0
+}
+li{
+  list-style: none;
+}
+.displayflex{
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+  .menu{
+    transition: all .3s;
+    .displayflex;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    z-index: -10;
+    justify-content: center;
+    align-items: center;
+    transition: all .2s;
+    background-image: url(http://sije.fr/wp-content/themes/sije/assets/images/bg-menu-arte.jpg);
+    background-size: cover;
+    .preview{
+      box-shadow: 0 2px 12px 0 rgba(0,0,0,0.40);
+      border-radius: 10px;
+      width: 238px;
+      height: 426px;
+      margin-right: 40px;
+      background-image: url(http://sije.fr/wp-content/themes/sije/assets/images/arte-01.jpg);
+      background-size: cover;
+    }
+    ul{
+      li{
+        a{
+          color: @white;
+          font-size: 16px;
+          letter-spacing: 0.89px;
+          text-transform: uppercase;
+          padding: 4px 0;
+          .displayflex;
+          opacity: .45;
+          transition: all .3s;
+          &:hover{
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+  .menu.arte{
+    background-image: url(http://sije.fr/wp-content/themes/sije/assets/images/bg-menu-arte.jpg);
+  }
+  .preview.arte{
+    background-image: url(http://sije.fr/wp-content/themes/sije/assets/images/arte-01.jpg);
+  }
+  .menu.somfy{
+    background-image: url(http://sije.fr/wp-content/themes/sije/assets/images/bg-menu-somfy.jpg);
+  }
+  .preview.somfy{
+    background-image: url(http://sije.fr/wp-content/themes/sije/assets/images/somfy-03.jpg);
+  }
+  .menu.overkiz{
+    background-image: url(http://sije.fr/wp-content/themes/sije/assets/images/bg-menu-overkiz.jpg);
+  }
+  .preview.overkiz{
+    background-image: url(http://sije.fr/wp-content/themes/sije/assets/images/overkiz-08.jpg);
+  }
+  .menu.orange{
+    background-image: url(http://sije.fr/wp-content/themes/sije/assets/images/bg-menu-orange.jpg);
+  }
+  .preview.orange{
+    background-image: url(http://sije.fr/wp-content/themes/sije/assets/images/orange-1.jpg);
+  }
+  .menu.ooredoo{
+    background-image: url(http://sije.fr/wp-content/themes/sije/assets/images/bg-menu-ooredoo.jpg);
+  }
+  .preview.ooredoo{
+    background-image: url(http://sije.fr/wp-content/themes/sije/assets/images/ooredoo-01.jpg);
+  }
+  .menu.welcomhere{
+    background-image: url(http://sije.fr/wp-content/themes/sije/assets/images/bg-menu-welcomhere.jpg);
+  }
+  .preview.welcomhere{
+    background-image: url(http://sije.fr/wp-content/themes/sije/assets/images/welcomhere-1.jpg);
+  }
+  .menu.mordu{
+    background-image: url(http://sije.fr/wp-content/themes/sije/assets/images/bg-menu-mordu.jpg);
+  }
+  .preview.mordu{
+    background-image: url(http://sije.fr/wp-content/themes/sije/assets/images/mordu-1.jpg);
+  }
+  .menu.hitachi{
+    background-image: url(http://sije.fr/wp-content/themes/sije/assets/images/bg-menu-hitachi.jpg);
+  }
+  .preview.hitachi{
+    background-image: url(http://sije.fr/wp-content/themes/sije/assets/images/hitachi-01.jpg);
+  }
+  .menu.devialet{
+    background-image: url(http://sije.fr/wp-content/themes/sije/assets/images/bg-menu-devialet.jpg);
+  }
+  .preview.devialet{
+    background-image: url(http://sije.fr/wp-content/themes/sije/assets/images/devialet.jpg);
+  }
+  .menu.simplon{
+    background-image: url(http://sije.fr/wp-content/themes/sije/assets/images/bg-menu-simplon.jpg);
+  }
+  .preview.simplon{
+    background-image: url(http://sije.fr/wp-content/themes/sije/assets/images/simplon.jpg);
+  }

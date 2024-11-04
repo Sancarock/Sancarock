@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria com Popup</title>
+    <style>
+        /* Define a imagem para 300x300 pixels */
+        #imagem {
+            width: 300px;
+            height: 300px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Container para a imagem que será alternada -->
+    <img id="imagem" onclick="abrirPopup()" alt="Imagem Rotativa">
+
+    <script>
+        // Array com as URLs das imagens
+        const imagens = [
+            {src: 'img/bann00.png', link: 'auten.html'},
+            {src: 'img/bann00.png', link: 'auten.html'},
+            {src: 'img/bann00.png', link: 'auten.html'}
+        ];
+
+        // Variável para rastrear a imagem atual
+        let indiceAtual = 0;
+
+        // Função para alternar as imagens
+        function alternarImagens() {
+            const imagem = document.getElementById('imagem');
+            imagem.src = imagens[indiceAtual].src;
+            indiceAtual = (indiceAtual + 1) % imagens.length; // Alterna entre as imagens
+        }
+
+        // Função para abrir o popup ao clicar na imagem
+        function abrirPopup() {
+            const link = imagens[(indiceAtual - 1 + imagens.length) % imagens.length].link;
+            window.open(link, 'popup', 'width=550,height=550');
+        }
+
+        // Alterna as imagens a cada 3 segundos
+        setInterval(alternarImagens, 3000);
+
+        // Inicializa a primeira imagem
+        alternarImagens();
+    </script>
+</body>
+</html>

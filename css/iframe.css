@@ -1,0 +1,43 @@
+/* Força o estilo de desktop para o menu */
+@media (min-width: 768px) {
+    .header-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .header-warp {
+        display: flex;
+        align-items: center;
+    }
+
+    .site-logo {
+        margin-right: 20px;
+    }
+
+    .main-menu {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .main-menu li {
+        margin-right: 15px;
+    }
+
+    .main-menu li a img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .nav-switch {
+        display: none; /* Oculta o ícone de menu mobile */
+    }
+
+    .mobile-btn {
+        display: none; /* Oculta o botão mobile */
+    }
+}
+/* CSS Document */
+

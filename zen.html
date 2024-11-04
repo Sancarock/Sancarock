@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <title>Untitled Document</title>
+  <!-- Link para o CSS do Video.js -->
+  <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet" />
+  <!-- Script do Video.js -->
+  <script src="https://vjs.zencdn.net/7.15.4/video.min.js"></script>
+
+  <style>
+    /* Estilos para tornar o vídeo responsivo */
+    .video-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+      height: 0;
+      overflow: hidden;
+    }
+    .video-js {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Contêiner para o vídeo -->
+  <div class="video-container">
+    <video
+      id="my-player"
+      class="video-js vjs-default-skin"
+      controls
+      preload="auto"
+      data-setup='{}'
+    >
+      <source src="https://be7713.rcr82.waw05.cdn112.com/hls2/01/07163/ei7cjl9aogms_x/master.m3u8?t=TseaXESaSUEaL7ApTrQTg5pZmBb694Zm2c6FKhcij4U&s=1730149671&e=10800&f=35839250&srv=50&asn=27699&sp=5500&p=" type="application/x-mpegURL" />
+    </video>
+  </div>
+
+  <script>
+    // Inicialize o player
+    var player = videojs('my-player');
+  </script>
+</body>
+</html>
+

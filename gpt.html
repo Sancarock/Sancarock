@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sancarock</title>
+    <style>
+        /* Estilo para o cont?iner do v?deo */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            overflow: hidden;
+            background: #000; /* Fundo preto */
+        }
+        /* Estilo para o elemento de v?deo */
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        /* Estilo dos bot?es */
+        button {
+            margin: 5px;
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: #069cc2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #05799b;
+        }
+    body {
+	background-color: #191919;
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
+<body>
+
+<!-- Cont?iner do Player de V?deo -->
+<div class="video-container">
+    <video id="meuVideo" controls>
+        <source src="https://seed177.bitchute.com/nGHUgE6mlyOn/0jeRAoJ6krM6.mp4">
+        Seu navegador n?o suporta o elemento de v?deo.
+    </video>
+</div>
+
+<!-- Controles Personalizados (Opcional) -->
+<br>
+<button onClick="playVideo()">Play</button>
+<button onClick="pauseVideo()">Pause</button>
+<button onclick="toggleFullScreen()">Tela Cheia</button>
+<button style="background: #069cc2; border-radius: 6px; padding: 10px; cursor: pointer; color: #fff; border: none; font-size: 16px;"type="button" onClick="history.go(-1)">Voltar</button>
+            <button style="background: #069cc2; border-radius: 6px; padding: 10px; cursor: pointer; color: #fff; border: none; font-size: 16px;" type="button" onClick="history.go(0)">Atualizar</button><p align="center">
+	           <a href="https://brave.com/pt/download/" target="_blank"><img src="img/brave.png" alt="brave" width="284" height="27" border="0"></a>
+
+<script>
+    // Fun??es de controle do v?deo
+    const video = document.getElementById('meuVideo');
+
+    function playVideo() {
+        video.play();
+    }
+
+    function pauseVideo() {
+        video.pause();
+    }
+
+    function muteVideo() {
+        video.muted = true;
+    }
+
+    function unmuteVideo() {
+        video.muted = false;
+    }
+</script>
+
+</body>
+</html>

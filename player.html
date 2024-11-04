@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sancarock</title>
+    <style>
+        /* Estilo para o cont?iner do v?deo */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            overflow: hidden;
+            background: #000; /* Fundo preto */
+        }
+        /* Estilo para o elemento de v?deo */
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        /* Estilo dos bot?es */
+        button {
+            margin: 5px;
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: #069cc2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #05799b;
+        }
+    body {
+	background-color: #191919;
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
+<body>
+
+<!-- Cont?iner do Player de V?deo -->
+<div class="video-container">
+    <video id="meuVideo" controls>
+        <source src="https://s-delivery48.mxcontent.net/v2/el8zdj3ocxzopq.mp4?s=fFO8LnlVDLVAlxC7Bep95Q&e=1730170879&_t=1730157682">
+        Seu navegador n?o suporta o elemento de v?deo.
+    </video>
+</div>
+
+
+<script>
+    // Fun??es de controle do v?deo
+    const video = document.getElementById('meuVideo');
+
+    function playVideo() {
+        video.play();
+    }
+
+    function pauseVideo() {
+        video.pause();
+    }
+
+    function muteVideo() {
+        video.muted = true;
+    }
+
+    function unmuteVideo() {
+        video.muted = false;
+    }
+</script>
+
+</body>
+</html>
