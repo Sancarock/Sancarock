@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escolha sua Opção</title>
+    <style>
+        body {
+            text-align: center;
+            margin-top: 20vh;
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #fff; /* Fundo branco */
+            color: #000; /* Texto preto */
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #ddd; /* Cor mais clara ao passar o mouse */
+        }
+    </style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head>
+<body>
+    <h1><img src="img/logu.png" alt="logo" width="268" height="80"></h1>
+    <h1>O que você gostaria de Saborear?</h1>
+    <button onclick="mostrarResposta('lanche')">Lanche</button>
+    <button onclick="mostrarResposta('pizza')">Pizza</button>
+    <button onclick="mostrarResposta('sorvete')">Sorvete</button>
+    <button onclick="mostrarResposta('corote')">Corote</button>
+    <button onclick="mostrarResposta('nada')">Nada</button>
+    
+    <p id="resposta" style="margin-top: 20px; font-size: 18px;"></p>
+
+    <script>
+        function mostrarResposta(opcao) {
+            const resposta = document.getElementById("resposta");
+
+            switch(opcao) {
+                case "lanche":
+                    resposta.innerHTML = "Boa escolha! Um lanche é sempre uma delícia. <br><br>Vai de Carlão Lanches";
+                    break;
+                case "pizza":
+                    resposta.innerHTML = "Pizza é sempre uma ótima ideia! <br><br>Vai de Ravena";
+                    break;
+                case "sorvete":
+                    resposta.innerHTML = "Nada melhor que um sorvete para refrescar! <br><br>Vai de JM Bebidas";
+                    break;
+                case "corote":
+                      resposta.innerHTML = "Vai com calma no corote!<br>A pessoa que bebe corote desistiu da vida, mesmo assim:<br>Vai de JM Bebidas<br><img src='URL_DA_IMAGEM' alt='Logo JM Bebidas'>";
+                    break;
+                case "nada":
+                    resposta.innerHTML = "Sai Vazado então Cuzão.";
+                    break;
+                default:
+                    resposta.textContent = "Por favor, escolha uma opção.";
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>
