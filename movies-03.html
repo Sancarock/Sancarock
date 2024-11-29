@@ -44,21 +44,7 @@
 -->
     </style>
 	<!-- Global site tag (gtag.js) - Google Ads: 705611919 --> <script async src="https://www.googletagmanager.com/gtag/js?id=AW-705611919"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-705611919'); </script>
-<script>
-        // Verifica se o usuário está autenticado
-        function checkAuthentication() {
-            const isAuthenticated = localStorage.getItem("authenticated");
-            console.log("Verificando autenticação: ", isAuthenticated); // Adicionado para depuração
-            if (isAuthenticated !== "true") {
-                // Se não estiver autenticado, redireciona para a página de login
-                alert("Você precisa fazer login primeiro!"); // Adicionado para melhor feedback
-                window.location.href = "auten.html";
-            }
-        }
 
-        // Chama a função ao carregar a página
-        window.onload = checkAuthentication;
-    </script>
 </head>
 <body>
 	<!-- Page Preloder -->
@@ -102,16 +88,9 @@ window.open( "radio2.html", "","width=550,height=550,toolbar=no,location=no,dire
 	<section class="page-info-section set-bg" data-setbg="img/page.jpg">
 		<div class="container">
 		  <div class="section-title text-center">				
-		  <h2>Filmes</h2><p><p><button onclick="logout()">Logout</button>
+		  <h2>Filmes</h2><p><p>
 
-    <script>
-        function logout() {
-            // Remove a autenticação ao sair
-            localStorage.removeItem("authenticated");
-            console.log("Logout realizado."); // Adicionado para depuração
-            window.location.href = "auten.html"; // Redireciona para a página de login
-        }
-    </script>
+   
 		  
 		  </div>
 		  <style>
@@ -127,8 +106,10 @@ window.open( "radio2.html", "","width=550,height=550,toolbar=no,location=no,dire
       
       <table width="352" border="0" align="center">
   <tr>
+    <table width="352" border="0" align="center">
+  <tr>
     <td width="352"><div class="paia">
-      <table width="1500"  border="0" align="center">
+      <table width="3000"  border="0" align="center">
         <tr>
 		<td width="250"><a href="filme.html"><img src="img/f01.jpg" alt="Filme01" width="250" height="300" border="0"></a></td>
 		<td width="250"><a href="filme02.html"><img src="img/f2.jpg" alt="Filme02" width="250" height="300" border="0"></a></td>
@@ -139,6 +120,9 @@ window.open( "radio2.html", "","width=550,height=550,toolbar=no,location=no,dire
 		<td width="250"><a href="filme07.html"><img src="img/f07.jpg" alt="Filme07" width="250" height="300" border="0"></a></td>
 		<td width="250"><a href="filme08.html"><img src="img/f08.jpg" alt="Filme08" width="250" height="300" border="0"></a></td>
 		<td width="250"><a href="filme09.html"><img src="img/f09.jpg" alt="Filme09" width="250" height="300" border="0"></a></td>
+		<td width="250"><a href="filme10.html"><img src="img/f10.jpg" alt="Filme10" width="250" height="300" border="0"></a></td>
+		<td width="250"><a href="filme11.html"><img src="img/f11.jpg" alt="Filme11" width="250" height="300" border="0"></a></td>
+		<td width="250"><a href="filme12.html"><img src="img/f12.jpg" alt="Filme12" width="250" height="300" border="0"></a></td>
       </table>
      
     </div></td>

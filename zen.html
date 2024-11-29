@@ -28,23 +28,18 @@
 </head>
 
 <body>
-  <!-- Contêiner para o vídeo -->
-  <div class="video-container">
-    <video
-      id="my-player"
-      class="video-js vjs-default-skin"
-      controls
-      preload="auto"
-      data-setup='{}'
-    >
-      <source src="https://seed177.bitchute.com/nGHUgE6mlyOn/0jeRAoJ6krM6.mp4" type="application/x-mpegURL" />
-    </video>
-  </div>
-
-  <script>
-    // Inicialize o player
-    var player = videojs('my-player');
-  </script>
+  <script type="text/javascript"
+                  src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js">
+                </script>
+                <div id="player"></div>
+                <script defer>
+                    var player = new Clappr.Player({
+                        source: "https://abc.embedmax.site/cnnbrasil/video.m3u8",
+                        parentId: "#player",
+                        width: "100%",
+                        height: "100%"
+                    });
+                </script>
 </body>
 </html>
 
