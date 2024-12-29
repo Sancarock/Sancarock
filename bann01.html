@@ -1,55 +1,73 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Untitled Document</title>
-<style type="text/css">
-<!--
-a:link {
-	color: #FFFFFF;
-}
-a:visited {
-	color: #FFFFFF;
-}
-a:hover {
-	color: #FFFFFF;
-}
-a:active {
-	color: #FFFFFF;
-}
--->
-</style></head>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrossel de Imagens</title>
+    <style>
+        body {
+            background-color: #C0C0C0;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        #banner img {
+            width: 300px;
+            height: 300px;
+            border: 3px solid #ffffff;
+        }
+        a {
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+    </style>
+</head>
 <body>
-<script language="JavaScript"> 
-var ultimo=-1, dBanner;
-function carrega(x) {dBanner=x;Banners()}
-function Banners()
-{ 
-var MNews = new Array();  
+    <div id="banner"></div>
 
-MNews[0]= '<a HREF="https://www.magazinevoce.com.br/magazinesancarock/" target="_blank"><img SRC="img/bann04.png" WIDTH="270" HEIGHT="270" BORDER="3" ALT=""></a>';
-MNews[1]= '<a HREF="https://www.magazinevoce.com.br/magazinesancarock/selecao/ofertasdodia/?sortOrientation=desc&sortType=soldQuantity&filters=review---4" target="_blank"><img SRC="img/bann03.png" WIDTH="270" HEIGHT="270" BORDER="3" ALT=""></a>';
-MNews[2]= '<a HREF="https://www.magazinevoce.com.br/magazinesancarock/selecao/ofertasdodia/?sortOrientation=desc&sortType=soldQuantity&filters=review---4" target="_blank"><img SRC="img/bann05.png" WIDTH="270" HEIGHT="270" BORDER="3" ALT=""></a>';
+    <script>
+        // Array com os banners e seus links
+        const banners = [
+            {
+                img: "img/bann02.png",
+                link: "divul.html",
+                alt: "Banner 1"
+            },
+            {
+                img: "img/quiz.png",
+                link: "quizz.html",
+                alt: "Banner 2"
+            }
+        ];
 
+        let currentIndex = 0; // Índice atual do banner
 
+        // Função para atualizar o banner
+        function updateBanner() {
+            const bannerDiv = document.getElementById("banner");
+            const currentBanner = banners[currentIndex];
 
+            // Define o conteúdo do banner
+            bannerDiv.innerHTML = `
+                <a href="javascript:void(0);" onclick="openPopup('${currentBanner.link}')">
+                    <img src="${currentBanner.img}" alt="${currentBanner.alt}">
+                </a>
+            `;
 
-while((Numero = parseInt(Math.random()*MNews.length))==ultimo);
-dBanner.innerHTML=MNews[Numero];
+            // Atualiza o índice para o próximo banner (com loop)
+            currentIndex = (currentIndex + 1) % banners.length;
 
-setTimeout("Banners()",2000);
-} 
-</script></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span> 
-<body bgcolor="#C0C0C0" leftmargin="0" onload="carrega(this.divBanner)" text="#000000" topmargin="0"> 
-<table border="0" bordercolor="#000000" cellpadding="0" cellspacing="0" style="height: 300px; width: 300px;">
-<tr> 
-<td> 
-<div align="center" id="divBanner">
-</div>
-</td> 
-</tr>
-</table>
+            // Atualiza o banner após 7 segundos
+            setTimeout(updateBanner, 7000);
+        }
+
+        // Função para abrir o popup
+        function openPopup(link) {
+            window.open(link, 'popupWindow', 'width=550,height=628,scrollbars=yes');
+        }
+
+        // Inicia o carrossel quando a página carrega
+        window.onload = updateBanner;
+    </script>
 </body>
 </html>
-
