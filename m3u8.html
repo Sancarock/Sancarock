@@ -29,18 +29,18 @@
 
     <script>
         const video = document.getElementById('video');
-        const videoSrc = "https://be4242.rcr52.ams03.cdn255.com/hls2/01/07534/j5351ce1tmht_h/index-v1-a1.m3u8?t=WdJxFTii9yalHUEYaIqntkcnsi1orw2SGaMiPNkrTRA&s=1735491808&e=10800&f=37674602&srv=50&asn=27699&sp=4000&p=";
+        const videoSrc = "https://gcore-vid.xvideos-cdn.com/mOXojx2ioV1I8DZbsKhGgQ==,1735599514/videos/hls/bf/6c/0b/bf6c0b6f2dfc8f96db75c24750791cdb/hls.m3u8";
 
         // Verifica se o navegador suporta nativamente HLS
         if (video.canPlayType('application/vnd.apple.mpegurl')) {
             video.src = videoSrc;
         } else if (Hls.isSupported()) {
-            // Usa hls.js para reproduzir o vídeo
+            // Usa hls.js para reproduzir o vï¿½deo
             const hls = new Hls();
             hls.loadSource(videoSrc);
             hls.attachMedia(video);
         } else {
-            alert("Seu navegador não suporta reprodução de vídeos HLS.");
+            alert("Seu navegador nï¿½o suporta reproduï¿½ï¿½o de vï¿½deos HLS.");
         }
     </script>
 </body>
