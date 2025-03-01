@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SancaRock</title>
+    <style>
+        /* Estilo da barra de rolagem */
+        .paia {
+            overflow-x: scroll;
+            background-color: #000; /* Fundo preto */
+            position: relative;
+            width: 370px;
+            margin: 0 auto; /* Centraliza a barra */
+            white-space: nowrap; /* Garante que as imagens fiquem na mesma linha */
+            scroll-behavior: smooth; /* Animação suave */
+        }
+
+        .paia::-webkit-scrollbar {
+            height: 15px; /* Altura da barra de rolagem horizontal */
+            background-color: #000; /* Fundo da barra */
+        }
+
+        .paia::-webkit-scrollbar-thumb {
+            background-color: white; /* Cor da barra de rolagem */
+            border-radius: 7px; /* Bordas arredondadas */
+        }
+
+        /* Estilo das imagens */
+        .paia img {
+            border: 2px solid white; /* Borda branca nas imagens */
+            border-radius: 5px; /* Bordas arredondadas */
+            margin-right: 10px; /* Espaçamento entre as imagens */
+        }
+
+        /* Remove o último espaçamento extra */
+        .paia img:last-child {
+            margin-right: 0;
+        }
+
+        /* Estilo das setas */
+        .scroll-left, .scroll-right {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .scroll-left:hover, .scroll-right:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+    
+    <div style="position: relative; text-align: center;">
+        <div class="paia" id="carousel">
+            <a href="filme.html" target="_parent"><img src="img/f01.jpg" alt="Filme01" width="250" height="300" border="0"></a>
+            <a href="filme02.html" target="_parent"><img src="img/f2.jpg" alt="Filme02" width="250" height="300" border="0"></a>
+			<a href="filme03.html" target="_parent"><img src="img/f03.jpg" alt="Filme03" width="250" height="300" border="0"></a>
+            <a href="filme04.html" target="_parent"><img src="img/f04.jpg" alt="Filme04" width="250" height="300" border="0"></a>
+			<a href="filme05.html" target="_parent"><img src="img/f05.jpg" alt="Filme05" width="250" height="300" border="0"></a>
+            <a href="filme06.html" target="_parent"><img src="img/f06.jpg" alt="Filme06" width="250" height="300" border="0"></a>
+			<a href="filme07.html" target="_parent"><img src="img/f07.jpg" alt="Filme07" width="250" height="300" border="0"></a>
+            <a href="filme08.html" target="_parent"><img src="img/f08.jpg" alt="Filme08" width="250" height="300" border="0"></a>
+			<a href="filme09.html" target="_parent"><img src="img/f09.jpg" alt="Filme09" width="250" height="300" border="0"></a>
+            <a href="filme10.html" target="_parent"><img src="img/f10.jpg" alt="Filme10" width="250" height="300" border="0"></a>  
+			<a href="filme11.html" target="_parent"><img src="img/f11.jpg" alt="Filme11" width="250" height="300" border="0"></a>  
+			<a href="filme12.html" target="_parent"><img src="img/f12.jpg" alt="Filme12" width="250" height="300" border="0"></a>
+			<a href="filme13.html" target="_parent"><img src="img/f13.jpg" alt="Filme13" width="250" height="300" border="0"></a>    </div>
+        <div style="margin-top: 10px;">
+            <button class="scroll-left">◀</button>
+            <button class="scroll-right">▶</button>
+        </div>
+    </div>
+    <script>
+        const carousel = document.getElementById('carousel');
+        const imageWidth = 250 + 10; // Largura da imagem + margem direita (10px)
+
+        document.querySelector('.scroll-left').addEventListener('click', () => {
+            carousel.scrollTo({
+                left: carousel.scrollLeft - imageWidth, // Move para trás da largura de uma imagem
+                behavior: 'smooth'
+            });
+        });
+
+        document.querySelector('.scroll-right').addEventListener('click', () => {
+            carousel.scrollTo({
+                left: carousel.scrollLeft + imageWidth, // Move para frente da largura de uma imagem
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>
