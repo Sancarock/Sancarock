@@ -2,9 +2,25 @@
  <link href="https://vjs.zencdn.net/7.2.3/video-js.css" rel="stylesheet">
 
 <!-- HTML -->
-<video id='hls-example'  class="video-js vjs-default-skin" width="550" height="310" controls>
-<source type="application/x-mpegURL" src="https://tv.broadcasting.ro/rocktv/85c83a80-4f71-4f2d-a8d6-43f676896bcb.m3u8">
-</video>
+<video
+						id="my-video"
+						class="video-js vjs-default-skin vjs-16-9"
+						controls
+						preload="auto"
+						width="737"
+						height="415"
+						poster="/assets/img/ui/player-btn.png"
+						data-setup="{}"
+					  >
+						<source src="https://stream.mediawork.cz/retrotv/smil:retrotv2.smil/playlist.m3u8" type="application/x-mpegURL" />
+						<p class="vjs-no-js">
+						  To view this video please enable JavaScript, and consider upgrading to a
+						  web browser that
+						  <a href="https://videojs.com/html5-video-support/" target="_blank"
+							>supports HTML5 video</a
+						  >
+						</p>
+					  </video>
 
 
 <!-- JS code -->
