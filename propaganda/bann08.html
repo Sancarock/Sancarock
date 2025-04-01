@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title></title>
+<style type="text/css">
+<!--
+a:link {
+	color: #FFFFFF;
+}
+a:visited {
+	color: #FFFFFF;
+}
+a:hover {
+	color: #FFFFFF;
+}
+a:active {
+	color: #FFFFFF;
+}
+-->
+</style></head>
+
+<body>
+<script language="JavaScript"> 
+var ultimo=-1, dBanner;
+function carrega(x) {dBanner=x;Banners()}
+function Banners()
+{ 
+var MNews = new Array();  
+
+MNews[0]= '<a HREF="https://s.shopee.com.br/7V2jjzcO63?share_channel_code=1" target="_blank"><img SRC="img/08.png" WIDTH="300" HEIGHT="300" BORDER="0" ALT=""></a>';
+
+
+
+
+
+
+while((Numero = parseInt(Math.random()*MNews.length))==ultimo);
+dBanner.innerHTML=MNews[Numero];
+
+setTimeout("Banners()",2000);
+} 
+</script></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span> 
+<body bgcolor="#C0C0C0" leftmargin="0" onload="carrega(this.divBanner)" text="#000000" topmargin="0"> 
+<table border="0" bordercolor="#000000" cellpadding="0" cellspacing="0" style="height: 300px; width: 300px;">
+<tr> 
+<td> 
+<div align="center" id="divBanner">
+</div>
+</td> 
+</tr>
+</table>
+</body>
+</html>
