@@ -1,35 +1,40 @@
-// Lista com 12 banners
+// Lista de banners disponíveis
 const banners = [
-    "bann01.html", "bann02.html", "bann03.html", "bann04.html",
-    "bann05.html", "bann06.html", "bann07.html", "bann08.html",
-    "bann09.html", "bann10.html", "bann11.html", "bann12.html"
+    "propaganda/bann01.html", "propaganda/bann02.html", "propaganda/bann03.html", "propaganda/bann04.html",
+    "propaganda/bann05.html", "propaganda/bann06.html", "propaganda/bann07.html", "propaganda/bann08.html",
+    "propaganda/bann09.html", "propaganda/bann10.html", "propaganda/bann11.html", "propaganda/bann12.html"
 ];
 
+// Lista de fundos para cada banner
+const backgrounds = ["white.png", "grey.png", "fundored.png"];
+
 function getRandomBanners() {
-    // Copia a lista de banners para evitar modificações na original
-    let shuffled = [...banners];
-    
-    // Embaralha os banners
-    for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    
-    // Retorna os 3 primeiros banners da lista embaralhada
-    return shuffled.slice(0, 3);
+    let shuffled = banners.sort(() => 0.5 - Math.random()); // Embaralha os banners
+    return shuffled.slice(0, 3); // Pega 3 sem repetir
 }
 
-function trocarBanners() {
-    const iframes = document.querySelectorAll(".promotion-section iframe");
-    if (iframes.length >= 3) {
-        const selectedBanners = getRandomBanners();
-        iframes[0].src = selectedBanners[0];
-        iframes[1].src = selectedBanners[1];
-        iframes[2].src = selectedBanners[2];
-    }
+function updateBanners() {
+    const container = document.getElementById("banners-container");
+    if (!container) return;
+    
+    container.innerHTML = ""; // Limpa os banners anteriores
+    const selectedBanners = getRandomBanners();
+
+    selectedBanners.forEach((banner, index) => {
+        let bannerDiv = document.createElement("div");
+        bannerDiv.className = "col-md-4";
+
+        bannerDiv.innerHTML = `
+            <div class="promo-box set-bg" style="background-image: url('img/promo/${backgrounds[index]}');">
+                <h2>
+                    <iframe src="${banner}" frameborder="0" width="300" height="300" scrolling="no"></iframe>
+                </h2>
+            </div>
+        `;
+
+        container.appendChild(bannerDiv);
+    });
 }
 
-// Troca os banners a cada 10 segundos
-setInterval(trocarBanners, 10000);
-
-trocarBanners(); // Executa a função imediatamente ao carregar a página
+updateBanners(); // Exibe os primeiros banners
+setInterval(updateBanners, 10000); // Altera os banners a cada 10 segundos
