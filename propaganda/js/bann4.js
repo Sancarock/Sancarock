@@ -8,20 +8,23 @@ const banners = [
 // Lista de fundos para cada banner
 const backgrounds = ["white.png", "grey.png", "fundored.png"];
 
-// Definição dos blocos em ordem reversa (3 banners por vez)
-const sequences = [
-    [3, 2, 1], // 4, 3, 2
-    [7, 6, 5], // 8, 7, 6
-    [11, 10, 9], // 12, 11, 10
-    [0, 4, 8] // 1, 5, 9 (para looping contínuo)
+// Definição dos blocos na nova sequência
+let sequences = [
+    [1, 12, 2, 11],
+    [3, 10, 9, 4],
+    [5, 6, 7, 8]
 ];
 
-let currentSequence = 0;
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
 
 function getSequentialBanners() {
-    let selected = sequences[currentSequence].map(index => banners[index]);
-    currentSequence = (currentSequence + 1) % sequences.length; // Avança para o próximo bloco
-    return selected;
+    shuffleArray(sequences); // Embaralha a ordem dos blocos
+    return sequences.flat().map(index => banners[index - 1]);
 }
 
 function updateBanners() {
@@ -33,7 +36,7 @@ function updateBanners() {
 
     selectedBanners.forEach((banner, index) => {
         let bannerDiv = document.createElement("div");
-        bannerDiv.className = "col-md-4";
+        bannerDiv.className = "col-md-3";
 
         bannerDiv.innerHTML = `
             <div class="promo-box set-bg" style="background-image: url('img/promo/${backgrounds[index % backgrounds.length]}');">
