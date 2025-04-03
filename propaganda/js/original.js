@@ -1,8 +1,8 @@
-// Lista de banners disponíveis
+// Lista de banners disponÃ­veis
 const banners = [
-    "propaganda/bann01.html", "propaganda/bann02.html", "propaganda/bann03.html", "propaganda/bann04.html",
-    "propaganda/bann05.html", "propaganda/bann06.html", "propaganda/bann07.html", "propaganda/bann08.html",
-    "propaganda/bann09.html", "propaganda/bann10.html", "propaganda/bann11.html", "propaganda/bann12.html"
+    "https://sancarock.com/propaganda/bann01.html", "https://sancarock.com/propaganda/bann02.html", 
+    "https://sancarock.com/propaganda/bann05.html", "https://sancarock.com/propaganda/bann06.html", 
+    "https://sancarock.com/propaganda/bann09.html", "https://sancarock.com/propaganda/bann10.html", 
 ];
 
 // Lista de fundos para cada banner

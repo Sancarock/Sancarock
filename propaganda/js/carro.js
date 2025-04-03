@@ -1,18 +1,29 @@
 // Lista de banners disponíveis
 const banners = [
     "https://sancarock.com/propaganda/carrossel01.html", 
-    "https://sancarock.com/propaganda/carrossel02.html", 
-    "https://sancarock.com/propaganda/carrossel03.html", 
+    "https://sancarock.com/propaganda/carrossel02.html",  
+    "https://sancarock.com/propaganda/carrossel03.html"
 ];
 
 // Lista de fundos para cada banner
 const backgrounds = ["white.png", "grey.png", "fundored.png"];
 
-function getRandomBanners() {
-    let shuffled = banners.sort(() => 0.5 - Math.random()); // Embaralha os banners
-    return shuffled.slice(0, 3); // Pega 3 sem repetir
+// Função para embaralhar um array usando Fisher-Yates Shuffle
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
 }
 
+// Retorna 3 banners aleatórios sem repetição
+function getRandomBanners() {
+    let shuffled = [...banners]; // Copia o array original
+    shuffleArray(shuffled); 
+    return shuffled.slice(0, 3);
+}
+
+// Atualiza os banners no container
 function updateBanners() {
     const container = document.getElementById("banners-container");
     if (!container) return;
@@ -27,7 +38,7 @@ function updateBanners() {
         bannerDiv.innerHTML = `
             <div class="promo-box set-bg" style="background-image: url('img/promo/${backgrounds[index]}');">
                 <h2>
-                    <iframe src="${banner}" frameborder="0" width="300" height="300" scrolling="no"></iframe>
+                    <iframe src="${banner}" frameborder="0" width="300" height="300" scrolling="no" style="background:#fff;"></iframe>
                 </h2>
             </div>
         `;
@@ -36,5 +47,8 @@ function updateBanners() {
     });
 }
 
-updateBanners(); // Exibe os primeiros banners
-setInterval(updateBanners, 10000); // Altera os banners a cada 10 segundos
+// Exibe os primeiros banners
+updateBanners();
+
+// Altera os banners a cada 25 segundos
+setInterval(updateBanners, 25000);
