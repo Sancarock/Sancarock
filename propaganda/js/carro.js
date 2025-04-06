@@ -1,7 +1,7 @@
 // Lista de banners disponíveis
 const banners = [
-    "https://sancarock.com/propaganda/carrossel01.html", 
-    "https://sancarock.com/propaganda/carrossel03.html",  
+    "https://sancarock.com/propaganda/carrossel06.html", 
+    "https://sancarock.com/propaganda/carrossel01.html",  
     "https://sancarock.com/propaganda/carrossel05.html",
 ];
 

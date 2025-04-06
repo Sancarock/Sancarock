@@ -2,7 +2,7 @@
 const banners = [
     "https://sancarock.com/propaganda/carrossel02.html", 
     "https://sancarock.com/propaganda/carrossel04.html", 
-    "https://sancarock.com/propaganda/carrossel06.html", 
+    "https://sancarock.com/propaganda/carrossel03.html", 
 ];
 
 // Lista de fundos para cada banner
