@@ -1,8 +1,8 @@
 // Lista de banners disponíveis
 const banners = [
-    "https://sancarock.com/propaganda/carrossel01.html", 
-    "https://sancarock.com/propaganda/carrossel02.html",  
-    "https://sancarock.com/propaganda/carrossel03.html"
+    "https://sancarock.com/propaganda/carrossel01.html", "https://sancarock.com/propaganda/carrossel06.html", 
+    "https://sancarock.com/propaganda/carrossel02.html", "https://sancarock.com/propaganda/carrossel05.html", 
+    "https://sancarock.com/propaganda/carrossel03.html", "https://sancarock.com/propaganda/carrossel04.html"
 ];
 
 // Lista de fundos para cada banner
@@ -50,5 +50,5 @@ function updateBanners() {
 // Exibe os primeiros banners
 updateBanners();
 
-// Altera os banners a cada 25 segundos
-setInterval(updateBanners, 25000);
+// Altera os banners a cada 20 segundos
+setInterval(updateBanners, 20000);
