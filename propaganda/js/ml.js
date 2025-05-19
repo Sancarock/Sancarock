@@ -1,13 +1,13 @@
 const banners = [
-  { img: "propaganda/img/001.gif", link: "https://mercadolivre.com/sec/23WaKH6" },
-  { img: "propaganda/img/002.gif", link: "https://mercadolivre.com/sec/2xeEUcx" },
-  { img: "propaganda/img/003.gif", link: "https://mercadolivre.com/sec/2XqExAw" },
-  { img: "propaganda/img/004.gif", link: "https://mercadolivre.com/sec/1v1fK1A" },
-  { img: "propaganda/img/005.gif", link: "https://mercadolivre.com/sec/1cGGSex" },
-  { img: "propaganda/img/006.gif", link: "https://mercadolivre.com/sec/2uMR4Gb" },
-  { img: "propaganda/img/007.gif", link: "https://mercadolivre.com/sec/3277kLr" },
-  { img: "propaganda/img/008.gif", link: "https://mercadolivre.com/sec/1Erm7HD" },
-  { img: "propaganda/img/009.gif", link: "https://mercadolivre.com/sec/2hhCKB3" }
+  { img: "https://sancarock.com/propaganda/img/001.gif", link: "https://mercadolivre.com/sec/23WaKH6" },
+  { img: "https://sancarock.com/propaganda/img/001.gif", link: "https://mercadolivre.com/sec/2xeEUcx" },
+  { img: "https://sancarock.com/propaganda/img/001.gif", link: "https://mercadolivre.com/sec/2XqExAw" },
+  { img: "https://sancarock.com/propaganda/img/001.gif", link: "https://mercadolivre.com/sec/1v1fK1A" },
+  { img: "https://sancarock.com/propaganda/img/001.gif", link: "https://mercadolivre.com/sec/1cGGSex" },
+  { img: "https://sancarock.com/propaganda/img/001.gif", link: "https://mercadolivre.com/sec/2uMR4Gb" },
+  { img: "https://sancarock.com/propaganda/img/001.gif", link: "https://mercadolivre.com/sec/3277kLr" },
+  { img: "https://sancarock.com/propaganda/img/001.gif", link: "https://mercadolivre.com/sec/1Erm7HD" },
+  { img: "https://sancarock.com/propaganda/img/001.gif", link: "https://mercadolivre.com/sec/2hhCKB3" }
 ];
 
 const backgrounds = ["white.png", "grey.png", "fundored.png"];
