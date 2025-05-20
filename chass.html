@@ -46,6 +46,72 @@
 	font-weight: bold;
 }
 -->
+ .iframe-wrapper {
+    width: 100%;
+    max-width: 560px;
+    height: auto;
+    aspect-ratio: 560 / 400;
+    margin: 0 auto;
+  }
+
+  .iframe-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+  
+  #player-container {
+      width: 100%;
+      max-width: 560px;
+      height: 55vw;
+      max-height: 315px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    #player {
+      width: 100%;
+      height: 100%;
+    }
+
+    .controls {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .controls button,
+    .controls a.menu-button {
+      background-color: #e50914;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+      text-decoration: none;
+      display: inline-block;
+      flex: 1 1 auto;
+      max-width: 200px;
+    }
+
+    .controls button:hover,
+    .controls a.menu-button:hover {
+      background-color: #b00610;
+    }
+
+    @media (max-width: 480px) {
+      .controls button,
+      .controls a.menu-button {
+        font-size: 0.95rem;
+        padding: 0.6rem 1.2rem;
+      }
+    }
+
     </style>
 	<!-- Global site tag (gtag.js) - Google Ads: 705611919 --> <script async src="https://www.googletagmanager.com/gtag/js?id=AW-705611919"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-705611919'); </script>
 
@@ -92,41 +158,70 @@ window.open( "playsr.html", "","width=550,height=750,toolbar=no,location=no,dire
 	<section class="page-info-section set-bg" data-setbg="img/page.jpg">
 		<div class="container">
 		  <div class="section-title text-center">
-				<h2>Papo de Craque 2ª Edição</h2>	
-				<p>	
-	        <p><iframe style="width: 100%; max-width: 560px; height: 55vw; max-height: 315px; overflow: hidden;" src="https://www.youtube.com/embed/videoseries?list=PLF-h4dZLXQmrkfiv17lsbz04fld8y-wof" marginheight="0" marginwidth="0" scrolling="no" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-				
-			<p> <body className='snippet-body' >
-                                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>
-			<a href="img/assomb.jpg" data-lightbox="photos">
-			<button style="background: #069cc2; border-radius: 6px; padding: 15px; cursor: pointer; color: #fff; border: none; font-size: 16px;<a href=">Horário</button>
-			</a>			
-	<button style="background: #069cc2; border-radius: 6px; padding: 15px; cursor: pointer; color: #fff; border: none; font-size: 16px;"type="button" onClick="history.go(-1)">Voltar</button>
-    <button style="background: #069cc2; border-radius: 6px; padding: 15px; cursor: pointer; color: #fff; border: none; font-size: 16px;"type="button" onClick="history.go(0)">Atualizar</button>
-			
-				
-			<div class="lightbox-gallery" align="center">
-    <div class="container" align="center">
-      <div class="btn-lg style2"><a href="https://brave.com/pt/download/" target="_blank"><img src="img/brave.png" alt="brave" width="284" height="27" border="0"></a></div>
-    </div>
-</div>
-                                <script type='text/javascript' src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script>
-                                <script type='text/javascript' src='#'></script>
-                                <script type='text/javascript' src='#'></script>
-                                <script type='text/javascript' src='#'></script>
-                                <script type='text/javascript'>#</script>
-                                <script type='text/javascript'>var myLink = document.querySelector('a[href="#"]');
-                                myLink.addEventListener('click', function(e) {
-                                  e.preventDefault();
-                                });</script>
-            
-	           <p>
-			  
-			
-			
-			
-</div>
+				<h2>Filmes Stephen King</h2>	
+			<div id="player-container">
+    <div id="player"></div>
+  </div>
+
+  <div class="controls">
+    <button onclick="previousVideo()">◀ Anterior</button>
+    <button onclick="nextVideo()">▶ Próximo</button>
+    <a href="ch12.html" target="_top" class="menu-button">☰ Menu</a>
+  </div>
+
+  <!-- API do YouTube -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+
+  <script>
+    let player;
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        width: '100%',
+        height: '100%',
+        playerVars: {
+          listType: 'playlist',
+          list: 'PLi4QfeOFyJ0S9WfpjwnR3w3aTsDWSvoTH', // sua playlist
+          rel: 0,
+          modestbranding: 1,
+          enablejsapi: 1,
+          autoplay: 1,
+          origin: window.location.origin
+        },
+        events: {
+          onReady: onPlayerReady,
+          onError: onPlayerError
+        }
+      });
+    }
+
+    function onPlayerReady(event) {
+      // Aguarda o player inicializar antes de tocar
+      setTimeout(() => {
+        event.target.playVideo();
+      }, 1000);
+    }
+
+    function onPlayerError(event) {
+      console.warn("Erro no player. Recarregando...");
+      setTimeout(() => location.reload(), 1500);
+    }
+
+    function nextVideo() {
+      if (player && typeof player.nextVideo === 'function') {
+        player.nextVideo();
+      }
+    }
+
+    function previousVideo() {
+      if (player && typeof player.previousVideo === 'function') {
+        player.previousVideo();
+      }
+    }
+  </script>
+<p></p>
+				 <p><a href="https://brave.com/pt/download/" target="_blank"><img src="img/brave.png" alt="brave" width="284" height="27" border="0"></a></p>
+		  </div>
 		</div>
 	</section>
 	<!-- Latest Podcast section end -->
@@ -237,10 +332,8 @@ Sanca Rock - Todos os Direitos Reservados| Brazil </p>
 	<script src="js/owl.carousel.min.js"></script>
 	<script src="js/circle-progress.min.js"></script>
 	<script src="js/main.js"></script>
-	
 	<script src="js/wavesurfer.min.js"></script>
 	<script src="js/audio.js"></script>
-	<script src="propaganda/js/prop.js"></script>
 	
 </body>
 </html>
