@@ -46,6 +46,72 @@
 	font-weight: bold;
 }
 -->
+ .iframe-wrapper {
+    width: 100%;
+    max-width: 560px;
+    height: auto;
+    aspect-ratio: 560 / 400;
+    margin: 0 auto;
+  }
+
+  .iframe-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+  
+  #player-container {
+      width: 100%;
+      max-width: 560px;
+      height: 55vw;
+      max-height: 315px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    #player {
+      width: 100%;
+      height: 100%;
+    }
+
+    .controls {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .controls button,
+    .controls a.menu-button {
+      background-color: #e50914;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+      text-decoration: none;
+      display: inline-block;
+      flex: 1 1 auto;
+      max-width: 200px;
+    }
+
+    .controls button:hover,
+    .controls a.menu-button:hover {
+      background-color: #b00610;
+    }
+
+    @media (max-width: 480px) {
+      .controls button,
+      .controls a.menu-button {
+        font-size: 0.95rem;
+        padding: 0.6rem 1.2rem;
+      }
+    }
+
     </style>
 	<!-- Global site tag (gtag.js) - Google Ads: 705611919 --> <script async src="https://www.googletagmanager.com/gtag/js?id=AW-705611919"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-705611919'); </script>
 
@@ -67,7 +133,7 @@
         <!-- Main Menu -->
         <ul class="main-menu">
           <li>
-           <script>
+            <script>
 function abrir_radio_popup() {
 window.open( "playsr.html", "","width=550,height=750,toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=no,resizable=NO" );
 }
@@ -93,16 +159,67 @@ window.open( "playsr.html", "","width=550,height=750,toolbar=no,location=no,dire
 		<div class="container">
 		  <div class="section-title text-center">
 				<h2>Alienígenas e Mistérios</h2>	
-				<p>	
-	        <p><iframe style="width: 100%; max-width: 560px; height: 55vw; max-height: 315px; overflow: hidden;" src="https://www.youtube.com/embed/videoseries?list=PLnAqAg77NkBha06vHobH2d7ySIK9YZANG" marginheight="0" marginwidth="0" scrolling="no" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-				
-			<p> 
-	<button style="background: #069cc2; border-radius: 6px; padding: 15px; cursor: pointer; color: #fff; border: none; font-size: 16px;"type="button" onClick="history.go(-1)">Voltar</button>
-            <button style="background: #069cc2; border-radius: 6px; padding: 15px; cursor: pointer; color: #fff; border: none; font-size: 16px;"type="button" onClick="history.go(0)">Atualizar</button>
-			<a href="https://www.youtube.com/@UniversoDosDocumetarios" target="_blank">
-			<button style="background: #069cc2; border-radius: 6px; padding: 15px; cursor: pointer; color: #fff; border: none; font-size: 16px;<a href=">Youtube</button>
-			</a></a>  
-          </p>
+			<div id="player-container">
+    <div id="player"></div>
+  </div>
+
+  <div class="controls">
+    <button onclick="previousVideo()">◀ Anterior</button>
+    <button onclick="nextVideo()">▶ Próximo</button>
+    <a href="docum.html" target="_top" class="menu-button">☰ Menu</a>
+  </div>
+
+  <!-- API do YouTube -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+
+  <script>
+    let player;
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        width: '100%',
+        height: '100%',
+        playerVars: {
+          listType: 'playlist',
+          list: 'PLnAqAg77NkBha06vHobH2d7ySIK9YZANG', // sua playlist
+          rel: 0,
+          modestbranding: 1,
+          enablejsapi: 1,
+          autoplay: 1,
+          origin: window.location.origin
+        },
+        events: {
+          onReady: onPlayerReady,
+          onError: onPlayerError
+        }
+      });
+    }
+
+    function onPlayerReady(event) {
+      // Aguarda o player inicializar antes de tocar
+      setTimeout(() => {
+        event.target.playVideo();
+      }, 1000);
+    }
+
+    function onPlayerError(event) {
+      console.warn("Erro no player. Recarregando...");
+      setTimeout(() => location.reload(), 1500);
+    }
+
+    function nextVideo() {
+      if (player && typeof player.nextVideo === 'function') {
+        player.nextVideo();
+      }
+    }
+
+    function previousVideo() {
+      if (player && typeof player.previousVideo === 'function') {
+        player.previousVideo();
+      }
+    }
+  </script>
+<p></p>
 				 <p><a href="https://brave.com/pt/download/" target="_blank"><img src="img/brave.png" alt="brave" width="284" height="27" border="0"></a></p>
 		  </div>
 		</div>
