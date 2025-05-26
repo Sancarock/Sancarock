@@ -163,16 +163,17 @@ window.open( "playsr.html", "","width=550,height=750,toolbar=no,location=no,dire
     <div id="player"></div>
   </div>
 
-  <div class="controls">
+   <div class="controls">
     <button onClick="previousVideo()">◀ Anterior</button>
     <button onClick="nextVideo()">▶ Próximo</button>
-    <a href="ch12.html" target="_top" class="menu-button">☰ Menu</a>
+    <button onclick="history.go(0)">🔀 Atualizar</button>
+    <a href="ch12.html" target="_top" class="menu-button">☰ Voltar</a>
   </div>
 
   <!-- API do YouTube -->
   <script src="https://www.youtube.com/iframe_api"></script>
 
-  <script>
+<script>
     let player;
 
     function onYouTubeIframeAPIReady() {
@@ -196,10 +197,19 @@ window.open( "playsr.html", "","width=550,height=750,toolbar=no,location=no,dire
     }
 
     function onPlayerReady(event) {
-      // Aguarda o player inicializar antes de tocar
+      player.setShuffle(true);
+
+      // Garante que inicia em um vídeo aleatório
       setTimeout(() => {
-        event.target.playVideo();
-      }, 1000);
+        const playlist = player.getPlaylist();
+        if (playlist && playlist.length > 0) {
+          const randomIndex = Math.floor(Math.random() * playlist.length);
+          player.playVideoAt(randomIndex);
+        } else {
+          // Caso não carregue a playlist imediatamente
+          event.target.playVideo();
+        }
+      }, 1500); // pequeno atraso para garantir que a playlist carregou
     }
 
     function onPlayerError(event) {
@@ -218,7 +228,8 @@ window.open( "playsr.html", "","width=550,height=750,toolbar=no,location=no,dire
         player.previousVideo();
       }
     }
-  </script>
+</script>
+
 <p></p>
 				 <p><a href="https://brave.com/pt/download/" target="_blank"><img src="img/brave.png" alt="brave" width="284" height="27" border="0"></a></p>
 		  </div>
