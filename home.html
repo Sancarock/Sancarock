@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="pt-BR">
 <head>
-	<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8LVSK0LGHJ"></script>
+<!-- Google tag (gtag.js) -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
+  // Configuração para Google Analytics
   gtag('config', 'G-8LVSK0LGHJ');
+
+  // Configuração para Google Ads
+  gtag('config', 'AW-705611919');
 </script>
 	<title>SancaRock</title>
 	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
 	<meta charset="UTF-8">
-	<meta name="description" content="Rádio SancaRock">
-	<meta name="keywords" content="radio, station, creative, html">
+	<meta name="description" content="SancaRock - A melhor Web Rádio de Rock do Brasil. Ouça músicas, veja TV e fique atualizado.">
+	<meta name="keywords" content="rádio rock, SancaRock, web rádio, ouvir rock, TV online, streaming, música, notícias">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Favicon -->   
 	<link href="img/favicon.ico" rel="shortcut icon"/>
@@ -38,9 +41,9 @@
 	<![endif]-->
 
     <style type="text/css">
-<!--
+
 .style1 {color: #FFFFFF}
--->
+
     </style>
 	<!-- Global site tag (gtag.js) - Google Ads: 705611919 --> <script async src="https://www.googletagmanager.com/gtag/js?id=AW-705611919"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-705611919'); </script>
 <style>
@@ -64,6 +67,7 @@
             margin: 0 5px;
         }
     </style>
+    
 </head>
 <body>
 	<!-- Page Preloder -->
@@ -78,16 +82,10 @@
         <a href="home.html" class="site-logo"> <img src="img/logu.png" alt="" width="268" height="80" border="0"> </a>
         <!-- responsive -->
         <div class="nav-switch"> <i class="fa fa-bars"></i> </div>
-	    <
+	    
         <!-- Main Menu -->
         <ul class="main-menu">
-          <li>
-            <script>
-function abrir_radio_popup() {
-window.open( "playsr.html", "","width=550,height=750,toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=no,resizable=NO" );
-}
-      </script>
-          <a href="javascript:abrir_radio_popup();"><img src="img/20.png" width="80" height="80" border="0" title="Abrir Player Pop-up" /></a></li>
+          <li><a href="javascript:abrir_radio_popup();"><img src="img/20.png" width="80" height="80" border="0" title="Abrir Player Pop-up" /></a></li>
           
           <li><a href="ch12.html"><img src="img/42.PNG" alt="fut" width="80" height="80" border="0"></a></li>
 		  
@@ -95,9 +93,10 @@ window.open( "playsr.html", "","width=550,height=750,toolbar=no,location=no,dire
 		  
          <li><a href="canal01.html"><img src="img/45.png" alt="tv" width="80" height="80" border="0"></a></li>
 		 
-		 <li><a href="https://www.instagram.com/radio_sancarock/" target="_blank" /><img src="img/ins.png" alt="tv" width="80" height="80" border="0"></a></li>
+		 <li><a href="https://www.instagram.com/radio_sancarock/" target="_blank" ><img src="img/ins.png" alt="tv" width="80" height="80" border="0"></a></li>
 		 
-		 <li><a href="https://play.google.com/store/apps/details?id=com.shoutcast.stm.sancarock84xpf3gnfn&pli=1" target="_blank" /><img src="img/app.png" alt="tv" width="80" height="80" border="0"></a></li>
+		 <li><a href="https://play.google.com/store/apps/details?id=com.shoutcast.stm.sancarock84xpf3gnfn&pli=1" target="_blank">
+            <img src="img/app.png" alt="tv" width="80" height="80" border="0"></a></li>
 		 
         </ul>
       </div>
@@ -108,9 +107,8 @@ window.open( "playsr.html", "","width=550,height=750,toolbar=no,location=no,dire
 
 	<!--  section -->
 	<section class="hero-section set-bg" data-setbg="img/capa.jpg">
-		</div>
-  </div>
-  </div>
+	
+  
 <div class="hero-slider owl-carousel">
 			<div class="hs-item">
 				<div class="container">
@@ -154,23 +152,16 @@ window.open( "playsr.html", "","width=550,height=750,toolbar=no,location=no,dire
 	<!-- Hero section end -->
 
 	<!-- promotion section -->
-<section class="promotion-section">
+	<section class="promotion-section">
     <div class="container">
         <div class="row" id="banners-container">
             <!-- Os banners serão inseridos aqui pelo JavaScript -->
+			<script src="propaganda/js/ml.js"></script>
+
         </div>
     </div>
 </section>
 <!-- promotion section end -->
-
-<!-- Carregar o script principal -->
-
-<div id="banners-container" class="row"></div>
-
-<script src="propaganda/js/ml.js"></script>
-
-
-
 	
 	<section class="footer-top-section">
 		<div class="container">
@@ -217,12 +208,9 @@ window.open( "playsr.html", "","width=550,height=750,toolbar=no,location=no,dire
 	 
 </section>
 	<!-- Footer Top section end -->
-
-
-
-	<!-- Footer section -->
+    <!-- Footer section -->
 	<footer class="footer-section">
-		<div class="contaoner">
+		<div class="container">
 			<p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 Sanca Rock - Todos os Direitos Reservados| Brazil </p>
 			<p>&nbsp;</p>
@@ -232,14 +220,11 @@ Sanca Rock - Todos os Direitos Reservados| Brazil </p>
 			<p><a href="https://colorlib.com" target="_blank">Template Desenvolvido ByColorlib</a>
 			  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             - Adapatado por Sanca Rock - Web Rádio e Desenvolvimento de Web Sites - 2019 <img src="img/br.PNG" alt="brazil" width="50" height="50"></p>
-			<input name="button2" type="button" onClick="history.go(0)" value="Atualizar">
+			
 			
 	  </div> 
 	</footer>
 	<!-- Footer Top section end -->
-
-
-	
 	<!--====== Javascripts & Jquery ======-->
 	<script src="js/jquery-3.2.1.min.js"></script>
 	<script src="js/jquery-ui.min.js"></script>
@@ -249,6 +234,10 @@ Sanca Rock - Todos os Direitos Reservados| Brazil </p>
 	<script src="js/main.js"></script>
 	<script src="js/wavesurfer.min.js"></script>
 	<script src="js/audio.js"></script>
-	
+	<script>
+function abrir_radio_popup() {
+window.open( "playsr.html", "","width=550,height=750,toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=no,resizable=NO" );
+}
+      </script>
 </body>
 </html>

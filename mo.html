@@ -55,6 +55,22 @@
         .scroll-left:hover, .scroll-right:hover {
             background-color: darkred;
         }
+        .go-to-ch13 {
+    background-color: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0 5px;
+            transition: background-color 0.3s ease;
+}
+
+.go-to-ch13:hover {
+    background-color: darkred;
+}
     </style>
 </head>
 <body>
@@ -77,6 +93,7 @@
         <div style="margin-top: 10px;">
             <button class="scroll-left">◀</button>
             <button class="scroll-right">▶</button>
+            <button class="go-to-ch13" onclick="window.top.location.href='ch13.html';">Voltar</button>
         </div>
     </div>
     <script>

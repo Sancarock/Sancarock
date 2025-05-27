@@ -38,9 +38,29 @@
 	<![endif]-->
 
     <style type="text/css">
-<!--
+
 .style1 {color: #FFFFFF}
--->
+.botao-vermelho {
+    background: linear-gradient(45deg, #ff0000, #cc0000);
+    border-radius: 8px;
+    padding: 15px 30px;
+    cursor: pointer;
+    color: white; /* Mantém o texto branco */
+    text-decoration: none; /* Remove sublinhado */
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+    display: inline-block;
+}
+
+.botao-vermelho:hover {
+    box-shadow: 5px 5px 20px black;
+    transform: translateY(-3px) scale(1.03);
+    background: linear-gradient(45deg, #cc0000, #990000);
+    color: white; /* Garante que o texto continue branco no hover */
+}
     </style>
 	<!-- Global site tag (gtag.js) - Google Ads: 705611919 --> <script async src="https://www.googletagmanager.com/gtag/js?id=AW-705611919"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-705611919'); </script>
 
@@ -101,7 +121,8 @@ window.open( "playsr.html", "","width=550,height=750,toolbar=no,location=no,dire
                   </tr>
                   <tr>
                     <td colspan="3"><div align="center">
-                         <button style="background: #069cc2; border-radius: 6px; padding: 15px; cursor: pointer; color: #fff; border: none; font-size: 16px;" type="button" onclick="window.location.href='ch12.html'">Voltar</button>                      <button style="background: #069cc2; border-radius: 6px; padding: 15px; cursor: pointer; color: #fff; border: none; font-size: 16px;" type="button" onClick="history.go(0)">Atualizar</button>
+                    <a href="ch12.html" target="_top" class="botao-vermelho">Voltar</a>
+                    <button class="botao-vermelho" type="button" onClick="history.go(0)">Atualizar </button>
                       </p>
                     </div></td>
                   </tr>
@@ -201,7 +222,7 @@ Sanca Rock - Todos os Direitos Reservados| Brazil </p>
 			<p><a href="https://colorlib.com" target="_blank">Template Desenvolvido ByColorlib</a>
 			  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             - Adapatado por Sanca Rock - Web Rádio e Desenvolvimento de Web Sites - 2019 <img src="img/br.PNG" alt="brazil" width="50" height="50"></p>
-			<input name="button2" type="button" onClick="history.go(0)" value="Atualizar">
+			
 			
 	  </div> 
 	</footer>
