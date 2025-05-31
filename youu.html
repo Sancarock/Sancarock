@@ -17,6 +17,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Favicon -->   
 	<link href="img/favicon.ico" rel="shortcut icon"/>
+
 	<link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' rel='stylesheet'>
 
 	<!-- Google Font -->   
@@ -38,77 +39,26 @@
 	<![endif]-->
 
     <style type="text/css">
-<!--
+
 .style1 {color: #FFFFFF}
 .style2 {
 	color: #CCCCCC;
 	font-weight: bold;
 }
--->
- .iframe-wrapper {
-    width: 100%;
-    max-width: 560px;
-    height: auto;
-    aspect-ratio: 560 / 400;
-    margin: 0 auto;
-  }
-
-  .iframe-wrapper iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    display: block;
-  }
-  
-  #player-container {
-      width: 100%;
-      max-width: 560px;
-      height: 55vw;
-      max-height: 315px;
-      margin: 0 auto;
-      overflow: hidden;
+.botao-vermelho {
+        background-color: red;
+        border-radius: 6px;
+        padding: 15px 25px;
+        cursor: pointer;
+        color: white;
+        border: none;
+        font-size: 16px;
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
     }
 
-    #player {
-      width: 100%;
-      height: 100%;
-    }
-
-    .controls {
-      margin-top: 1.5rem;
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .controls button,
-    .controls a.menu-button {
-      background-color: #e50914;
-      color: white;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      font-size: 1rem;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.3s;
-      text-decoration: none;
-      display: inline-block;
-      flex: 1 1 auto;
-      max-width: 120px;
-    }
-
-    .controls button:hover,
-    .controls a.menu-button:hover {
-      background-color: #b00610;
-    }
-
-    @media (max-width: 480px) {
-      .controls button,
-      .controls a.menu-button {
-        font-size: 0.95rem;
-        padding: 0.6rem 1.2rem;
-      }
+    .botao-vermelho:hover {
+        box-shadow: 4px 4px 15px black;
+        transform: translateY(-2px);
     }
 
     </style>
@@ -125,7 +75,7 @@
 	<header class="header-section">
 	  <div class="header-warp">
         <!-- Site Logo -->
-        <a href="home.html" class="site-logo"> <img src="img/logu.png" alt="" width="268" height="80" border="0"> </a>
+        <a class='site-logo' href='/home'> <img src="img/logu.png" alt="" width="268" height="80" border="0"> </a>
         <!-- responsive -->
         <div class="nav-switch"> <i class="fa fa-bars"></i> </div>
 	    <
@@ -158,71 +108,15 @@
 	<section class="page-info-section set-bg" data-setbg="img/page.jpg">
 		<div class="container">
 		  <div class="section-title text-center">
-				<h2>História e Civilizações Antigas</h2>	
-				<p></p>
-			<div id="player-container">
-    <div id="player"></div>
-  </div>
-
-  <div class="controls">
-    <button onclick="previousVideo()">◀ Anterior</button>
-    <button onclick="nextVideo()">▶ Próximo</button>
-    <a class='menu-button' href='/docum.html' target='_top'>
-    <div class="icon">🔙</div>
-  <div>Voltar</div>
-  </div>
-
-  <!-- API do YouTube -->
-  <script src="https://www.youtube.com/iframe_api"></script>
-
-  <script>
-    let player;
-
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('player', {
-        width: '100%',
-        height: '100%',
-        playerVars: {
-          listType: 'playlist',
-          list: 'PLnAqAg77NkBj-zGRewPO5taCXLZIvXzK0', // sua playlist
-          rel: 0,
-          modestbranding: 1,
-          enablejsapi: 1,
-          autoplay: 1,
-          origin: window.location.origin
-        },
-        events: {
-          onReady: onPlayerReady,
-          onError: onPlayerError
-        }
-      });
-    }
-
-    function onPlayerReady(event) {
-      // Aguarda o player inicializar antes de tocar
-      setTimeout(() => {
-        event.target.playVideo();
-      }, 1000);
-    }
-
-    function onPlayerError(event) {
-      console.warn("Erro no player. Recarregando...");
-      setTimeout(() => location.reload(), 1500);
-    }
-
-    function nextVideo() {
-      if (player && typeof player.nextVideo === 'function') {
-        player.nextVideo();
-      }
-    }
-
-    function previousVideo() {
-      if (player && typeof player.previousVideo === 'function') {
-        player.previousVideo();
-      }
-    }
-  </script>
-<p></p>
+				<h2>Classic Rock</h2>	
+				<p>	
+	        <p><iframe style="width: 100%; max-width: 560px; height: 55vw; max-height: 315px; overflow: hidden;" src="youtube.html" marginheight="0" marginwidth="0" scrolling="no" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+				
+			<p> 
+	    <button class="botao-vermelho" type="button" onClick="history.go(-1)">Voltar</button>
+        <button class="botao-vermelho" type="button" onClick="history.go(0)">Atualizar</button>
+			  
+          </p>
 				 <p><a href="https://brave.com/pt/download/" target="_blank"><img src="img/brave.png" alt="brave" width="284" height="27" border="0"></a></p>
 		  </div>
 		</div>
@@ -317,7 +211,7 @@ Sanca Rock - Todos os Direitos Reservados| Brazil </p>
 			<p><a href="https://colorlib.com" target="_blank">Template Desenvolvido ByColorlib</a>
 			  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             - Adapatado por Sanca Rock - Web Rádio e Desenvolvimento de Web Sites - 2019 <img src="img/br.PNG" alt="brazil" width="50" height="50"></p>
-			
+		
 			
 	  </div> 
 	</footer>
@@ -338,3 +232,4 @@ window.open( "playsr.html", "","width=550,height=750,toolbar=no,location=no,dire
       </script>
 </body>
 </html>
+

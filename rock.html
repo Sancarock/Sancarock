@@ -93,8 +93,8 @@
       transition: background 0.3s;
       text-decoration: none;
       display: inline-block;
-      flex: 1 1 auto;
-      max-width: 200px;
+      flex: 0 0 auto;
+      max-width: 120px;
     }
 
     .controls button:hover,
@@ -167,7 +167,9 @@
     <button onClick="previousVideo()">◀ Anterior</button>
     <button onClick="nextVideo()">▶ Próximo</button>
     <button onClick="history.go(0)">🔀 Atualizar</button>
-    <a class='menu-button' href='/ch12' target='_top'>☰ Voltar</a>
+    <a class='menu-button' href='/ch12' target='_top'>
+    <div class="icon">🔙</div>
+  <div>Voltar</div>
   </div>
 
    <!-- API do YouTube -->
