@@ -30,8 +30,8 @@
 	<link rel="stylesheet" href="css/owl.carousel.css"/>
 	<link rel="stylesheet" href="css/style.css"/>
 	<link rel="stylesheet" href="css/animate.css"/>
-<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
+	
 	<!--[if lt IE 9]>
 	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -158,20 +158,33 @@
 	<section class="page-info-section set-bg" data-setbg="img/page.jpg">
 		<div class="container">
 		  <div class="section-title text-center">
-				<h2>Amplifica</h2>	
+				<h2>HEAVY LERO - </h2>	
 				<p></p>
 			<div id="player-container">
     <div id="player"></div>
   </div>
 
   <div class="controls">
-    <button onClick="previousVideo()">◀ Anterior</button>
-    <button onClick="nextVideo()">▶ Próximo</button>
-    <a class='menu-button' href='/ch12.html' target='_top'>
-    <div class="icon">🔙</div>
-  <div>Voltar</div>
-  </div>
+  <button onclick="previousVideo()">◀ Anterior</button>
+  <button onclick="nextVideo()">▶ Próximo</button>
 
+  <!-- Botão de voltar -->
+  <a class="menu-button" href="/ch12.html" target="_top">
+    <div class="icon">🔙</div>
+    <div>Voltar</div>
+  </a>
+
+  <!-- Botão para abrir a imagem -->
+  <button 
+    class="botao-vermelho" 
+    type="button" 
+    onclick="document.getElementById('link-lightbox').click();">
+    🕒 Horário
+  </button>
+
+  <!-- Link escondido que ativa o lightbox -->
+  <a href="img/kazao.png" data-lightbox="photos" id="link-lightbox" style="display:none;">Abrir Imagem</a>
+</div>
   <!-- API do YouTube -->
   <script>
     let player;
@@ -182,7 +195,7 @@
         height: '100%',
         playerVars: {
           listType: 'playlist',
-          list: 'PLG72vnfrl8XfvGUnEClqNHIhTQ64vEI-t', // sua playlist
+          list: 'PLvZ6UZ62jzgdiv6LdtFc4wm0FF7rw3-U5', // sua playlist
           rel: 0,
           modestbranding: 1,
           enablejsapi: 1,
@@ -332,6 +345,7 @@ Sanca Rock - Todos os Direitos Reservados| Brazil </p>
 	<script src="js/main.js"></script>
 	<script src="js/wavesurfer.min.js"></script>
 	<script src="js/audio.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>
 	<script>
 function abrir_radio_popup() {
 window.open( "playsr.html", "","width=550,height=750,toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=no,resizable=NO" );
