@@ -1,13 +1,13 @@
 
 const banners = [
-  { img: "https://sancarock.com/propaganda/img/10.gif", link: "https://divulgador.magalu.com/4Vw3VEsB" },
-  { img: "https://sancarock.com/propaganda/img/13.gif", link: "https://mercadolivre.com/sec/2jh5zUB" },
-  { img: "https://sancarock.com/propaganda/img/12.gif", link: "https://divulgador.magalu.com/HFFlWVZG" },
-  { img: "https://sancarock.com/propaganda/img/14.gif", link: "https://mercadolivre.com/sec/1KMpDVt" },
+  { img: "https://sancarock.com/propaganda/img/001.gif", link: "https://mercadolivre.com/sec/23WaKH6" },
+  { img: "https://sancarock.com/propaganda/img/002.gif", link: "https://mercadolivre.com/sec/2xeEUcx" },
+  { img: "https://sancarock.com/propaganda/img/003.gif", link: "https://mercadolivre.com/sec/2XqExAw" },
+  { img: "https://sancarock.com/propaganda/img/004.gif", link: "https://mercadolivre.com/sec/1v1fK1A" },
+  { img: "https://sancarock.com/propaganda/img/005.gif", link: "https://mercadolivre.com/sec/1cGGSex" },
   { img: "https://sancarock.com/propaganda/img/006.gif", link: "https://hostinger.com.br?REFERRALCODE=1IVANBELO03" },
-  { img: "https://sancarock.com/propaganda/img/15.gif", link: "https://mercadolivre.com/sec/2Bky3g9" },
+  { img: "https://sancarock.com/propaganda/img/007.gif", link: "https://mercadolivre.com/sec/3277kLr" },
   { img: "https://sancarock.com/propaganda/img/008.gif", link: "https://mercadolivre.com/sec/1Erm7HD" },
-  { img: "https://sancarock.com/propaganda/img/11.gif", link: "https://divulgador.magalu.com/g=Fd80Cn" },
   { img: "https://sancarock.com/propaganda/img/009.gif", link: "https://mercadolivre.com/sec/2hhCKB3" }
 ];
 
