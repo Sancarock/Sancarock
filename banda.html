@@ -17,15 +17,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Favicon -->   
 	<link href="img/favicon.ico" rel="shortcut icon"/>
-
-	<link href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' rel='stylesheet'>
+	
 
 	<!-- Google Font -->   
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i" rel="stylesheet">
 
 	<!-- Stylesheets -->
 	<link rel="stylesheet" href="css/bootstrap.min.css"/>
-	<link rel="stylesheet" href="css/font-awesome.min.css"/>
 	<link rel="stylesheet" href="css/jquery-ui.min.css"/>
 	<link rel="stylesheet" href="css/flaticon.css"/>
 	<link rel="stylesheet" href="css/owl.carousel.css"/>
@@ -39,30 +37,78 @@
 	<![endif]-->
 
     <style type="text/css">
-
-
+<!--
 .style1 {color: #FFFFFF}
-.botao-vermelho {
-    background: linear-gradient(45deg, #ff0000, #cc0000);
-    border-radius: 8px;
-    padding: 15px 30px;
-    cursor: pointer;
-    color: white; /* Mantém o texto branco */
-    text-decoration: none; /* Remove sublinhado */
-    border: none;
-    font-size: 18px;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    box-shadow: 2px 2px 8px rgba(0,0,0,0.7);
-    display: inline-block;
+.style2 {
+	color: #CCCCCC;
+	font-weight: bold;
 }
+-->
+ .iframe-wrapper {
+    width: 100%;
+    max-width: 560px;
+    height: auto;
+    aspect-ratio: 560 / 400;
+    margin: 0 auto;
+  }
 
-.botao-vermelho:hover {
-    box-shadow: 5px 5px 20px black;
-    transform: translateY(-3px) scale(1.03);
-    background: linear-gradient(45deg, #cc0000, #990000);
-    color: white; /* Garante que o texto continue branco no hover */
-}
+  .iframe-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+  
+  #player-container {
+      width: 100%;
+      max-width: 560px;
+      height: 55vw;
+      max-height: 315px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    #player {
+      width: 100%;
+      height: 100%;
+    }
+
+    .controls {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .controls button,
+    .controls a.menu-button {
+      background-color: #e50914;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+      text-decoration: none;
+      display: inline-block;
+      flex: 0 0 auto;
+      max-width: 120px;
+    }
+
+    .controls button:hover,
+    .controls a.menu-button:hover {
+      background-color: #b00610;
+    }
+
+    @media (max-width: 480px) {
+      .controls button,
+      .controls a.menu-button {
+        font-size: 0.95rem;
+        padding: 0.6rem 1.2rem;
+      }
+    }
 
     </style>
 	<!-- Global site tag (gtag.js) - Google Ads: 705611919 --> <script async src="https://www.googletagmanager.com/gtag/js?id=AW-705611919"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-705611919'); </script>
@@ -74,7 +120,7 @@
 		<div class="loader"></div>
 	</div> -->
 	
-		<!-- Header section -->
+	<!-- Header section -->
 	<header class="header-section">
 	  <div class="header-warp">
         <!-- Site Logo -->
@@ -86,7 +132,11 @@
        <ul class="main-menu">
           <li><a href="javascript:abrir_radio_popup();"><img src="img/20.png" width="80" height="80" border="0" title="Abrir Player Pop-up" /></a></li>
           
-         <li><a href="banda"><img src="img/cr.png" alt="Classic Rock" width="80" height="80" border="0"></a></li>
+          <li><a href="rock"><img src="img/op.png" alt="fut" width="80" height="80" border="0"></a></li>
+		  
+         <li><a href="canal01"><img src="img/45.png" alt="Heavy Metal" width="80" height="80" border="0"></a></li>
+         
+         <li><a href="banda"><img src="img/09.png" alt="Classic Rock" width="80" height="80" border="0"></a></li>
 		 
 		 <li><a href="https://www.instagram.com/radio_sancarock/" target="_blank" ><img src="img/ins.png" alt="Instagram" width="80" height="80" border="0"></a></li>
 		 
@@ -107,19 +157,27 @@
 	<section class="page-info-section set-bg" data-setbg="img/page.jpg">
 		<div class="container">
 		  <div class="section-title text-center">
-				<h2>Canal SancaRock</h2>	
-				<p>	
-	        <p><iframe style="width: 100%; max-width: 560px; height: 55vw; max-height: 315px; overflow: hidden;" src="youtube.html" marginheight="0" marginwidth="0" scrolling="no" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-				
-			<p> 
-	    <button class="botao-vermelho" type="button" onClick="history.go(-1)">← Voltar</button>
-        <button class="botao-vermelho" type="button" onClick="history.go(0)">Atualizar</button>
-        <button class="botao-vermelho" type="button" 
-        onClick="window.open('https://www.youtube.com/@RádioSancaRock', '_blank')">
-  Nosso Canal
-</button>
-			  
-          </p>
+				<h2>Canal Sancarock </h2>	
+				<p></p>
+			    <div id="player-container">
+    <div id="player"></div>
+  </div>
+
+    <div class="controls">
+    <button onClick="previousVideo()">◀ Anterior</button>
+    <button onClick="nextVideo()">▶ Próximo</button>
+    <button onClick="history.go(0)">🔀 Atualizar</button>
+    <button class="botao-vermelho" type="button" onClick="history.go(-1)">← Voltar</button>
+  </div>
+
+   <!-- API do YouTube -->
+  <script src="js/rock.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+ 
+
+
+
+<p></p>
 				 <p><a href="https://brave.com/pt/download/" target="_blank"><img src="img/brave.png" alt="brave" width="284" height="27" border="0"></a></p>
 		  </div>
 		</div>
@@ -214,7 +272,7 @@ Sanca Rock - Todos os Direitos Reservados| Brazil </p>
 			<p><a href="https://colorlib.com" target="_blank">Template Desenvolvido ByColorlib</a>
 			  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             - Adapatado por Sanca Rock - Web Rádio e Desenvolvimento de Web Sites - 2019 <img src="img/br.PNG" alt="brazil" width="50" height="50"></p>
-		
+			
 			
 	  </div> 
 	</footer>
