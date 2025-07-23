@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rádio Sancarock</title>
+  <style>
+    body {
+      background-color: #000; /* Fundo preto */
+      color: #fff; /* Texto branco */
+      font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      justify-content: center; /* Centraliza o player */
+      align-items: center;
+      height: 100vh;
+    }
+    .player-container {
+      background-color: #1a1a1a;
+      border-radius: 8px;
+      padding: 20px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Centraliza o conteúdo */
+    }
+    .radio-logo {
+      width: 268px;
+      margin-bottom: 20px; /* Ajuste para evitar sobreposição */
+    }
+    .album-cover {
+      display: none; /* Começa oculta */
+      width: 100%;
+      max-width: 200px;
+      border-radius: 8px;
+      border: 4px solid #fff; /* Borda branca */
+      margin-top: 20px; /* Espaçamento abaixo da logo */
+    }
+    .track-info {
+      margin-top: 10px;
+      font-size: 18px;
+    }
+    .track-info p {
+      margin: 5px 0;
+    }
+    .controls {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 15px;
+      width: 100%;
+    }
+    .play-button, .pause-button, .fechar-button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    .play-button {
+      background-color: #4CAF50;
+    }
+    .pause-button {
+      background-color: #f44336;
+    }
+    .fechar-button {
+      background-color: #0033ff;
+    }
+    .volume-control {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 15px;
+      width: 100%;
+    }
+    /* Media queries para responsividade */
+    @media (max-width: 600px) {
+      .player-container {
+        padding: 15px; /* Menos padding em telas menores */
+      }
+    }
+.volume-control button {
+  background-color: #222;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 20px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.volume-control button:hover {
+  background-color: #444;
+}
+
+.equalizer {
+  display: flex;
+  gap: 4px;
+  height: 20px;
+  margin-top: 10px;
+}
+
+.equalizer {
+  display: flex;
+  gap: 6px; /* Espaço maior entre as barras */
+  height: 20px; /* Altura maior */
+  margin-top: 10px;
+  justify-content: center; /* Centralizar horizontalmente */
+}
+
+.equalizer span {
+  width: 10px; /* Barras mais largas */
+  height: 100%;
+  background: linear-gradient(180deg, #ff0000, #ffff00, #00ff00); /* De vermelho a verde */
+  animation: bounce 1.2s infinite ease-in-out;
+  border-radius: 3px; /* Bordas arredondadas */
+}
+
+.equalizer span:nth-child(2) { animation-delay: 0.15s; background: linear-gradient(180deg, #ff7f00, #ffff00, #7fff00);}
+.equalizer span:nth-child(3) { animation-delay: 0.3s; background: linear-gradient(180deg, #ffff00, #7fff00, #00ff7f);}
+.equalizer span:nth-child(4) { animation-delay: 0.45s; background: linear-gradient(180deg, #00ff00, #00ffff, #007fff);}
+.equalizer span:nth-child(5) { animation-delay: 0.6s; background: linear-gradient(180deg, #007fff, #0000ff, #7f00ff);}
+
+@keyframes bounce {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(2.5); } /* Aumentei o "pulo" */
+}
+
+  </style>
+</head>
+<body>
+
+
+
+<div class="player-container">
+  <img src="img/logu.png" alt="Logo da Rádio" class="radio-logo">
+  <img id="albumCover" src="" alt="Capa do Álbum" class="album-cover">
+
+  <div class="track-info">
+    <p id="trackTitle">Clique no Botão Play</p>
+    <p id="artistName"></p>
+  </div>
+  
+  <div class="equalizer" id="equalizer" style="display: none;">
+  <span></span><span></span><span></span><span></span><span></span>
+</div>
+  
+  <div class="controls">
+    <button class="play-button" onClick="playRadio()">Play</button>
+    <button class="pause-button" onClick="pauseRadio()">Pause</button>
+    <button class="fechar-button" onClick="window.close()">Fechar</button>
+  </div>
+  
+  <div class="volume-control">
+  <button onclick="adjustVolume(-0.03)" title="Diminuir volume">-</button>
+  <img src="img/audio.png" alt="volume" width="30" height="30">
+  <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.2" oninput="setVolume(this.value)">
+  <button onclick="adjustVolume(0.03)" title="Aumentar volume">+</button>
+  <span id="volumeDisplay">20%</span>
+</div>
+
+  <audio id="radioPlayer" src="https://s02.transmissaodigital.com:6716/;" preload="auto" muted></audio>
+<br></br>
+  <table width="200" border="0">
+    <tr>
+      <td><iframe src="propaganda/rad01.html" frameborder="0" width="150" height="150" scrolling="no"></iframe><span class="style1"></span></td>
+      <td><iframe src="propaganda/rad02.html" frameborder="0" width="150" height="150" scrolling="no"></iframe><span class="style1"></span></td>
+    </tr>
+  </table>
+</div>
+
+<script>
+  const radioPlayer = document.getElementById('radioPlayer');
+  const trackTitle = document.getElementById('trackTitle');
+  const artistName = document.getElementById('artistName');
+  const albumCover = document.getElementById('albumCover');
+
+  const apiKeyLastFm = 'd08d389671438f325d13d64f0c94b583'; // API key do Last.fm
+
+ function playRadio() {
+  radioPlayer.muted = false;
+  radioPlayer.play().then(() => {
+    fetchMetadata();
+    document.getElementById("equalizer").style.display = "flex"; // ← mostra as barras
+  }).catch(error => {
+    console.error("Erro ao tentar reproduzir o streaming:", error);
+  });
+}
+
+  function pauseRadio() {
+  radioPlayer.pause();
+  document.getElementById("equalizer").style.display = "none"; // ← esconde as barras
+}
+
+  function setVolume(value) {
+    const vol = parseFloat(value);
+  radioPlayer.volume = vol;
+  updateVolumeDisplay(vol);
+}
+
+  function fetchMetadata() {
+    fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU=')
+      .then(response => response.text())
+      .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
+      .then(data => {
+        const currentTrack = data.querySelector("musica_atual")?.textContent || "";
+        const albumCoverURL = data.querySelector("capa_musica")?.textContent || "";
+
+        trackTitle.innerText = currentTrack || "Música desconhecida";
+
+        let artist = "", track = "";
+        if (currentTrack.includes(" - ")) {
+          [artist, track] = currentTrack.split(" - ").map(p => p.trim());
+          artistName.innerText = artist;
+        } else {
+          artistName.innerText = "";
+        }
+
+        if (artist && track) {
+          // Primeira tentativa: buscar no Last.fm
+          fetch(`https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${apiKeyLastFm}&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(track)}&format=json`)
+            .then(res => res.json())
+            .then(lastFmData => {
+              const images = lastFmData?.track?.album?.image || [];
+              const cover = images.find(img => img.size === 'extralarge')?.['#text'];
+
+              if (cover && cover !== "") {
+                albumCover.src = cover;
+                albumCover.style.display = "block";
+              } else if (albumCoverURL && albumCoverURL.trim() !== "") {
+                // Se o Last.fm não tiver, usa a capa da sua API
+                albumCover.src = albumCoverURL;
+                albumCover.style.display = "block";
+              } else {
+                // Nenhuma das duas tem imagem
+                albumCover.src = "img/sanca.png";
+                albumCover.style.display = "block";
+              }
+            })
+            .catch(err => {
+              console.error("Erro Last.fm:", err);
+              if (albumCoverURL && albumCoverURL.trim() !== "") {
+                albumCover.src = albumCoverURL;
+              } else {
+                albumCover.src = "img/sanca.png";
+              }
+              albumCover.style.display = "block";
+            });
+        } else {
+          // Se não tem artista e música, tenta a capa da sua API direto
+          if (albumCoverURL && albumCoverURL.trim() !== "") {
+            albumCover.src = albumCoverURL;
+          } else {
+            albumCover.src = "img/sanca.png";
+          }
+          albumCover.style.display = "block";
+        }
+      })
+      .catch(error => {
+        console.error("Erro na API da rádio:", error);
+        albumCover.src = "img/sanca.png";
+        albumCover.style.display = "block";
+      });
+  }
+
+  window.onload = function () {
+  const initialVolume = parseFloat(document.getElementById("volumeSlider").value);
+  radioPlayer.volume = initialVolume;
+  updateVolumeDisplay(initialVolume);
+};
+
+  setInterval(fetchMetadata, 30000); // Atualiza a cada 30s
+function adjustVolume(change) {
+  const slider = document.getElementById("volumeSlider");
+  let currentVolume = parseFloat(slider.value);
+  let newVolume = currentVolume + change;
+
+  // Limita o volume entre 0 e 1
+  newVolume = Math.max(0, Math.min(1, newVolume));
+
+  // Atualiza o volume do player e do slider
+  radioPlayer.volume = newVolume;
+  slider.value = newVolume;
+  updateVolumeDisplay(newVolume);
+}
+
+function updateVolumeDisplay(value) {
+  const volumeDisplay = document.getElementById("volumeDisplay");
+  const volumePercent = Math.round(parseFloat(value) * 100);
+  volumeDisplay.textContent = `${volumePercent}%`;
+}
+
+
+</script>
+
+
+
+</body>
+</html>
