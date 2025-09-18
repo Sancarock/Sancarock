@@ -2,23 +2,24 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Player Aleatório YouTube</title>
+  <title>Player YouTube</title>
   <style>
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
-      min-height: 100dvh;
       background: #121212;
-      overflow: hidden; /* 🔒 sem scroll */
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      min-height: 100vh;
+      overflow: hidden; /* sem scroll */
     }
     #player {
-      max-width: 100%;
-      width: 560px;
+      width: 100%;
+      max-width: 560px;
       aspect-ratio: 16/9;
+      border-radius: 12px;
+      overflow: hidden;
     }
     .controls {
       margin-top: 1rem;
@@ -42,101 +43,50 @@
 </head>
 <body>
   <div id="player"></div>
+
   <div class="controls">
-    <button id="prevBtn">⏮️ Anterior</button>
-    <button id="nextBtn">⏭️ Próximo</button>
-    <button id="refreshBtn">🔄 Atualizar</button>
+    <button onclick="prevVideo()">⏮️ Anterior</button>
+    <button onclick="nextVideo()">⏭️ Próximo</button>
+    <button onclick="refreshVideo()">🔄 Atualizar</button>
   </div>
 
   <script>
-    const API_KEY = 'AIzaSyBRq-giao8bl3iGBw9zXFdrOpDmmDgFUK4';
-    const PLAYLIST_ID = 'PLYXfLV3z1Kzysf0c-wpY6qDuKyj5KHGno';
-
     let player;
-    let videoIds = [];
-    let currentIndex = 0;
-    let history = [];
 
-    // 1. Carrega a API do iframe YouTube
+    // 1. Carrega a API
     let tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
     document.body.appendChild(tag);
 
-    // 2. Função chamada quando a API estiver pronta
+    // 2. Quando API pronta, cria player
     function onYouTubeIframeAPIReady() {
-      fetchVideos().then(() => {
-        if (videoIds.length > 0) {
-          currentIndex = getRandomIndex();
-          loadPlayer(videoIds[currentIndex]);
+      player = new YT.Player('player', {
+        height: '315',
+        width: '560',
+        playerVars: {
+          listType: 'playlist',
+          list: 'PLx-5byZ1yFnYdDxnWBlJKfav4fy2SRV_u',
+          autoplay: 1
         }
       });
     }
 
-    async function fetchVideos() {
-      let nextPageToken = "";
-      do {
-        const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=50&playlistId=${PLAYLIST_ID}&pageToken=${nextPageToken}&key=${API_KEY}`);
-        const data = await res.json();
-        data.items.forEach(item => {
-          videoIds.push(item.contentDetails.videoId);
-        });
-        nextPageToken = data.nextPageToken || "";
-      } while (nextPageToken);
-    }
-
-    function loadPlayer(videoId) {
-      if (!player) {
-        player = new YT.Player('player', {
-          videoId: videoId,
-          playerVars: { autoplay: 1 },
-          events: {
-            'onError': onPlayerError,
-            'onStateChange': onStateChange
-          }
-        });
-      } else {
-        player.loadVideoById(videoId);
-      }
-    }
-
-    function onPlayerError() {
-      console.log("Erro no vídeo, pulando...");
-      nextVideo();
-    }
-
-    function onStateChange(event) {
-      if (event.data === YT.PlayerState.ENDED) {
-        nextVideo();
-      }
-    }
-
-    function getRandomIndex() {
-      let idx;
-      do {
-        idx = Math.floor(Math.random() * videoIds.length);
-      } while (idx === currentIndex && videoIds.length > 1);
-      return idx;
-    }
-
+    // 3. Controles
     function nextVideo() {
-      history.push(currentIndex);
-      currentIndex = getRandomIndex();
-      loadPlayer(videoIds[currentIndex]);
+      if (player && player.nextVideo) player.nextVideo();
     }
 
     function prevVideo() {
-      if (history.length > 0) {
-        currentIndex = history.pop();
-        loadPlayer(videoIds[currentIndex]);
-      }
+      if (player && player.previousVideo) player.previousVideo();
     }
 
-    document.getElementById("nextBtn").onclick = nextVideo;
-    document.getElementById("prevBtn").onclick = prevVideo;
-    document.getElementById("refreshBtn").onclick = () => {
-      currentIndex = getRandomIndex();
-      loadPlayer(videoIds[currentIndex]);
-    };
+    function refreshVideo() {
+      if (player && player.getPlaylistIndex) {
+        const current = player.getPlaylistIndex();
+        player.playVideoAt(current);
+      }
+    }
   </script>
 </body>
 </html>
+
