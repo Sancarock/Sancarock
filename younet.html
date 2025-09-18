@@ -44,50 +44,25 @@
 <body>
   <div id="player"></div>
 
-  <div class="controls">
-    <button onclick="prevVideo()">⏮️ Anterior</button>
-    <button onclick="nextVideo()">⏭️ Próximo</button>
-    <button onclick="refreshVideo()">🔄 Atualizar</button>
+  <h2>Canal Sancarock </h2>	
+				<p></p>
+			    <div id="player-container">
+    <div id="player"></div>
   </div>
 
-  <script>
-    let player;
+    <div class="controls">
+    <button onClick="previousVideo()">◀ Anterior</button>
+    <button onClick="nextVideo()">▶ Próximo</button>
+    <button onClick="history.go(0)">🔀 Atualizar</button>
+    <button class="botao-vermelho" type="button" onClick="history.go(-1)">← Voltar</button>
+  </div>
 
-    // 1. Carrega a API
-    let tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    document.body.appendChild(tag);
-
-    // 2. Quando API pronta, cria player
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('player', {
-        height: '315',
-        width: '560',
-        playerVars: {
-          listType: 'playlist',
-          list: 'PLYXfLV3z1Kzysf0c-wpY6qDuKyj5KHGno&pp=gAQB',
-          autoplay: 1
-        }
-      });
-    }
-
-    // 3. Controles
-    function nextVideo() {
-      if (player && player.nextVideo) player.nextVideo();
-    }
-
-    function prevVideo() {
-      if (player && player.previousVideo) player.previousVideo();
-    }
-
-    function refreshVideo() {
-      if (player && player.getPlaylistIndex) {
-        const current = player.getPlaylistIndex();
-        player.playVideoAt(current);
-      }
-    }
-  </script>
+   <!-- API do YouTube -->
+  <script src="js/rock.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+   
 </body>
 </html>
+
 
 
