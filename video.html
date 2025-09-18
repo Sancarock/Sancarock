@@ -127,6 +127,7 @@
   <div class="video-container">
     <div id="player"></div>
     <h2>Canal Sancarock Youtube</h2>
+     <button class="atualizar" onClick="history.go(0)">Atualizar</button>
   </div>
 
   <div id="video-title"></div>
@@ -135,109 +136,11 @@
     <button class="play-button" onClick="abrir_play()">Rádio</button>
     <button class="video-button" onClick="telaCheia_iframe()">Tela Cheia</button>
     <button class="mail-button" onClick="abrir_contato()">Contato</button>
-    <button class="atualizar" onClick="refreshVideo()">Atualizar</button>
+    <button class="atualizar" onClick="history.go(0)">Atualizar</button>
   </div>
 </div>
 
-<script>
-const API_KEY = 'AIzaSyBRq-giao8bl3iGBw9zXFdrOpDmmDgFUK4';
-const PLAYLIST_ID = 'PLYXfLV3z1Kzysf0c-wpY6qDuKyj5KHGno';
 
-let player;
-let videoIds = [];
-let currentIndex = 0;
-
-// ==== FUNÇÕES DO LOGO ====
-const logos = ["img/logu1.png", "img/logu2.png"];
-let logoIndex = 0;
-const logo = document.getElementById("logo");
-setInterval(() => {
-  logoIndex = (logoIndex + 1) % logos.length;
-  logo.style.opacity = 0;
-  setTimeout(() => { logo.src = logos[logoIndex]; logo.style.opacity = 1; }, 1000);
-}, 5000);
-
-// ==== FUNÇÕES DE NAVEGAÇÃO ====
-function abrir_play() {
-  window.location.href = "view.html";
-}
-function abrir_contato() {
-  window.location.href = "mailto:radio_sancarock@sancarock.com?subject=Contato%20pelo%20App&body=Olá,%20gostaria%20de%20mais%20informações.";
-}
-
-// ==== CARREGAR API DO YOUTUBE ====
-let tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-document.body.appendChild(tag);
-
-// ==== BUSCAR PLAYLIST ====
-async function fetchVideos() {
-  let nextPageToken = "";
-  do {
-    const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=50&playlistId=${PLAYLIST_ID}&pageToken=${nextPageToken}&key=${API_KEY}`);
-    const data = await res.json();
-    if (data.items) {
-      data.items.forEach(item => videoIds.push(item.contentDetails.videoId));
-    }
-    nextPageToken = data.nextPageToken || "";
-  } while (nextPageToken);
-
-  // embaralhar lista
-  for (let i = videoIds.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [videoIds[i], videoIds[j]] = [videoIds[j], videoIds[i]];
-  }
-}
-
-function onYouTubeIframeAPIReady() {
-  fetchVideos().then(() => {
-    if (videoIds.length > 0) {
-      currentIndex = 0;
-      player = new YT.Player('player', {
-        videoId: videoIds[currentIndex],
-        playerVars: { autoplay: 1 },
-        events: {
-          onStateChange: e => {
-            if (e.data === YT.PlayerState.ENDED) nextVideo();
-          },
-          onError: nextVideo
-        }
-      });
-    } else {
-      console.error("Nenhum vídeo encontrado na playlist!");
-    }
-  });
-}
-
-// ==== CONTROLES ====
-function nextVideo() {
-  currentIndex = (currentIndex + 1) % videoIds.length;
-  player.loadVideoById(videoIds[currentIndex]);
-}
-
-function prevVideo() {
-  currentIndex = (currentIndex - 1 + videoIds.length) % videoIds.length;
-  player.loadVideoById(videoIds[currentIndex]);
-}
-
-function refreshVideo() {
-  player.loadVideoById(videoIds[currentIndex]);
-}
-
-// ==== FULLSCREEN ====
-function telaCheia_iframe() {
-  if (player && player.getIframe) {
-    player.getIframe().then(iframe => {
-      if (iframe.requestFullscreen) {
-        iframe.requestFullscreen();
-      } else if (iframe.webkitRequestFullscreen) {
-        iframe.webkitRequestFullscreen();
-      } else if (iframe.msRequestFullscreen) {
-        iframe.msRequestFullscreen();
-      }
-    });
-  }
-}
-</script>
 </body>
 </html>
+
