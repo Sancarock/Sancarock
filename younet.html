@@ -97,7 +97,19 @@
         }
       });
     }
-
+// ✅ Verifica se o vídeo pode ser incorporado (embed)
+async function isVideoEmbeddable(videoId) {
+  try {
+    const response = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`);
+    if (response.ok) {
+      const data = await response.json();
+      return !!data.title; // Se retornar título, é embeddable
+    }
+  } catch (err) {
+    console.warn(`Erro ao verificar vídeo ${videoId}:`, err);
+  }
+  return false; // Se falhar, considera não embeddable
+}
     async function fetchAndShufflePlaylist() {
       try {
         let allVideos = [];
@@ -191,5 +203,6 @@
 
 </body>
 </html>
+
 
 
