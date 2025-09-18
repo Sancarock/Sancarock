@@ -1,208 +1,143 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Playlist Aleatória</title>
+  <title>Player Aleatório YouTube</title>
   <style>
-    /* ✅ Remove barra de rolagem */
-    html, body {
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
       margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden; /* 🔥 Esconde scroll */
-      background: #000;
-      font-family: Arial, sans-serif;
+      background: #121212;
+      color: white;
+      font-family: sans-serif;
     }
-
-    /* Player ocupa toda a tela menos o espaço dos botões */
     #player {
-      width: 100%;
-      height: calc(100vh - 80px); /* Deixa espaço embaixo pro controle */
-      background: #000;
+      max-width: 100%;
+      width: 560px;
+      aspect-ratio: 16/9;
     }
-
-    /* Área dos botões, fixa na parte inferior */
-    #controls {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      padding: 15px 0;
-      background: rgba(0, 0, 0, 0.8);
-      text-align: center;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
+    .controls {
+      margin-top: 1rem;
+      display: flex;
+      gap: 1rem;
     }
-
-    /* Estilo dos botões */
-    #controls button {
-      padding: 12px 24px;
-      margin: 0 10px;
-      font-size: 16px;
-      background: #fff;
-      color: #000;
+    button {
+      padding: 10px 20px;
       border: none;
-      border-radius: 4px;
+      border-radius: 8px;
+      background: #1db954;
+      color: white;
+      font-size: 16px;
       cursor: pointer;
-      font-weight: bold;
       transition: background 0.3s;
     }
-
-    #controls button:hover {
-      background: #f1f1f1;
+    button:hover {
+      background: #17a74a;
     }
   </style>
 </head>
 <body>
-
-  <!-- Player do YouTube -->
+  <h1>🎶 Player Aleatório</h1>
   <div id="player"></div>
-
-  <!-- Controles fixos embaixo -->
-  <div id="controls">
-    <button onclick="previousVideo()">⏪ Anterior</button>
-    <button onclick="nextVideo()">Próximo ⏩</button>
+  <div class="controls">
+    <button id="prevBtn">⏮️ Anterior</button>
+    <button id="nextBtn">⏭️ Próximo</button>
+    <button id="refreshBtn">🔄 Atualizar</button>
   </div>
 
   <script>
-    const API_KEY = 'AIzaSyBRq-giao8bl3iGBw9zXFdrOpDmmDgFUK4'; // 🔑 Substitua aqui
-    const PLAYLIST_ID = 'PLYXfLV3z1Kzysf0c-wpY6qDuKyj5KHGno'; // 📺 Sua playlist
+    const API_KEY = 'AIzaSyBRq-giao8bl3iGBw9zXFdrOpDmmDgFUK4';
+    const PLAYLIST_ID = 'PLYXfLV3z1Kzysf0c-wpY6qDuKyj5KHGno';
 
     let player;
-    let shuffledVideos = [];
+    let videoIds = [];
     let currentIndex = 0;
+    let history = [];
 
-    // Carrega a API do YouTube
-    function loadYouTubeAPI() {
-      const tag = document.createElement('script');
-      tag.src = 'https://www.youtube.com/iframe_api';
-      const firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    }
+    // 1. Carrega a API do iframe YouTube
+    let tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.body.appendChild(tag);
 
+    // 2. Função chamada quando a API estiver pronta
     function onYouTubeIframeAPIReady() {
-      player = new YT.Player('player', {
-        width: '100%',
-        height: '100%',
-        playerVars: {
-          rel: 0,
-          modestbranding: 1,
-          enablejsapi: 1,
-          autoplay: 0,
-          origin: window.location.origin
-        },
-        events: {
-          onReady: onPlayerReady,
-          onStateChange: onPlayerStateChange,
-          onError: onPlayerError
+      fetchVideos().then(() => {
+        if (videoIds.length > 0) {
+          currentIndex = getRandomIndex();
+          loadPlayer(videoIds[currentIndex]);
         }
       });
     }
-// ✅ Verifica se o vídeo pode ser incorporado (embed)
-async function isVideoEmbeddable(videoId) {
-  try {
-    const response = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`);
-    if (response.ok) {
-      const data = await response.json();
-      return !!data.title; // Se retornar título, é embeddable
+
+    async function fetchVideos() {
+      let nextPageToken = "";
+      do {
+        const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults=50&playlistId=${PLAYLIST_ID}&pageToken=${nextPageToken}&key=${API_KEY}`);
+        const data = await res.json();
+        data.items.forEach(item => {
+          videoIds.push(item.contentDetails.videoId);
+        });
+        nextPageToken = data.nextPageToken || "";
+      } while (nextPageToken);
     }
-  } catch (err) {
-    console.warn(`Erro ao verificar vídeo ${videoId}:`, err);
-  }
-  return false; // Se falhar, considera não embeddable
-}
-    async function fetchAndShufflePlaylist() {
-      try {
-        let allVideos = [];
-        let nextPageToken = '';
 
-        // Busca todos os vídeos da playlist (com paginação)
-        do {
-          const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${PLAYLIST_ID}&maxResults=50&pageToken=${nextPageToken}&key=${API_KEY}`;
-          const response = await fetch(url);
-          const data = await response.json();
-
-          if (data.error) {
-            throw new Error(`Erro da API: ${JSON.stringify(data.error)}`);
+    function loadPlayer(videoId) {
+      if (!player) {
+        player = new YT.Player('player', {
+          videoId: videoId,
+          playerVars: { autoplay: 1 },
+          events: {
+            'onError': onPlayerError,
+            'onStateChange': onStateChange
           }
-
-          const videoIds = data.items.map(item => item.snippet.resourceId.videoId);
-          allVideos.push(...videoIds);
-          nextPageToken = data.nextPageToken || '';
-        } while (nextPageToken);
-
-        // Embaralha
-        shuffledVideos = allVideos.sort(() => Math.random() - 0.5);
-        console.log("Playlist embaralhada:", shuffledVideos);
-
-        // Inicia pelo primeiro
-        if (shuffledVideos.length > 0) {
-          currentIndex = 0;
-          player.loadVideoById(shuffledVideos[currentIndex]);
-        }
-
-      } catch (err) {
-        console.error("Erro ao carregar playlist:", err);
-        alert("Erro ao carregar playlist. Verifique sua chave API.");
+        });
+      } else {
+        player.loadVideoById(videoId);
       }
     }
 
-    function onPlayerReady(event) {
-      const alreadyPlayed = sessionStorage.getItem('alreadyPlayed');
-      if (!alreadyPlayed) {
-        fetchAndShufflePlaylist();
-        sessionStorage.setItem('alreadyPlayed', 'true');
-      }
+    function onPlayerError() {
+      console.log("Erro no vídeo, pulando...");
+      nextVideo();
     }
 
-    function onPlayerStateChange(event) {
-      // Quando o vídeo terminar (estado 0)
+    function onStateChange(event) {
       if (event.data === YT.PlayerState.ENDED) {
         nextVideo();
       }
     }
 
-    let skipAttempts = 0;
-    const MAX_SKIP_ATTEMPTS = 3;
+    function getRandomIndex() {
+      let idx;
+      do {
+        idx = Math.floor(Math.random() * videoIds.length);
+      } while (idx === currentIndex && videoIds.length > 1);
+      return idx;
+    }
 
     function nextVideo() {
-      if (!shuffledVideos.length) return;
-
-      currentIndex = (currentIndex + 1) % shuffledVideos.length;
-      skipAttempts++;
-
-      if (skipAttempts > MAX_SKIP_ATTEMPTS) {
-        alert("Muitos vídeos com erro. Recarregando playlist...");
-        location.reload();
-        return;
-      }
-
-      player.loadVideoById(shuffledVideos[currentIndex]);
+      history.push(currentIndex);
+      currentIndex = getRandomIndex();
+      loadPlayer(videoIds[currentIndex]);
     }
 
-    function previousVideo() {
-      if (!shuffledVideos.length) return;
-
-      currentIndex = (currentIndex - 1 + shuffledVideos.length) % shuffledVideos.length;
-      skipAttempts = 0; // Reset ao navegar manualmente
-      player.loadVideoById(shuffledVideos[currentIndex]);
-    }
-
-    function onPlayerError(event) {
-      console.warn("Erro no player:", event.data);
-      if ([2, 5, 100, 101, 150].includes(event.data)) {
-        console.log("Pulando vídeo com erro...");
-        setTimeout(nextVideo, 1500);
-      } else {
-        alert("Erro no player: " + event.data);
+    function prevVideo() {
+      if (history.length > 0) {
+        currentIndex = history.pop();
+        loadPlayer(videoIds[currentIndex]);
       }
     }
 
-    // Inicia o carregamento da API
-    loadYouTubeAPI();
+    document.getElementById("nextBtn").onclick = nextVideo;
+    document.getElementById("prevBtn").onclick = prevVideo;
+    document.getElementById("refreshBtn").onclick = () => {
+      currentIndex = getRandomIndex();
+      loadPlayer(videoIds[currentIndex]);
+    };
   </script>
-
 </body>
 </html>
-
-
-
