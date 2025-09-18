@@ -174,7 +174,7 @@
 
 
 <p></p>
-				 <p><a href="https://brave.com/pt/download/" target="_blank"><img src="img/brave.png" alt="brave" width="284" height="27" border="0"></a></p>
+				  <p><a href="https://brave.com/pt/download/" target="_blank"><img src="img/brave.png" alt="brave" width="284" height="27" border="0"></a></p>
 		  </div>
 		</div>
 	</section>
@@ -285,7 +285,7 @@
 	<!-- Footer Top section end -->
     <!-- Footer section -->
 	<footer class="footer-section">
-		<div class="container">
+		<div class="contaoner">
 			<p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 Sanca Rock - Todos os Direitos Reservados| Brazil </p>
 			<p>&nbsp;</p>
@@ -295,12 +295,12 @@ Sanca Rock - Todos os Direitos Reservados| Brazil </p>
 			<p><a href="https://colorlib.com" target="_blank">Template Desenvolvido ByColorlib</a>
 			  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             - Adapatado por Sanca Rock - Web Rádio e Desenvolvimento de Web Sites - 2019 <img src="img/br.PNG" alt="brazil" width="50" height="50"></p>
-			
+		
 			
 	  </div> 
 	</footer>
 	<!-- Footer Top section end -->
-	<!--====== Javascripts & Jquery ======-->
+    <!--====== Javascripts & Jquery ======-->
 	<script src="js/jquery-3.2.1.min.js"></script>
 	<script src="js/jquery-ui.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
@@ -311,28 +311,9 @@ Sanca Rock - Todos os Direitos Reservados| Brazil </p>
 	<script src="js/audio.js"></script>
 	<script>
 function abrir_radio_popup() {
-window.open( "playsr", "","width=550,height=800,toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=no,resizable=NO" );
+window.open( "playsr", "","width=550,height=750,toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=no,resizable=NO" );
 }
       </script>
-      <script>
-async function atualizarTitulo() {
-  try {
-    let resposta = await fetch("radio.php"); // ou o caminho do seu PHP
-    let dados = await resposta.json(); // agora é um objeto {artist, title, track}
-
-    if (dados.artist && dados.title) {
-      document.title = dados.artist + " — " + dados.title + " | Sanca Rock 🤘";
-    } else {
-      document.title = dados.track + " | Sanca Rock 🤘";
-    }
-  } catch (e) {
-    console.error("Erro ao buscar música:", e);
-  }
-}
-
-// Atualiza a cada 10 segundos
-setInterval(atualizarTitulo, 10000);
-atualizarTitulo();
-</script>
 </body>
 </html>
+
