@@ -30,26 +30,28 @@
       justify-content: center;
     }
     button {
-      padding: 12px 20px;
-      border: none;
-      border-radius: 10px;
-      background: #1db954;
-      color: white;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    button:hover {
-      background: #17a74a;
-      transform: translateY(-2px);
-    }
-    button:active {
-      transform: translateY(0);
-    }
+  padding: 8px 14px;           /* Diminuído de 12px 20px */
+  border: none;
+  border-radius: 8px;          /* Um pouco menor */
+  background: #1db954;
+  color: white;
+  font-size: 14px;             /* Diminuído de 16px */
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;                    /* Ícone mais próximo do texto */
+}
+
+button:hover {
+  background: #17a74a;
+  transform: translateY(-1px); /* Efeito mais sutil */
+}
+
+button:active {
+  transform: translateY(0);
+}
   </style>
 </head>
 <body>
@@ -67,3 +69,4 @@
   <script src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>
+
