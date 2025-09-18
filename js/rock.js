@@ -10,7 +10,7 @@ function onYouTubeIframeAPIReady() {
       rel: 0,
       modestbranding: 1,
       enablejsapi: 1,
-      autoplay: 0, // Desliga autoplay para controlar manualmente
+      autoplay: 0,
       origin: window.location.origin
     },
     events: {
@@ -23,14 +23,38 @@ function onYouTubeIframeAPIReady() {
 function onPlayerReady(event) {
   player.setShuffle(true);
 
+  // Aguarda um pouco para garantir que a playlist esteja carregada
   setTimeout(() => {
-    const alreadyPlayed = sessionStorage.getItem('alreadyPlayed');
+    // --- REMOVIDO O sessionStorage PARA TESTE ---
+    // const alreadyPlayed = sessionStorage.getItem('alreadyPlayed');
+    // if (!alreadyPlayed) {
 
-    if (!alreadyPlayed) {
-      player.playVideoAt(0); // Sempre começa pelo primeiro da lista embaralhada
-      sessionStorage.setItem('alreadyPlayed', 'true');
+    // Sempre escolhe um vídeo aleatório (ideal para testes)
+    const playlist = player.getPlaylist();
+
+    if (playlist && playlist.length > 0) {
+      const randomIndex = Math.floor(Math.random() * playlist.length);
+      console.log(`Tocando vídeo aleatório no índice: ${randomIndex}`);
+      player.playVideoAt(randomIndex);
+    } else {
+      console.warn("Playlist não carregada ainda. Tentando fallback...");
+      // Tenta novamente em 1 segundo se ainda não carregou
+      setTimeout(() => {
+        const playlistRetry = player.getPlaylist();
+        if (playlistRetry && playlistRetry.length > 0) {
+          const randomIndex = Math.floor(Math.random() * playlistRetry.length);
+          player.playVideoAt(randomIndex);
+        } else {
+          console.error("Falha ao carregar playlist. Iniciando primeiro vídeo.");
+          player.playVideoAt(0);
+        }
+      }, 1000);
     }
-  }, 1500);
+
+    // sessionStorage.setItem('alreadyPlayed', 'true'); // Comentado para testes
+
+    // --- FIM DA REMOÇÃO ---
+  }, 2000);
 }
 
 function onPlayerError(event) {
