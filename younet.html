@@ -12,7 +12,7 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      overflow: hidden; /* sem scroll */
+      overflow: hidden;
     }
     #player {
       width: 100%;
@@ -20,50 +20,50 @@
       aspect-ratio: 16/9;
       border-radius: 12px;
       overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
     }
     .controls {
-      margin-top: 1rem;
+      margin-top: 1.5rem;
       display: flex;
       gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
     }
     button {
-      padding: 10px 15px;
+      padding: 12px 20px;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       background: #1db954;
       color: white;
       font-size: 16px;
+      font-weight: 600;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     button:hover {
       background: #17a74a;
+      transform: translateY(-2px);
+    }
+    button:active {
+      transform: translateY(0);
     }
   </style>
 </head>
 <body>
   <div id="player"></div>
 
-  
-			    <div id="player-container">
-    <div id="player"></div>
+  <div class="controls">
+    <button onclick="previousVideo()">◀ Anterior</button>
+    <button onclick="nextVideo()">Próximo ▶</button>
+    <button onclick="playRandomVideo()">🔄 Aleatório</button>
+    <button onclick="toggleFullscreen()">⛶ Tela Cheia</button>
   </div>
 
-    <div class="controls">
-    <button onClick="previousVideo()">◀ Anterior</button>
-    <button onClick="nextVideo()">▶ Próximo</button>
-    <button onClick="history.go(0)">🔀 Atualizar</button>
-   
-  </div>
-
-   <!-- API do YouTube -->
+  <!-- API do YouTube -->
   <script src="js/rock.js"></script>
   <script src="https://www.youtube.com/iframe_api"></script>
-   
 </body>
 </html>
-
-
-
-
-
