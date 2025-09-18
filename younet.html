@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Playlist Aleatória</title>
+  <style>
+    body { margin: 0; padding: 0; background: #000; }
+    #player { width: 100%; height: 100vh; }
+    #controls {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="player"></div>
+  <div id="controls">
+    <button onclick="previousVideo()">Anterior</button>
+    <button onclick="nextVideo()">Próximo</button>
+  </div>
+
+  <script>
+    const API_KEY = 'AIzaSyBRq-giao8bl3iGBw9zXFdrOpDmmDgFUK4'; 
+    const PLAYLIST_ID = 'PLYXfLV3z1Kzysf0c-wpY6qDuKyj5KHGno'; 
+
+    let player;
+    let shuffledVideos = [];
+    let currentIndex = 0;
+
+    // Carrega a API do YouTube
+    function loadYouTubeAPI() {
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    }
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        width: '100%',
+        height: '100%',
+        playerVars: {
+          rel: 0,
+          modestbranding: 1,
+          enablejsapi: 1,
+          autoplay: 0,
+          origin: window.location.origin
+        },
+        events: {
+          onReady: onPlayerReady,
+          onStateChange: onPlayerStateChange,
+          onError: onPlayerError
+        }
+      });
+    }
+
+    async function fetchAndShufflePlaylist() {
+      try {
+        let allVideos = [];
+        let nextPageToken = '';
+
+        // Busca todos os vídeos da playlist (com paginação)
+        do {
+          const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${PLAYLIST_ID}&maxResults=50&pageToken=${nextPageToken}&key=${API_KEY}`;
+          const response = await fetch(url);
+          const data = await response.json();
+
+          if (data.error) {
+            throw new Error(`Erro da API: ${JSON.stringify(data.error)}`);
+          }
+
+          const videoIds = data.items.map(item => item.snippet.resourceId.videoId);
+          allVideos.push(...videoIds);
+          nextPageToken = data.nextPageToken || '';
+        } while (nextPageToken);
+
+        // Embaralha
+        shuffledVideos = allVideos.sort(() => Math.random() - 0.5);
+        console.log("Playlist embaralhada:", shuffledVideos);
+
+        // Inicia pelo primeiro
+        if (shuffledVideos.length > 0) {
+          currentIndex = 0;
+          player.loadVideoById(shuffledVideos[currentIndex]);
+        }
+
+      } catch (err) {
+        console.error("Erro ao carregar playlist:", err);
+        alert("Erro ao carregar playlist. Verifique sua chave API.");
+      }
+    }
+
+    function onPlayerReady(event) {
+      const alreadyPlayed = sessionStorage.getItem('alreadyPlayed');
+      if (!alreadyPlayed) {
+        fetchAndShufflePlaylist();
+        sessionStorage.setItem('alreadyPlayed', 'true');
+      }
+    }
+
+    function onPlayerStateChange(event) {
+      // Quando o vídeo terminar (estado 0)
+      if (event.data === YT.PlayerState.ENDED) {
+        nextVideo();
+      }
+    }
+
+    function onPlayerError(event) {
+      console.warn("Erro no player:", event.data);
+      // Tenta pular para o próximo se houver erro
+      setTimeout(nextVideo, 2000);
+    }
+
+    function nextVideo() {
+      if (!shuffledVideos.length) return;
+      currentIndex = (currentIndex + 1) % shuffledVideos.length;
+      player.loadVideoById(shuffledVideos[currentIndex]);
+    }
+
+    function previousVideo() {
+      if (!shuffledVideos.length) return;
+      currentIndex = (currentIndex - 1 + shuffledVideos.length) % shuffledVideos.length;
+      player.loadVideoById(shuffledVideos[currentIndex]);
+    }
+
+    // Inicia o carregamento da API
+    loadYouTubeAPI();
+  </script>
+
+</body>
+</html>
