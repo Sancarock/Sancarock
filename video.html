@@ -168,10 +168,72 @@
 </div>
 
 
+<script>
+const logos = ["img/logu1.png", "img/logu2.png"];
+let index = 0;
+const logo = document.getElementById("logo");
+setInterval(() => {
+  index = (index + 1) % logos.length;
+  logo.style.opacity = 0;
+  setTimeout(() => { logo.src = logos[index]; logo.style.opacity = 1; }, 1000);
+}, 5000);
+
+function abrir_play() {
+  window.location.href = "view.html";
+}
+
+function abrir_contato() {
+  window.location.href = "mailto:radio_sancarock@sancarock.com?subject=Contato%20pelo%20App&body=Olá,%20gostaria%20de%20mais%20informações.";
+}
+
+function telaCheia_iframe() {
+  const iframe = document.getElementById('videoFrame');
+  if (iframe.requestFullscreen) {
+    iframe.requestFullscreen().catch(() => abrirFullscreenManual(iframe));
+  } else {
+    abrirFullscreenManual(iframe);
+  }
+}
+
+function abrirFullscreenManual(iframe) {
+  iframe.classList.add('fullscreen-iframe');
+  setTimeout(() => iframe.classList.add('active'), 10);
+
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'close-fullscreen';
+  closeBtn.innerHTML = '×';
+  closeBtn.onclick = () => fecharFullscreen(iframe, closeBtn);
+
+  document.body.appendChild(closeBtn);
+  document.body.style.overflow = 'hidden';
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') fecharFullscreen(iframe, closeBtn);
+  });
+}
+
+function fecharFullscreen(iframe, btn) {
+  iframe.classList.remove('active');
+  setTimeout(() => iframe.classList.remove('fullscreen-iframe'), 300);
+  if (btn && document.body.contains(btn)) document.body.removeChild(btn);
+  document.body.style.overflow = '';
+}
+
+function abrir_video_melhorado() {
+  const iframe = document.getElementById('videoFrame');
+  telaCheia_iframe();
+}
+
+// Duplo toque para fullscreen
+let lastTap = 0;
+const iframe = document.getElementById('videoFrame');
+iframe.addEventListener('touchend', e => {
+  const currentTime = new Date().getTime();
+  if (currentTime - lastTap < 400) {
+    telaCheia_iframe();
+  }
+  lastTap = currentTime;
+});
+</script>
 </body>
 </html>
-
-
-
-
-
