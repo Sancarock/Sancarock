@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <!-- Google tag (gtag.js) -->
-<script>
+<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=WklU6EuzibpFmMjtr7gWOLHDiRjrOhNJ9bVH-7F57IKu9VMkvbAlSf9_hq7VyUSqIXlP7DOkKXxhM-YBNjdvVbkLiTtYMhF5obmfBu0qfPdsUwTZJdvW0x_T6xf7vFSLvrwglWro-6DDJxThpR3U-7p5bkmWjw46tpA4_bgyh-1QVm6Vs49HTckN9DxLU8PZSNgkvAEQY30rf_-Nv8PjnT8BguhGaI4S0fjg46j6q0sNBSecFuWrlqr2i_mQ-wTtJmMQud-pptxDzljwbJ2hb1iNTl1HHdUr7IC4Pl9o50wCfmTP1vaMoCZpMMXfR392PE13irkxkWe6PGS_6pyOKzApj3cM_WFglHxdfU_aJTWpF3GBaoj7bbq6bhZFLjRzDix60v95_z1Dnfwxu9EOiYZtEHl3HtYPkYhIqi9vDQW_SDbRakWrIh9aPHlEZ5CLxDyRl9nzo0G_3JMj9IlJjf3JZGZQSUUxh-Y1flVKAT7lbHcRrxCEw8WzcQRrAXMi1SHhSddFbtUOcLlRf7SnY-sfkiskVTUr7afrvklSpeY2DZam6ldsqsaArYMtjYTSX0rcPmXDnVoSWJGK6tkJe9oRJ1tv9FTAZ828mo1A0JOwNyQlgaf3miH2l_WG4ysqKtwKGMQcRBVpCKVs2PaR4a-ugzRjgPKb_0yTP79hqhWzx82A3wyY8IA8yXVcLnz4eqNWbuIkQW_DqI3C4QRDthq8eMIk-Upl46e0LwPEDBeUpqD-hGWER8Ct6oOlhgeu8OfRQfH1e-0zL8yHZOgeKFnY2mwMbJURGXzs9QTqXco-3lRamaE1V7Uhb8ZPmX8s" charset="UTF-8"></script><script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
@@ -77,12 +77,37 @@
 	
 	<!-- Header section -->
 	<header class="header-section">
+	  
 	  <div class="header-warp">
+	      
         <!-- Site Logo -->
-        <a href="home" class="site-logo"> <img src="img/logu.png" alt="" width="268" height="80" border="0"> </a>
+        <a href="home" class="site-logo">
+  <img id="logo" src="img/logu1.png" alt="Logo" width="218" height="90" border="0" style="transition: opacity 1s ease-in-out;">
+</a>
+
+<script>
+  // Lista de imagens que vão alternar
+  const logos = ["img/logu1.png", "img/logu2.png"];
+  let index = 0;
+  const logo = document.getElementById("logo");
+
+  setInterval(() => {
+    index = (index + 1) % logos.length;
+
+    // Fade out
+    logo.style.opacity = 0;
+
+    setTimeout(() => {
+      logo.src = logos[index];
+      // Fade in
+      logo.style.opacity = 1;
+    }, 1000); // tempo do fade
+  }, 5000); // troca a cada 10 segundos
+</script>
+ 
         <!-- responsive -->
-        <div class="nav-switch"> <i class="fa fa-bars"></i> </div>
-	    
+        <div class="nav-switch"> <i class="fa fa-bars"></i></div>
+	   
         <!-- Main Menu -->
        <ul class="main-menu">
           <li><a href="javascript:abrir_radio_popup();"><img src="img/20.png" width="80" height="80" border="0" title="Abrir Player Pop-up" /></a></li>
@@ -93,16 +118,47 @@
 		 
 		 <li><a href="https://www.youtube.com/@RádioSancaRock" target="_blank" ><img src="img/yt.png" alt="Youtube" width="80" height="80" border="0"></a></li>
 		 
-		 <li><a href="https://play.google.com/store/apps/details?id=com.shoutcast.stm.sancarock84xpf3gnfn&pli=1" target="_blank">
+		 <li><a href="https://tinyurl.com/2va888tn" target="_blank">
             <img src="img/app.png" alt="APP" width="80" height="80" border="0"></a></li>
-		 
-        </ul>
-      </div>
+            
+             </ul>
+             
+    
 	  <div class="mobile-btn header-btn pull-right hidden-xs">
-<a href="#" title="Smartphone View" class="icon-mobile-phone"></a></div>
+	    
+	      
+      </div>
+    
+	     <a href="#" title="Smartphone View" class="icon-mobile-phone"></a></div>
+	     
+	     
+  
+ 
 	</header>
 	<!-- Header section end -->
+<div id="playerContainer"></div>
 
+<script>
+  function isMobile() {
+    return /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  }
+
+  const container = document.getElementById('playerContainer');
+  let iframeSrc = isMobile() ? 'resp.html' : 'topo.html';
+  let iframeHeight = isMobile() ? '120' : '98'; // ajuste se quiser altura diferente no mobile
+
+  container.innerHTML = `
+    <iframe 
+      src="${iframeSrc}" 
+      frameborder="0" 
+      width="100%" 
+      height="${iframeHeight}" 
+      scrolling="no"
+      allow="autoplay"
+      title="Player da Rádio Sanca Rock">
+    </iframe>
+  `;
+</script>
 	<!--  section -->
 	<section class="hero-section set-bg" data-setbg="img/capa.jpg">
 	
@@ -111,20 +167,20 @@
 			<div class="hs-item">
 				<div class="container">
 					
-					<h2>Quer Rock de Verdade?</h2>
+				<h2>Programa Monstros do Rock</h2>
 				</div>
 			</div>
 			<div class="hs-item">
 				<div class="container">
 					
-					<h2>E um Blues de Qualidade?</h2>
+					<h2>Todo Sábado - 20 Hs</h2>
 				</div>
 			</div>
 			<div class="hs-item">
 				<div class="container">
 					
 					
-					<h2>Rádio Sancarock</h2>
+					<h2>Rádio Sanca Rock</h2>
 				</div>
 			</div>
 			<div class="hs-item">
@@ -145,16 +201,44 @@
 	<!-- Hero section end -->
 
 	<!-- promotion section -->
-	<section class="promotion-section">
-    <div class="container">
-        <div class="row" id="banners-container">
-            <!-- Os banners serão inseridos aqui pelo JavaScript -->
-			<script src="propaganda/js/banner.js"></script>
+<section class="promotion-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center">
 
+        <!-- Carrossel (desktop) -->
+        <div id="carousel-wrapper" style="position: relative; overflow: hidden; display: none; max-width: 960px; margin: auto;">
+          <div id="banner-carousel" style="display: flex; transition: transform 0.5s ease;"></div>
+
+          <!-- Botão Anterior -->
+          <button id="prev-btn" 
+            style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); 
+                   background: rgba(0,0,0,0.5); color: white; border: none; 
+                   font-size: 2rem; cursor: pointer; padding: 5px 10px; border-radius: 50%; z-index: 10;">
+            &#10094;
+          </button>
+
+          <!-- Botão Próximo -->
+          <button id="next-btn" 
+            style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); 
+                   background: rgba(0,0,0,0.5); color: white; border: none; 
+                   font-size: 2rem; cursor: pointer; padding: 5px 10px; border-radius: 50%; z-index: 10;">
+            &#10095;
+          </button>
         </div>
+
+        <!-- Grid normal (mobile) -->
+        <div id="banner-grid" class="row"></div>
+
+      </div>
     </div>
+  </div>
 </section>
-<!-- promotion section end -->
+
+<!-- Chamar o JS externo -->
+<script src="js/banners.js"></script>
+
+
 	
 	<section class="footer-top-section">
 		<div class="container">
@@ -229,9 +313,28 @@ Sanca Rock - Todos os Direitos Reservados| Brazil </p>
 	<script src="js/audio.js"></script>
 	<script>
 function abrir_radio_popup() {
-window.open( "playsr", "","width=550,height=750,toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=no,resizable=NO" );
+window.open( "playsr", "","width=550,height=800,toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=no,resizable=NO" );
 }
       </script>
-</body>
+      <script>
+async function atualizarTitulo() {
+  try {
+    let resposta = await fetch("radio.php"); // ou o caminho do seu PHP
+    let dados = await resposta.json(); // agora é um objeto {artist, title, track}
 
+    if (dados.artist && dados.title) {
+      document.title = dados.artist + " — " + dados.title + " | Sanca Rock 🤘";
+    } else {
+      document.title = dados.track + " | Sanca Rock 🤘";
+    }
+  } catch (e) {
+    console.error("Erro ao buscar música:", e);
+  }
+}
+
+// Atualiza a cada 10 segundos
+setInterval(atualizarTitulo, 10000);
+atualizarTitulo();
+</script>
+</body>
 </html>
