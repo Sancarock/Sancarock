@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Rádio Sancarock</title>
+
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="js/manifest.json">
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#000;color:#fff;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px;}
+@keyframes pulseLight {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+  }
+  50% {
+    transform: scale(1.03);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+  }
+}
+
+.album-cover {
+  width: 100%;
+  max-width: 130px;
+  border-radius: 12px;
+  border: 3px solid #fff;
+  margin: 15px auto;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+  transition: 0.3s;
+  display: block;
+  animation: pulseLight 3s infinite ease-in-out;
+}
+
+.player-container{background: rgba(0,0,0,0.75);border-radius:25px;padding:10px;width:90%;max-width:460px;text-align:center;box-shadow:0 0 25px rgba(255,0,0,0.7);}
+.radio-logo{width:220px;margin-bottom:15px;transition:opacity 1s ease-in-out;}
+.track-info{margin-top:15px;font-size:18px;}
+.track-info p{margin:5px 0;}
+.equalizer{display:flex;gap:6px;height:20px;margin:10px auto;justify-content:center;}
+.equalizer span{width:8px;background:linear-gradient(180deg,#ff0000,#ffff00,#00ff00);animation:bounce 1.2s infinite ease-in-out;border-radius:3px;}
+.equalizer span:nth-child(2){animation-delay:0.15s;} .equalizer span:nth-child(3){animation-delay:0.3s;} .equalizer span:nth-child(4){animation-delay:0.45s;} .equalizer span:nth-child(5){animation-delay:0.6s;}
+@keyframes bounce{0%,100%{transform:scaleY(1);}50%{transform:scaleY(2.5);}}
+.controls{display:flex;flex-wrap:wrap;justify-content:center;margin-top:15px;gap:10px;}
+.controls button{flex:1 1 40%;padding:10px 0;font-size:16px;cursor:pointer;color:white;border:none;border-radius:25px;transition:0.3s;}
+.play-button{background:#4CAF50;} .pause-button{background:#f44336;} .video-button{background:#0033ff;} .mail-button{background:#6A5ACD;} .atualizar{background:#363636;}
+.controls button:hover{opacity:0.85;transform:scale(1.05);}
+.volume-control{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:20px;}
+.volume-control button{background:#222;color:#fff;border:none;border-radius:50%;font-size:18px;width:42px;height:42px;cursor:pointer;transition:0.3s;}
+.volume-control button:hover{background:#444;}
+#volumeSlider{width:120px;accent-color:#ff4444;}
+#volumeDisplay{min-width:35px;text-align:right;font-size:14px;}
+</style>
+</head>
+<body>
+
+<div class="player-container" id="playerContainer">
+  <img id="logo" src="img/logu1.png" loading="lazy" class="radio-logo">
+  <img id="albumCover" src="img/play.png" loading="lazy" class="album-cover" style="cursor:pointer;" onClick="togglePlayPause()" alt="Tocar Rádio">
+
+  <div class="track-info">
+    <p id="trackTitle"><img src="img/playy.gif" alt="play"></p>
+    <p id="artistName"></p>
+  </div>
+  <div id="statusMessage" style="color: yellow; font-weight: bold; margin-top: 8px;">
+  Pausado
+</div>
+
+  <div class="equalizer" id="equalizer" style="display:none;">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="controls">
+    <button id="playPauseBtn" class="play-button" onClick="togglePlayPause()">Play</button>
+    <button class="video-button" onClick="abrir_video()">Vídeos</button>
+    <button class="mail-button" onClick="abrir_contato()">Contato</button>
+    <button class="atualizar" type="button" onClick="history.go(0)">Atualizar</button>
+  </div>
+
+  <div class="volume-control">
+    <button onClick="adjustVolume(-0.03)">-</button>
+    <img src="img/audio.png" width="30" height="30">
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.2" oninput="setVolume(this.value)">
+    <button onClick="adjustVolume(0.03)">+</button>
+    <span id="volumeDisplay">20%</span>
+  </div>
+
+  <audio id="radioPlayer" src="https://s02.transmissaodigital.com:6716/stream" preload="metadata"></audio>
+</div>
+
+<script src="js/apk.js"></script>
+</body>
+</html>

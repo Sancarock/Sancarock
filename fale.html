@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Fale Conosco</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+* { box-sizing: border-box; }
+body { font-family: Arial; background: #111; color: #fff; padding:20px; margin:0; }
+.container { max-width:600px; margin:auto; background:#222; padding:20px; border-radius:8px; }
+h2 { text-align:center; margin-bottom:20px; }
+label { display:block; margin-top:10px; }
+input, textarea, select { width:100%; padding:12px; margin-top:6px; border:none; border-radius:4px; background:#333; color:#fff; }
+button { background-color:#e50914; color:white; margin-top:20px; cursor:pointer; padding:12px; border:none; border-radius:4px; width:100%; }
+button:hover { background-color:#ff2b2b; }
+.radio-logo { max-width:200px; margin-bottom:20px; }
+.success, .error { text-align:center; margin-top:15px; font-weight:bold; }
+.success { color:#0f0; }
+.error { color:#f00; }
+@media (max-width:480px){ input, textarea, select{ font-size:16px; } }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div align="center">
+    <img src="img/logu.png" alt="Logo da R�dio" class="radio-logo">
+  </div>
+
+  <h2>Fale com a gente</h2>
+
+    <form action="enviar.php" method="POST">
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" name="nome" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="assunto">Assunto:</label>
+    <input type="assunto" name="assunto" required>
+      
+  
+
+    <label for="mensagem">Mensagem:</label>
+    <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
+
+    <button type="submit">Enviar</button>
+    <p id="status"></p>
+  </form>
+</div>
+
+<script>
+const form = document.getElementById("contatoForm");
+const status = document.getElementById("status");
+
+form.addEventListener("submit", function(e) {
+  e.preventDefault(); // evita recarregar a p�gina
+  const data = new FormData(form);
+
+  fetch(form.action, {
+    method: form.method,
+    body: data,
+    headers: {
+      'Accept': 'application/json',
+      'Accept-Charset': 'UTF-8'
+    }
+  }).then(response => {
+    if (response.ok) {
+      status.textContent = "Mensagem enviada com sucesso!";
+      status.className = "success";
+      form.reset();
+
+      // Fecha o popup ap�s 5 segundos
+      setTimeout(() => {
+        window.close();
+      }, 5000);
+
+    } else {
+      response.json().then(data => {
+        if (data.errors) {
+          status.textContent = data.errors.map(e => e.message).join(", ");
+        } else {
+          status.textContent = "Erro ao enviar a mensagem.";
+        }
+        status.className = "error";
+      })
+    }
+  }).catch(error => {
+    status.textContent = "Erro ao enviar a mensagem.";
+    status.className = "error";
+  });
+});
+</script>
+
+</body>
+</html>
