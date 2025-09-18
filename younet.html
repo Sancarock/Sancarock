@@ -117,9 +117,20 @@
 
     function onPlayerError(event) {
       console.warn("Erro no player:", event.data);
-      // Tenta pular para o próximo se houver erro
-      setTimeout(nextVideo, 2000);
-    }
+
+  // Códigos comuns de erro:
+  // 2 = solicitação inválida (ex: vídeo inexistente)
+  // 5 = erro de reprodução (vídeo bloqueado, indisponível etc)
+  // 100 = vídeo não encontrado
+  // 101 ou 150 = proprietário não permite embed
+
+  if ([2, 5, 100, 101, 150].includes(event.data)) {
+    console.log("Vídeo com erro. Pulando para o próximo...");
+    setTimeout(nextVideo, 2000); // Pula após 2s
+  } else {
+    alert("Erro desconhecido no player. Código: " + event.data);
+  }
+}
 
     function nextVideo() {
       if (!shuffledVideos.length) return;
@@ -138,4 +149,5 @@
   </script>
 
 </body>
+
 </html>
