@@ -4,16 +4,16 @@
   <meta charset="UTF-8">
   <title>Player Aleatório YouTube</title>
   <style>
-    body {
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100dvh;
+      background: #121212;
+      overflow: hidden; /* 🔒 sem scroll */
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
-      margin: 0;
-      background: #121212;
-      color: white;
-      font-family: sans-serif;
     }
     #player {
       max-width: 100%;
@@ -41,7 +41,6 @@
   </style>
 </head>
 <body>
- 
   <div id="player"></div>
   <div class="controls">
     <button id="prevBtn">⏮️ Anterior</button>
@@ -141,4 +140,3 @@
   </script>
 </body>
 </html>
-
