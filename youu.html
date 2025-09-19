@@ -24,12 +24,36 @@
       box-shadow: 0 8px 20px rgba(0,0,0,0.5);
     }
     .controls {
-      margin-top: 1.5rem;
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+  display: flex;
+  flex-direction: column; /* força a verticalização */
+  align-items: center;     /* centraliza horizontalmente */
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.controls button {
+  padding: 6px 8px;
+  border: none;
+  border-radius: 8px;
+  background: #1db954;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.controls button:hover {
+  background: #17a74a;
+  transform: translateY(-1px);
+}
+
+.controls button:active {
+  transform: translateY(0);
+}
     button {
   padding: 6px 8px;           /* Diminuído de 12px 20px */
   border: none;
@@ -58,20 +82,18 @@ button:active {
 <body>
   <div id="player"></div>
 
-  <div class="controls">
-    <button onclick="nextVideo()">Próx. ▶</button>
-    <button onclick="playRandomVideo()">🔄 Alea.</button>
-    
-  </div>
-  <div class="controls">
-    <button onclick="toggleFullscreen()">⛶ Tela Cheia</button>
-  </div>
+ <div class="controls">
+  <button onclick="nextVideo()">Próx. ▶</button>
+  <button onclick="playRandomVideo()">🔄 Alea.</button>
+  <button onclick="toggleFullscreen()">⛶ Tela Cheia</button>
+</div>
 
   <!-- API do YouTube -->
   <script src="js/rock.js?v=2"></script>
   <script src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>
+
 
 
 
