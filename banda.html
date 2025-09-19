@@ -1,13 +1,17 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-	<!-- Google tag (gtag.js) -->
+<!-- Google tag (gtag.js) -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
+  // Configuração para Google Analytics
   gtag('config', 'G-8LVSK0LGHJ');
+
+  // Configuração para Google Ads
+  gtag('config', 'AW-705611919');
 </script>
 	<title>SancaRock</title>
 	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
@@ -17,19 +21,19 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Favicon -->   
 	<link href="img/favicon.ico" rel="shortcut icon"/>
-	
 
 	<!-- Google Font -->   
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i" rel="stylesheet">
 
 	<!-- Stylesheets -->
 	<link rel="stylesheet" href="css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="css/font-awesome.min.css"/>
 	<link rel="stylesheet" href="css/jquery-ui.min.css"/>
 	<link rel="stylesheet" href="css/flaticon.css"/>
 	<link rel="stylesheet" href="css/owl.carousel.css"/>
 	<link rel="stylesheet" href="css/style.css"/>
 	<link rel="stylesheet" href="css/animate.css"/>
-<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+
 
 	<!--[if lt IE 9]>
 	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -37,82 +41,33 @@
 	<![endif]-->
 
     <style type="text/css">
-<!--
+
 .style1 {color: #FFFFFF}
-.style2 {
-	color: #CCCCCC;
-	font-weight: bold;
-}
--->
- .iframe-wrapper {
-    width: 100%;
-    max-width: 560px;
-    height: auto;
-    aspect-ratio: 560 / 400;
-    margin: 0 auto;
-  }
-
-  .iframe-wrapper iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    display: block;
-  }
-  
-  #player-container {
-      width: 100%;
-      max-width: 560px;
-      height: 55vw;
-      max-height: 315px;
-      margin: 0 auto;
-      overflow: hidden;
-    }
-
-    #player {
-      width: 100%;
-      height: 100%;
-    }
-
-    .controls {
-      margin-top: 1.5rem;
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .controls button,
-    .controls a.menu-button {
-      background-color: #e50914;
-      color: white;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      font-size: 1rem;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.3s;
-      text-decoration: none;
-      display: inline-block;
-      flex: 0 0 auto;
-      max-width: 120px;
-    }
-
-    .controls button:hover,
-    .controls a.menu-button:hover {
-      background-color: #b00610;
-    }
-
-    @media (max-width: 480px) {
-      .controls button,
-      .controls a.menu-button {
-        font-size: 0.95rem;
-        padding: 0.6rem 1.2rem;
-      }
-    }
 
     </style>
 	<!-- Global site tag (gtag.js) - Google Ads: 705611919 --> <script async src="https://www.googletagmanager.com/gtag/js?id=AW-705611919"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-705611919'); </script>
-
+<style>
+        #cookie-banner {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            z-index: 1000;
+        }
+        #cookie-banner button {
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+    </style>
+    
 </head>
 <body>
 	<!-- Page Preloder -->
@@ -122,12 +77,37 @@
 	
 	<!-- Header section -->
 	<header class="header-section">
+	  
 	  <div class="header-warp">
+	      
         <!-- Site Logo -->
-        <a href="home" class="site-logo"> <img src="img/logu.png" alt="" width="268" height="80" border="0"> </a>
+        <a href="home" class="site-logo">
+  <img id="logo" src="img/logu1.png" alt="Logo" width="218" height="90" border="0" style="transition: opacity 1s ease-in-out;">
+</a>
+
+<script>
+  // Lista de imagens que vão alternar
+  const logos = ["img/logu1.png", "img/logu2.png"];
+  let index = 0;
+  const logo = document.getElementById("logo");
+
+  setInterval(() => {
+    index = (index + 1) % logos.length;
+
+    // Fade out
+    logo.style.opacity = 0;
+
+    setTimeout(() => {
+      logo.src = logos[index];
+      // Fade in
+      logo.style.opacity = 1;
+    }, 1000); // tempo do fade
+  }, 5000); // troca a cada 10 segundos
+</script>
+ 
         <!-- responsive -->
-        <div class="nav-switch"> <i class="fa fa-bars"></i> </div>
-	    
+        <div class="nav-switch"> <i class="fa fa-bars"></i></div>
+	   
         <!-- Main Menu -->
        <ul class="main-menu">
           <li><a href="javascript:abrir_radio_popup();"><img src="img/20.png" width="80" height="80" border="0" title="Abrir Player Pop-up" /></a></li>
@@ -316,4 +296,5 @@ window.open( "playsr", "","width=550,height=750,toolbar=no,location=no,directori
       </script>
 </body>
 </html>
+
 
