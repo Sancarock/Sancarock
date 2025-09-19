@@ -108,37 +108,54 @@
 		</div>
 	</section>
 	<!-- Latest Podcast section end -->
-	
-	
-
-
 	<!-- Categories  section --><!-- Categories section end -->
-
-
 	<!-- Chart  section -->
 <section class="chart-section"></section>
 	<!--  Chart section end -->
-	
-
 	<!--   section -->
 	<section class="-section">
-	  
+	
 	  <br>&nbsp;</br>
 	</section>
 	<!--   section end -->
 <br><br><br><br><br><br><br><br>
 <!-- promotion section -->
-	<section class="promotion-section">
-    <div class="container">
-        <div class="row" id="banners-container">
-            <!-- Os banners serão inseridos aqui pelo JavaScript -->
-			<script src="../propaganda/js/ml.js"></script>
+<section class="promotion-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center">
 
+        <!-- Carrossel (desktop) -->
+        <div id="carousel-wrapper" style="position: relative; overflow: hidden; display: none; max-width: 960px; margin: auto;">
+          <div id="banner-carousel" style="display: flex; transition: transform 0.5s ease;"></div>
+
+          <!-- Botão Anterior -->
+          <button id="prev-btn" 
+            style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); 
+                   background: rgba(0,0,0,0.5); color: white; border: none; 
+                   font-size: 2rem; cursor: pointer; padding: 5px 10px; border-radius: 50%; z-index: 10;">
+            &#10094;
+          </button>
+
+          <!-- Botão Próximo -->
+          <button id="next-btn" 
+            style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); 
+                   background: rgba(0,0,0,0.5); color: white; border: none; 
+                   font-size: 2rem; cursor: pointer; padding: 5px 10px; border-radius: 50%; z-index: 10;">
+            &#10095;
+          </button>
         </div>
+
+        <!-- Grid normal (mobile) -->
+        <div id="banner-grid" class="row"></div>
+
+      </div>
     </div>
+  </div>
 </section>
-<!-- promotion section end -->
-	
+
+<!-- Chamar o JS externo -->
+<script src="../js/banners.js"></script>
 	<section class="footer-top-section">
 		<div class="container">
 			<div class="row">
@@ -176,7 +193,7 @@
 			  </div>
 			  <div class="col-lg-3 col-md-6 ft-widget">
 				  <div class="ft-title">
-									<h4><img src="../img/q4.png" alt="q4" width="250" height="35"></h4>
+									<h4><img src="img/q4.png" alt="q4" width="250" height="35"></h4>
 					
                 </div><iframe src="https://api.wo-cloud.com/content/widget/?geoObjectKey=1718578&language=pt&region=BR&timeFormat=HH:mm&windUnit=kmh&systemOfMeasurement=metric&temperatureUnit=celsius" name="CW2" scrolling="no" width="290" height="260" frameborder="0" style="border: 1px solid #10658E;border-radius: 8px"></iframe>
               </div>
@@ -184,7 +201,7 @@
 	 
 </section>
 	<!-- Footer Top section end -->
-	<!-- Footer section -->
+    <!-- Footer section -->
 	<footer class="footer-section">
 		<div class="contaoner">
 			<p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
@@ -195,13 +212,12 @@ Sanca Rock - Todos os Direitos Reservados| Brazil </p>
 			<p>&nbsp;</p>
 			<p><a href="https://colorlib.com" target="_blank">Template Desenvolvido ByColorlib</a>
 			  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            - Adapatado por Sanca Rock - Web Rádio e Desenvolvimento de Web Sites - 2019 <img src="../img/br.PNG" alt="brazil" width="50" height="50"></p>
-			
+            - Adapatado por Sanca Rock - Web Rádio e Desenvolvimento de Web Sites - 2019 <img src="img/br.PNG" alt="brazil" width="50" height="50"></p>
 			
 	  </div> 
 	</footer>
 	<!-- Footer Top section end -->
-	<!--====== Javascripts & Jquery ======-->
+    <!--====== Javascripts & Jquery ======-->
 	<script src="../js/jquery-3.2.1.min.js"></script>
 	<script src="../js/jquery-ui.min.js"></script>
 	<script src="../js/bootstrap.min.js"></script>
