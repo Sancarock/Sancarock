@@ -16,6 +16,7 @@
     }
     #player {
       width: 100%;
+      height: 100%;
       max-width: 560px;
       aspect-ratio: 16/9;
       border-radius: 12px;
@@ -30,7 +31,7 @@
       justify-content: center;
     }
     button {
-  padding: 8px 10px;           /* Diminuído de 12px 20px */
+  padding: 6px 8px;           /* Diminuído de 12px 20px */
   border: none;
   border-radius: 8px;          /* Um pouco menor */
   background: #1db954;
@@ -58,7 +59,7 @@ button:active {
   <div id="player"></div>
 
   <div class="controls">
-    <button onclick="previousVideo()">◀ Ant.</button>
+    
     <button onclick="nextVideo()">Próx. ▶</button>
     <button onclick="playRandomVideo()">🔄 Alea.</button>
     <button onclick="toggleFullscreen()">⛶ Tela Cheia</button>
@@ -69,6 +70,7 @@ button:active {
   <script src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>
+
 
 
 
