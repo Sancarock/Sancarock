@@ -67,13 +67,13 @@ background-size: cover;
       margin-top: 15px;
       font-size: 20px;
       letter-spacing: 0.5px;
-      color: #ffcc00; /* Amarelo metálico (tipo Gibson) */
+      color: yellow; /* Amarelo metálico (tipo Gibson) */
     }
 
     .track-info p {
       margin: 5px 0;
       font-weight: 500;
-      color: #ffffff; /* Amarelo metálico (tipo Gibson) */
+      color: yellow; /* Amarelo metálico (tipo Gibson) */
     }
 
     #statusMessage {
@@ -200,38 +200,17 @@ background-size: cover;
 
 <div class="player-container" id="playerContainer">
     
-  <p>
-    <img id="logo" src="img/logu1.png" alt="Logo" width="218" height="90" class="radio-logo">
-  </p>
-
-  <script>
-    const logos = ["img/logu1.png", "img/logu2.png"];
-    let index = 0;
-    const logo = document.getElementById("logo");
-    setInterval(() => {
-      index = (index + 1) % logos.length;
-      logo.style.opacity = 0;
-      setTimeout(() => { logo.src = logos[index]; logo.style.opacity = 1; }, 1000);
-    }, 5000);
-  </script>
-
- 
-
-<div class="track-info">
   
-</div>
+<div class="track-info"> </div>
 
 <div class="equalizer" id="equalizer" style="display: none;">
   <span></span><span></span><span></span><span></span><span></span>
-  
-</div>
-
- 
-
+  </div>
+ <div id="statusPlayer"></div>
 <img id="albumCover" src="img/tocar.png" alt="Capa do Álbum" class="album-cover">
 <p id="trackTitle">Se não iniciar, Clique em Play</p>
   <p id="artistName"></p>
-<div id="statusPlayer"></div>
+
 <div class="controls">
   <button id="playPauseBtn" class="play-button" onClick="togglePlayPause()">Play</button>
   <button class="fechar-button" onClick="window.close()">Fechar</button>
