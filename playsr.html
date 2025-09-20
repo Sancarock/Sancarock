@@ -36,7 +36,7 @@
   max-width: 130px;
   border-radius: 16px;
   border: 3px solid #ff4500;
-  margin: 200px auto 15px; /* 👈 empurra a capa 50px pra baixo */
+  margin: 220px auto 15px; /* 👈 empurra a capa 50px pra baixo */
   box-shadow: 0 6px 20px rgba(0,0,0,0.8);
   transition: 0.3s;
   display: block;
@@ -197,7 +197,28 @@ background-size: cover;
 </style>
 </head>
 <body>
+ <div align="center"><img src="img/logu1.png" alt="Logo" name="logo" width="218" height="90" border="0" id="logo" style="transition: opacity 1s ease-in-out;">
+    </a>
+    
+      <script>
+  // Lista de imagens que vão alternar
+  const logos = ["img/logu1.png", "img/logu2.png"];
+  let index = 0;
+  const logo = document.getElementById("logo");
 
+  setInterval(() => {
+    index = (index + 1) % logos.length;
+
+    // Fade out
+    logo.style.opacity = 0;
+
+    setTimeout(() => {
+      logo.src = logos[index];
+      // Fade in
+      logo.style.opacity = 1;
+    }, 1000); // tempo do fade
+  }, 5000); // troca a cada 10 segundos
+    </script>
 <div class="player-container" id="playerContainer">
     
   
@@ -206,8 +227,8 @@ background-size: cover;
 <div class="equalizer" id="equalizer" style="display: none;">
   <span></span><span></span><span></span><span></span><span></span></div>
  <div id="statusPlayer"></div>
-<img id="albumCover" src="img/tocar.png" alt="Capa do Álbum" class="album-cover">
-<span class="track-info">Rádio Sanca Rock</span>
+ <img id="albumCover" src="img/tocar.png" alt="Capa do Álbum" class="album-cover">
+<span class="track-info"></span>
 <p id="trackTitle">Se não iniciar, Clique em Play</p>
 
   <p id="artistName"></p>
