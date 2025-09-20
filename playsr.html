@@ -197,10 +197,12 @@ background-size: cover;
 </style>
 </head>
 <body>
- <div align="center"><img src="img/logu1.png" alt="Logo" name="logo" width="218" height="90" border="0" id="logo" style="transition: opacity 1s ease-in-out;">
-    </a>
-    
-      <script>
+ <div align="center">
+ <p><img src="img/logu1.png" alt="Logo" name="logo" width="218" height="90" border="0" id="logo" style="transition: opacity 1s ease-in-out;">
+</a></p>
+ <p>
+   
+   <script>
   // Lista de imagens que vão alternar
   const logos = ["img/logu1.png", "img/logu2.png"];
   let index = 0;
@@ -218,11 +220,11 @@ background-size: cover;
       logo.style.opacity = 1;
     }, 1000); // tempo do fade
   }, 5000); // troca a cada 10 segundos
-    </script>
-<div class="player-container" id="playerContainer">
-    
-  
-<div class="track-info"> </div>
+      </script>
+   <div class="player-container" id="playerContainer">
+   
+ <br></br>
+ <div class="track-info"> </div>
 
 <div class="equalizer" id="equalizer" style="display: none;">
   <span></span><span></span><span></span><span></span><span></span></div>
@@ -297,9 +299,6 @@ setInterval(() => {
 setInterval(getMetadata, 20000);
 getMetadata();
 </script>
-
-
 <script src="js/radio.js?v=2"></script>
 </body>
 </html>
-
