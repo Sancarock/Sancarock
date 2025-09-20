@@ -23,64 +23,37 @@ function onYouTubeIframeAPIReady() {
 function onPlayerReady(event) {
   player.setShuffle(true);
 
-  setTimeout(() => {
-    playRandomVideo();
-  }, 2000);
+  // ✅ Remove o setTimeout! Vamos tentar imediatamente.
+  playRandomVideo();
 }
 
 function playRandomVideo() {
   const playlist = player.getPlaylist();
-  if (playlist && playlist.length > 0) {
-    const randomIndex = Math.floor(Math.random() * playlist.length);
-    player.playVideoAt(randomIndex);
-  } else {
-    setTimeout(playRandomVideo, 1000); // tenta de novo se ainda não carregou
+
+  // Se a playlist ainda não carregou, tenta de novo em 200ms
+  if (!playlist || playlist.length === 0) {
+    console.log("Playlist ainda não carregada. Tentando novamente...");
+    setTimeout(playRandomVideo, 200);
+    return;
   }
+
+  const randomIndex = Math.floor(Math.random() * playlist.length);
+  player.playVideoAt(randomIndex);
+
+  // Marca como já iniciado (se quiser manter essa lógica)
+  sessionStorage.setItem('alreadyPlayed', 'true');
 }
 
 function onPlayerError(event) {
-  console.warn("Erro no player. Recarregando...");
-  setTimeout(() => location.reload(), 1500);
+  console.warn("Erro no player:", event.data);
+  // Recarrega só se for erro grave (opcional)
+  // setTimeout(() => location.reload(), 1500);
 }
 
 function nextVideo() {
-  if (player && typeof player.nextVideo === 'function') {
-    player.nextVideo();
-  }
+  if (player?.nextVideo) player.nextVideo();
 }
 
 function previousVideo() {
-  if (player && typeof player.previousVideo === 'function') {
-    player.previousVideo();
-  }
-}
-
-// ✅ Função para ativar/desativar TELA CHEIA no player
-function toggleFullscreen() {
-  const container = document.getElementById('player');
-
-  if (!document.fullscreenElement && !document.mozFullScreenElement &&
-      !document.webkitFullscreenElement && !document.msFullscreenElement) {
-    // Entra em fullscreen
-    if (container.requestFullscreen) {
-      container.requestFullscreen();
-    } else if (container.msRequestFullscreen) {
-      container.msRequestFullscreen();
-    } else if (container.mozRequestFullScreen) {
-      container.mozRequestFullScreen();
-    } else if (container.webkitRequestFullscreen) {
-      container.webkitRequestFullscreen();
-    }
-  } else {
-    // Sai do fullscreen
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.msExitFullscreen) {
-      document.msExitFullscreen();
-    } else if (document.mozCancelFullScreen) {
-      document.mozCancelFullScreen();
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
-    }
-  }
+  if (player?.previousVideo) player.previousVideo();
 }
