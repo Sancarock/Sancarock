@@ -2,7 +2,8 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Player YouTube Aleatório</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player YouTube Responsivo</title>
   <style>
     body {
       margin: 0;
@@ -12,78 +13,90 @@
       align-items: center;
       justify-content: flex-start;
       min-height: 100vh;
-      padding: 20px;
+      padding: 16px;
       box-sizing: border-box;
       font-family: Arial, sans-serif;
     }
 
-    /* Container para posicionar o loading por cima do player */
     #container {
-      position: relative;
       width: 100%;
       max-width: 560px;
-      height: 315px;
+      aspect-ratio: 16/9;
       border-radius: 12px;
       overflow: hidden;
+      position: relative;
     }
 
-    /* Player sempre visível para evitar tela preta */
     #player {
       width: 100%;
       height: 100%;
       background: #000;
     }
 
-    /* Loading com tamanho exato 500x300 */
-    #loading {
+    #overlay {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 500px;
-      height: 300px;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       z-index: 10;
+      gap: 20px;
     }
 
-    #loading img {
-      width: 500px;
-      height: 300px;
-      object-fit: contain;
+    #overlay img {
+      width: 120px;
+      height: auto;
     }
 
     .controls {
       display: flex;
-      gap: 1rem;
-      margin-top: 1.5rem;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+      justify-content: center;
+      width: 100%;
+      max-width: 560px;
     }
 
-    button {
-      padding: 10px 16px;
+    .controls button {
+      padding: 14px 20px;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       background: #800000;
       color: white;
-      font-size: 14px;
+      font-size: 16px;
+      font-weight: 500;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: all 0.2s ease;
+      min-width: 120px;
     }
 
-    button:hover {
+    .controls button:hover {
       background: #a00000;
+    }
+
+    @media (max-width: 480px) {
+      .controls button {
+        padding: 16px;
+        font-size: 16px;
+        min-width: 100px;
+      }
+      #overlay img {
+        width: 100px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Player + Loading por cima -->
   <div id="container">
     <div id="player"></div>
-    <div id="loading">
-      <img src="img/loading.gif" alt="Carregando...">
-    </div>
+    
   </div>
 
   <div class="controls">
@@ -92,140 +105,74 @@
     <button onclick="toggleFullscreen()">⛶ Tela Cheia</button>
   </div>
 
-  <!-- Carrega API do YouTube -->
   <script src="https://www.youtube.com/iframe_api"></script>
 
   <script>
-  let player;
-  let videoIds = []; // ← Vamos carregar os IDs manualmente
-  const PLAYLIST_ID = 'PLYXfLV3z1Kzysf0c-wpY6qDuKyj5KHGno';
-  const API_KEY = 'AIzaSyBRq-giao8bl3iGBw9zXFdrOpDmmDgFUK4'; // ⚠️ SUBSTITUA POR SUA CHAVE!
+    let player;
+    const PLAYLIST_ID = 'PLYXfLV3z1Kzysf0c-wpY6qDuKyj5KHGno';
 
-  function onYouTubeIframeAPIReady() {
-    console.log("✅ API do YouTube carregada. Inicializando player...");
-
-    player = new YT.Player('player', {
-      width: '100%',
-      height: '100%',
-      playerVars: {
-        rel: 0,
-        modestbranding: 1,
-        autoplay: 1,
-        controls: 1
-      },
-      events: {
-        onReady: onPlayerReady,
-        onStateChange: onPlayerStateChange,
-        onError: onPlayerError
-      }
-    });
-
-    // Carrega os IDs da playlist via API
-    loadPlaylistVideoIds();
-  }
-
-  async function loadPlaylistVideoIds() {
-    console.log("⏳ Carregando lista de vídeos da playlist...");
-
-    try {
-      let nextPageToken = '';
-      let allVideoIds = [];
-
-      // Busca até 200 vídeos (ajuste se precisar de mais)
-      for (let i = 0; i < 4; i++) { // 4 páginas x 50 vídeos = 200 vídeos
-        const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${PLAYLIST_ID}&maxResults=50&pageToken=${nextPageToken}&key=${API_KEY}`;
-        const response = await fetch(url);
-        const data = await response.json();
-
-        if (!data.items || data.items.length === 0) break;
-
-        for (let item of data.items) {
-          if (item.snippet?.resourceId?.videoId) {
-            allVideoIds.push(item.snippet.resourceId.videoId);
-          }
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        width: '100%',
+        height: '100%',
+        playerVars: {
+          listType: 'playlist',
+          list: PLAYLIST_ID,
+          rel: 0,
+          modestbranding: 1,
+          autoplay: 1,
+          mute: 0, // ← ESSENCIAL PARA MOBILE
+          controls: 1
+        },
+        events: {
+          onReady: onPlayerReady
         }
-
-        nextPageToken = data.nextPageToken || '';
-        if (!nextPageToken) break;
-      }
-
-      videoIds = allVideoIds;
-      console.log(`✅ Carregados ${videoIds.length} vídeos válidos.`);
-    } catch (error) {
-      console.error("❌ Erro ao carregar playlist:", error);
-      // Fallback: usa alguns vídeos conhecidos
-      videoIds = ['dQw4w9WgXcQ', 'JGwWNGJdvx8', 'kJQP7kiw5Fk'];
-    }
-  }
-
-  function onPlayerReady(event) {
-    console.log("✅ Player pronto. Aguardando carregamento da playlist...");
-
-    // Tenta tocar vídeo aleatório após 1 segundo (dá tempo de carregar a lista)
-    setTimeout(playRandomVideo, 1000);
-  }
-
-  function playRandomVideo() {
-    if (videoIds.length === 0) {
-      console.warn("⚠️ Nenhum vídeo carregado. Tentando novamente...");
-      setTimeout(playRandomVideo, 1000);
-      return;
+      });
     }
 
-    const randomId = videoIds[Math.floor(Math.random() * videoIds.length)];
-    console.log(`▶️ Tocando vídeo: ${randomId}`);
-
-    player.loadVideoById(randomId); // ← MELHOR que playVideoAt + shuffle
-  }
-
-  function onPlayerStateChange(event) {
-    console.log("🔄 Estado:", event.data);
-
-    if (event.data === YT.PlayerState.BUFFERING || event.data === YT.PlayerState.PLAYING) {
-      const loading = document.getElementById('loading');
-      if (loading) {
-        loading.style.display = 'none';
-        console.log("✅ Loading escondido.");
-      }
-    }
-
-    // Se o vídeo terminar, toca outro aleatório
-    if (event.data === YT.PlayerState.ENDED) {
-      console.log("⏹️ Vídeo terminou. Tocando próximo aleatório...");
-      playRandomVideo();
-    }
-  }
-
-  function onPlayerError(event) {
-    console.error("❌ Erro no player:", event.data);
-
-    // Códigos comuns: 2 (inválido), 100 (não encontrado), 101/150 (restrito)
-    if ([2, 100, 101, 150].includes(event.data)) {
-      console.log("🔄 Tentando outro vídeo...");
-      setTimeout(playRandomVideo, 1000);
-    }
-  }
-
-  function nextVideo() {
-    playRandomVideo();
-  }
-
-  function previousVideo() {
-    playRandomVideo(); // Ou implemente histórico se quiser
-  }
-
-  function toggleFullscreen() {
-    const container = document.getElementById('container');
-    if (!document.fullscreenElement) {
-      if (container.requestFullscreen) container.requestFullscreen();
-      else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
-      else if (container.msRequestFullscreen) container.msRequestFullscreen();
+    function onPlayerReady(event) {
+  // NÃO usa setShuffle — vamos embaralhar manualmente
+  setTimeout(() => {
+    const playlist = player.getPlaylist();
+    if (playlist && playlist.length > 0) {
+      // Gera índice aleatório REAL
+      const randomIndex = Math.floor(Math.random() * playlist.length);
+      player.playVideoAt(randomIndex);
     } else {
-      if (document.exitFullscreen) document.exitFullscreen();
-      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-      else if (document.msExitFullscreen) document.msExitFullscreen();
+      // Tenta fallback se playlist ainda não carregou
+      setTimeout(() => {
+        player.playVideo();
+      }, 1000);
     }
-  }
-</script>
+  }, 800);
+}
+
+    function playRandomVideo() {
+      const playlist = player.getPlaylist();
+      if (playlist && playlist.length > 0) {
+        const randomIndex = Math.floor(Math.random() * playlist.length);
+        player.playVideoAt(randomIndex);
+        document.getElementById('overlay').style.display = 'none';
+      } else {
+        setTimeout(playRandomVideo, 500);
+      }
+    }
+
+    function nextVideo() {
+      if (player) player.nextVideo();
+    }
+
+    function toggleFullscreen() {
+      const container = document.getElementById('container');
+      if (!document.fullscreenElement) {
+        if (container.requestFullscreen) container.requestFullscreen();
+        else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
+        else alert("Gire seu celular para paisagem!");
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      }
+    }
+  </script>
 </body>
 </html>
