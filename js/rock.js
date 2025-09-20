@@ -1,6 +1,9 @@
-	let player;
+let player;
+let loadingElement;
 
 function onYouTubeIframeAPIReady() {
+  loadingElement = document.getElementById('loading');
+
   player = new YT.Player('player', {
     width: '100%',
     height: '100%',
@@ -15,6 +18,7 @@ function onYouTubeIframeAPIReady() {
     },
     events: {
       onReady: onPlayerReady,
+      onStateChange: onPlayerStateChange, // ← NOVO: monitora estado do vídeo
       onError: onPlayerError
     }
   });
@@ -22,32 +26,38 @@ function onYouTubeIframeAPIReady() {
 
 function onPlayerReady(event) {
   player.setShuffle(true);
-
-  // ✅ Remove o setTimeout! Vamos tentar imediatamente.
   playRandomVideo();
 }
 
 function playRandomVideo() {
   const playlist = player.getPlaylist();
 
-  // Se a playlist ainda não carregou, tenta de novo em 200ms
   if (!playlist || playlist.length === 0) {
-    console.log("Playlist ainda não carregada. Tentando novamente...");
+    // Tenta novamente a cada 200ms até carregar
     setTimeout(playRandomVideo, 200);
     return;
   }
 
   const randomIndex = Math.floor(Math.random() * playlist.length);
   player.playVideoAt(randomIndex);
+}
 
-  // Marca como já iniciado (se quiser manter essa lógica)
-  sessionStorage.setItem('alreadyPlayed', 'true');
+function onPlayerStateChange(event) {
+  // Quando o vídeo começa a carregar (BUFFERING) ou começa a tocar (PLAYING)
+  if (event.data === YT.PlayerState.BUFFERING || event.data === YT.PlayerState.PLAYING) {
+    if (loadingElement) {
+      loadingElement.style.display = 'none'; // Esconde o loading
+      document.getElementById('player').style.display = 'block';
+    }
+  }
 }
 
 function onPlayerError(event) {
   console.warn("Erro no player:", event.data);
-  // Recarrega só se for erro grave (opcional)
-  // setTimeout(() => location.reload(), 1500);
+  // Opcional: recarregar apenas em erros críticos
+  // if (event.data === 2 || event.data === 100 || event.data === 101) {
+  //   setTimeout(() => location.reload(), 1500);
+  // }
 }
 
 function nextVideo() {
@@ -56,4 +66,17 @@ function nextVideo() {
 
 function previousVideo() {
   if (player?.previousVideo) player.previousVideo();
+}
+
+function toggleFullscreen() {
+  const container = document.getElementById('player');
+  if (!document.fullscreenElement) {
+    if (container.requestFullscreen) container.requestFullscreen();
+    else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
+    else if (container.msRequestFullscreen) container.msRequestFullscreen();
+  } else {
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    else if (document.msExitFullscreen) document.msExitFullscreen();
+  }
 }
