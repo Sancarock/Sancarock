@@ -15,7 +15,7 @@ const apiKeyLastFm="d08d389671438f325d13d64f0c94b583";
 let lastTrack="";
 let metadataInterval=null;
 
-function abrir_video(){window.location.href="video.html";}
+function abrir_video(){window.location.href="video-2.html";}
 function abrir_contato(){window.location.href="mailto:radio_sancarock@sancarock.com?subject=Contato%20pelo%20App&body=Olá,%20gostaria%20de%20mais%20informações.";}
 
 // --- Play/Pause ---
@@ -70,9 +70,8 @@ radioPlayer.addEventListener("volumechange",()=>updatePlayerVisual(radioPlayer.v
 // --- Metadados ---
 function fetchMetadata() {
   fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU=')
-    .then(r => r.arrayBuffer()) // pega como ArrayBuffer
+    .then(r => r.arrayBuffer())
     .then(buffer => {
-      // Converte corretamente de ISO-8859-1 para UTF-8
       const decoder = new TextDecoder('iso-8859-1');
       return decoder.decode(buffer);
     })
@@ -87,18 +86,22 @@ function fetchMetadata() {
       if (currentTrack.includes(" - ")) {
         [artist, track] = currentTrack.split(" - ").map(p => p.trim());
         artistName.innerText = artist;
-      } else { artistName.innerText = ""; }
+      } else { 
+        artistName.innerText = ""; 
+      }
 
-      // Capas especiais
+      // ➤ Casos Especiais
       let trackNormalized = currentTrack.toLowerCase().replace(/[-_]/g, " ");
       if (trackNormalized.includes("monstros do rock")) {
-        albumCover.src = "img/monstrosdorock.gif"; return;
+        albumCover.src = "img/monstrosdorock.gif"; 
+        return;
       }
       if (trackNormalized.includes("disco novo")) {
-        albumCover.src = "img/disconovo.png"; return;
+        albumCover.src = "img/disconovo.png"; 
+        return;
       }
 
-      // Caso comum: LastFM com fallback Apple Music
+      // ➤ Fluxo Principal: Last.fm → Deezer → fallback
       if (artist && track) {
         fetch(`https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${apiKeyLastFm}&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(track)}&format=json`)
           .then(res => res.json())
@@ -106,27 +109,49 @@ function fetchMetadata() {
             const images = lastFmData?.track?.album?.image || [];
             const cover = images.find(img => img.size === 'extralarge')?.['#text'];
 
-            if (cover) {
-              albumCover.src = cover;
-            } else {
-              fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(artist + " " + track)}&entity=musicTrack&limit=1`)
+            // Função fallback: tenta Deezer
+            function buscarCapaNoDeezer() {
+              fetch(`https://api.deezer.com/search/track?q=artist:"${encodeURIComponent(artist)}" track:"${encodeURIComponent(track)}"&limit=1`)
                 .then(r => r.json())
-                .then(d => {
-                  let appleCover = d.results?.[0]?.artworkUrl100;
-                  if (appleCover) albumCover.src = appleCover.replace("100x100","300x300");
-                  else albumCover.src = albumCoverURL || "img/sanca.png";
+                .then(data => {
+                  let coverDeezer = data.data?.[0]?.album?.cover_big; // 500x500
+                  if (coverDeezer) {
+                    albumCover.src = coverDeezer;
+                  } else {
+                    albumCover.src = albumCoverURL || "img/sanca.png";
+                  }
                 })
-                .catch(()=>{ albumCover.src = albumCoverURL || "img/sanca.png"; });
+                .catch(() => {
+                  albumCover.src = albumCoverURL || "img/sanca.png";
+                });
+            }
+
+            if (cover) {
+              // ✅ Usa proxy para evitar bloqueio de referrer
+              albumCover.src = "https://images.weserv.nl/?url=" + encodeURIComponent(cover) + "&w=300&h=300&fit=cover";
+              
+              // Se falhar, tenta Deezer
+              albumCover.onerror = function() {
+                console.warn("Capa do Last.fm falhou. Tentando Deezer...");
+                buscarCapaNoDeezer();
+              };
+            } else {
+              // Sem capa no Last.fm? Vai direto pro Deezer
+              buscarCapaNoDeezer();
             }
           })
-          .catch(()=>{ albumCover.src = albumCoverURL || "img/sanca.png"; });
+          .catch(() => {
+            albumCover.src = albumCoverURL || "img/sanca.png";
+          });
       } else {
+        // Sem info de artista/música? Usa URL da rádio ou fallback
         albumCover.src = albumCoverURL || "img/sanca.png";
       }
     })
-    .catch(()=>{ albumCover.src = "img/sanca.png"; });
+    .catch(() => {
+      albumCover.src = "img/sanca.png";
+    });
 }
-
 // Inicialização
 window.onload=function(){
   radioPlayer.volume=parseFloat(document.getElementById("volumeSlider").value);

@@ -1,6 +1,15 @@
 let player;
 let loadingElement;
 
+function onPlayerStateChange(event) {
+  if (event.data === YT.PlayerState.BUFFERING || event.data === YT.PlayerState.PLAYING) {
+    if (loadingElement) {
+      loadingElement.style.display = 'none';
+      document.getElementById('player').style.display = 'block';
+    }
+  }
+}
+
 function onYouTubeIframeAPIReady() {
   loadingElement = document.getElementById('loading');
 
