@@ -251,56 +251,7 @@ background-size: cover;
 
 <audio id="radioPlayer" src="https://s02.transmissaodigital.com:6716/stream;" preload="auto"></audio>
 
-<script>
-const audio = document.getElementById("radioPlayer");
 
-async function getMetadata() {
-  try {
-    const response = await fetch("radio.php");
-    const data = await response.json();
-
-    // garante valores
-    const artista = data.artist ? data.artist.trim() : "";
-    const musica  = data.title ? data.title.trim() : "";
-    const track   = data.track ? data.track.trim() : "Desconhecido";
-
-    // monta título
-    let titulo = (artista && musica) ? `${artista} - ${musica}` : track;
-
-    // Atualiza título da aba
-    document.title = `${titulo} | Sanca Rock`;
-
-    // Atualiza música
-    document.getElementById("artistName").textContent = titulo;
-
-    // Atualiza status (ao vivo / pausado)
-    if (!audio.paused) {
-      document.getElementById("statusPlayer").textContent = "🟡 Ao vivo";
-    } else {
-      document.getElementById("statusPlayer").textContent = "⏸🟡 Pausado";
-    }
-
-    document.getElementById("trackTitle").textContent = "";
-  } catch (err) {
-    console.error("Erro ao buscar metadados:", err);
-  }
-}
-
-// Atualiza status a cada 1s
-setInterval(() => {
-  if (!audio.paused) {
-    document.getElementById("statusPlayer").textContent = "🟡 Ao vivo";
-  } else {
-    document.getElementById("statusPlayer").textContent = "⏸🟡 Pausado";
-  }
-}, 1000);
-
-// Atualiza metadados a cada 20s
-setInterval(getMetadata, 20000);
-getMetadata();
-</script>
-<script src="js/radio.js?v=4"></script>
+<script src="js/radinho.js?v=1"></script>
 </body>
-
 </html>
-

@@ -66,6 +66,30 @@
             cursor: pointer;
             margin: 0 5px;
         }
+        
+        .hero-section {
+        position: relative;
+        overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  /* Transição mais leve e suave */
+  transition: opacity 1.2s cubic-bezier(0.34, 0.15, 0.66, 0.85);
+  z-index: -1;
+}
+
+.hero-bg.active {
+  opacity: 1;
+}
     </style>
     
 </head>
@@ -139,13 +163,15 @@
 <div id="playerContainer"></div>
 
 <script>
-  function isMobile() {
-    return /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  function isMobileOrTV() {
+    const ua = navigator.userAgent;
+    return /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|SmartTV|TV|AppleTV|Roku|Chromecast|WebTV|HbbTV/i.test(ua);
   }
 
   const container = document.getElementById('playerContainer');
-  let iframeSrc = isMobile() ? 'resp.html' : 'topo.html';
-  let iframeHeight = isMobile() ? '120' : '98'; // ajuste se quiser altura diferente no mobile
+  const useMobileVersion = isMobileOrTV();
+  const iframeSrc = useMobileVersion ? 'resp.html' : 'topo.html';
+  const iframeHeight = useMobileVersion ? '120' : '98';
 
   container.innerHTML = `
     <iframe 
@@ -160,8 +186,9 @@
   `;
 </script>
 	<!--  section -->
-	<section class="hero-section set-bg" data-setbg="img/capa.jpg">
-	</section>
+	<section id="hero" class="hero-section set-bg" data-setbg="img/capa.jpg"></section>
+	
+   </section>
 	<!-- Hero section end -->
 
 	<!-- promotion section -->
@@ -298,6 +325,7 @@ async function atualizarTitulo() {
 setInterval(atualizarTitulo, 10000);
 atualizarTitulo();
 </script>
-</body>
 
+<script src="js/fundo.js?v=8"></script>
+</body>
 </html>

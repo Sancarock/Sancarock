@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { background: #000; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+    #player { width: 560px; height: 315px; }
+    #loading { position: absolute; color: white; font-family: Arial; }
+  </style>
+</head>
+<body>
+  <div id="loading">Carregando...</div>
+  <div id="player"></div>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    let player;
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        events: {
+          onReady: onPlayerReady,
+          onStateChange: onPlayerStateChange
+        }
+      });
+    }
+
+    function onPlayerReady() {
+      playRandomVideo();
+    }
+
+    function playRandomVideo() {
+      const safeVideoIds = [
+        'dQw4w9WgXcQ',
+        'JGwWNGJdvx8',
+        'kJQP7kiw5Fk',
+        'PT2_F-1esPk',
+        '3AtDnEC4zak'
+      ];
+      const randomId = safeVideoIds[Math.floor(Math.random() * safeVideoIds.length)];
+      player.loadVideoById(randomId);
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.PLAYING) {
+        document.getElementById('loading').style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>
