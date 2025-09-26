@@ -1,177 +1,116 @@
-const playerContainer = document.getElementById("playerContainer");
-const radioPlayer = document.getElementById('radioPlayer');
-const trackTitle = document.getElementById('trackTitle');
-const artistName = document.getElementById('artistName');
-const albumCover = document.getElementById('albumCover');
-const apiKeyLastFm = 'd08d389671438f325d13d64f0c94b583';
+// Elementos
+var radioPlayer = document.getElementById('radioPlayer');
+var trackTitle = document.getElementById('trackTitle');
+var artistName = document.getElementById('artistName');
+var albumCover = document.getElementById('albumCover');
+var statusPlayer = document.getElementById('statusPlayer');
 
-function abrir_mail_popup() {
-  window.open("cont.html", "", "width=550,height=550,toolbar=no,location=no,status=yes,scrollbars=no,resizable=NO");
+// Atualiza status
+function updateStatus() {
+  statusPlayer.textContent = radioPlayer.paused ? "⏸🟡 Pausado" : "🟡 Ao vivo";
 }
 
+// Busca metadados (versão simples, sem async/await)
+function fetchMetadata() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU=', true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      var text = xhr.responseText;
+
+      // Extrai após "Kbps"
+      var kbpsIndex = text.lastIndexOf('Kbps');
+      if (kbpsIndex === -1) return;
+
+      var trackInfo = text.slice(kbpsIndex + 4).replace(/<[^>]*>/g, '').trim();
+
+      // Remove URLs
+      var currentTrack = trackInfo.replace(/https?:\/\/[^\s]+/g, '').trim();
+
+      // Atualiza título
+      trackTitle.innerText = currentTrack || 'Música desconhecida';
+      artistName.innerText = '';
+
+      // Extrai artista
+      if (currentTrack.indexOf(' - ') !== -1) {
+        var parts = currentTrack.split(' - ');
+        artistName.innerText = parts[0].trim();
+      }
+
+      // Título da aba
+      document.title = currentTrack + ' | Sanca Rock';
+
+      // Extrai URL da capa (última URL no texto)
+      var urls = trackInfo.match(/https?:\/\/[^\s]+/g);
+      var coverUrl = 'img/sanca.png';
+      if (urls && urls.length >= 1) {
+        coverUrl = urls[urls.length - 1]; // última URL = capa
+      }
+
+      // Casos especiais
+      var trackLower = currentTrack.toLowerCase();
+      if (trackLower.indexOf('monstros do rock') !== -1) {
+        coverUrl = 'img/monstrosdorock.gif';
+      } else if (trackLower.indexOf('disco novo') !== -1) {
+        coverUrl = 'img/disconovo.png';
+      }
+
+      albumCover.src = coverUrl;
+    }
+  };
+  xhr.send();
+}
+
+// Controles simples
 function togglePlayPause() {
   if (radioPlayer.paused) {
-    radioPlayer.muted = false;
-    radioPlayer.play().then(() => {
-      fetchMetadata();
-      document.getElementById("equalizer").style.display = "flex";
-      playPauseBtn.textContent = "Pause";
-      playPauseBtn.className = "pause-button"; // muda a cor
-    }).catch(err => console.error("Erro ao reproduzir:", err));
+    radioPlayer.play();
+    document.getElementById('equalizer').style.display = 'flex';
+    document.getElementById('playPauseBtn').textContent = 'Pause';
+    document.getElementById('playPauseBtn').className = 'pause-button';
   } else {
     radioPlayer.pause();
-    document.getElementById("equalizer").style.display = "none";
-    playPauseBtn.textContent = "Play";
-    playPauseBtn.className = "play-button"; // volta para verde
+    document.getElementById('equalizer').style.display = 'none';
+    document.getElementById('playPauseBtn').textContent = 'Play';
+    document.getElementById('playPauseBtn').className = 'play-button';
   }
+  updateStatus();
 }
 
-function fecharApp() {
-  alert("Fechar App (implementar no WebView nativo ou via blocos Kodular/Niotron)");
+function setVolume(val) {
+  radioPlayer.volume = parseFloat(val);
+  document.getElementById('volumeDisplay').textContent = Math.round(val * 100) + '%';
 }
 
-function playRadio() {
-  radioPlayer.muted = false;
-  radioPlayer.play().then(() => {
-    fetchMetadata();
-    document.getElementById("equalizer").style.display = "flex";
-  }).catch(err => console.error("Erro ao reproduzir:", err));
-}
-
-function pauseRadio() {
-  radioPlayer.pause();
-  document.getElementById("equalizer").style.display = "none";
-}
-
-function setVolume(value) {
-  const vol = parseFloat(value);
+function adjustVolume(delta) {
+  var vol = radioPlayer.volume + delta;
+  vol = Math.max(0, Math.min(1, vol));
   radioPlayer.volume = vol;
-  updateVolumeDisplay(vol);
+  document.getElementById('volumeSlider').value = vol;
+  setVolume(vol);
 }
 
-// --- Metadados ---
-function fetchMetadata() {
-  fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU=')
-    .then(r => r.arrayBuffer())
-    .then(buffer => {
-      const decoder = new TextDecoder('iso-8859-1');
-      return decoder.decode(buffer);
-    })
-    .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
-    .then(data => {
-      const currentTrack = data.querySelector("musica_atual")?.textContent || "";
-      const albumCoverURL = data.querySelector("capa_musica")?.textContent || "";
-      
-      trackTitle.innerText = currentTrack || "Música desconhecida";
-
-      let artist = "", track = "";
-      if (currentTrack.includes(" - ")) {
-        [artist, track] = currentTrack.split(" - ").map(p => p.trim());
-        artistName.innerText = artist;
-      } else { 
-        artistName.innerText = ""; 
-      }
-
-      // ➤ Casos Especiais
-      let trackNormalized = currentTrack.toLowerCase().replace(/[-_]/g, " ");
-      if (trackNormalized.includes("monstros do rock")) {
-        albumCover.src = "img/monstrosdorock.gif"; 
-        return;
-      }
-      if (trackNormalized.includes("disco novo")) {
-        albumCover.src = "img/disconovo.png"; 
-        return;
-      }
-
-      // ➤ Fluxo Principal: Last.fm → Deezer → fallback
-      if (artist && track) {
-        fetch(`https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${apiKeyLastFm}&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(track)}&format=json`)
-          .then(res => res.json())
-          .then(lastFmData => {
-            const images = lastFmData?.track?.album?.image || [];
-            const cover = images.find(img => img.size === 'extralarge')?.['#text'];
-
-            // Função fallback: tenta Deezer
-            function buscarCapaNoDeezer() {
-              fetch(`https://api.deezer.com/search/track?q=artist:"${encodeURIComponent(artist)}" track:"${encodeURIComponent(track)}"&limit=1`)
-                .then(r => r.json())
-                .then(data => {
-                  let coverDeezer = data.data?.[0]?.album?.cover_big; // 500x500
-                  if (coverDeezer) {
-                    albumCover.src = coverDeezer;
-                  } else {
-                    albumCover.src = albumCoverURL || "img/sanca.png";
-                  }
-                })
-                .catch(() => {
-                  albumCover.src = albumCoverURL || "img/sanca.png";
-                });
-            }
-
-            if (cover) {
-              // ✅ Usa proxy para evitar bloqueio de referrer
-              albumCover.src = "https://images.weserv.nl/?url=" + encodeURIComponent(cover) + "&w=300&h=300&fit=cover";
-              
-              // Se falhar, tenta Deezer
-              albumCover.onerror = function() {
-                console.warn("Capa do Last.fm falhou. Tentando Deezer...");
-                buscarCapaNoDeezer();
-              };
-            } else {
-              // Sem capa no Last.fm? Vai direto pro Deezer
-              buscarCapaNoDeezer();
-            }
-          })
-          .catch(() => {
-            albumCover.src = albumCoverURL || "img/sanca.png";
-          });
-      } else {
-        // Sem info de artista/música? Usa URL da rádio ou fallback
-        albumCover.src = albumCoverURL || "img/sanca.png";
-      }
-    })
-    .catch(() => {
-      albumCover.src = "img/sanca.png";
-    });
-}
 // Inicialização
 window.onload = function () {
-  const vol = parseFloat(document.getElementById("volumeSlider").value);
-  radioPlayer.volume = vol;
-  updateVolumeDisplay(vol);
+  radioPlayer.volume = 0.5;
+  setVolume(0.5);
+  updateStatus();
 
-  radioPlayer.muted = false;
-  radioPlayer.play().then(() => {
-    fetchMetadata();
-    document.getElementById("equalizer").style.display = "flex";
-  }).catch(() => {
-    radioPlayer.muted = true;
-    radioPlayer.play().catch(() => {});
-    document.addEventListener("click", ()=>{ radioPlayer.muted = false; }, { once:true });
+  // Tenta tocar
+  radioPlayer.play().catch(function () {
+    // Silenciosamente falha em autoplay — normal em TVs
   });
+
+  fetchMetadata();
+  setInterval(fetchMetadata, 30000);
+  setInterval(updateStatus, 1000);
 };
 
-setInterval(fetchMetadata, 30000);
-
-function adjustVolume(change) {
-  const slider = document.getElementById("volumeSlider");
-  let newVolume = Math.max(0, Math.min(1, parseFloat(slider.value) + change));
-  radioPlayer.volume = newVolume;
-  slider.value = newVolume;
-  updateVolumeDisplay(newVolume);
-}
-
-// Atualiza display do volume
-function updateVolumeDisplay(value) {
-  document.getElementById("volumeDisplay").textContent = `${Math.round(value*100)}%`;
-}
-
-// PulsaÃ§Ã£o de sombra do player
-setInterval(()=> {
-  if(!radioPlayer.paused){
-    const vol = radioPlayer.volume;
-    const scale = 1 + vol*0.1; // aumenta até 10%
-    playerContainer.style.transform = `scale(${scale})`;
-    playerContainer.style.boxShadow = `0 0 ${20 + vol*40}px rgba(255,0,0,0.7), 0 10px ${35 + vol*30}px rgba(0,0,0,0.8)`;
-  }
-}, 100);
+// Expõe funções globais para os botões
+window.togglePlayPause = togglePlayPause;
+window.setVolume = setVolume;
+window.adjustVolume = adjustVolume;
+window.abrir_mail_popup = function () {
+  // Em TVs, window.open pode não funcionar — melhor remover ou alertar
+  alert('Contato: seuemail@exemplo.com');
+};
