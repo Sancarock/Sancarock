@@ -3,27 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Rádio Sancarock - Dados Móveis</title>
 <style>
 .body, html {
   margin: 0;
   padding: 0;
+  background: transparent !important; /* ← Garante transparência no body */
 }
+
 #playerContainer {
-  display:flex;
+  display: flex;
   align-items: center;
   gap: 50px;
-  background-color: #111;
+  background: transparent !important; /* ← REMOVIDO FUNDOS OPACOS */
   padding: 2px;
-  margin: 0;             /* garante sem margem */
-  border-radius: 0;      /* tira arredondado que cria espaço visual */
+  margin: 0;
+  border-radius: 0;
   color: #fff;
   font-family: Arial, sans-serif;
   font-size: 12px;
-  box-shadow: 0 0 20px rgba(255,0,0,0.4);
+  box-shadow: 0 0 20px rgba(255,0,0,0.4); /* Mantém sombra para destacar */
 }
-
-
 .album-cover {
   width: 80px;
   height: 80px;
@@ -85,7 +86,7 @@ audio {
     <p id="artistName"></p>
   </div>
 
-  <button id="playPause" class="player-button">►</button>
+ <button id="playPause" class="player-button">&#9654;</button>
   <button id="atualizar" class="player-button" type="button" onClick="history.go(0)">↻</button>
   <button id="volMinus" class="player-button">-</button>
   <span id="volumeDisplay">50%</span>
@@ -100,6 +101,6 @@ audio {
 
 <audio id="radioPlayer" src="https://s02.transmissaodigital.com:6716/stream;" preload="auto"></audio>
 </script>
-<script src="js/topao.js?v=2"></script>
+<script src="js/topao.js?v=6"></script>
 </body>
 </html>
