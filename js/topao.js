@@ -76,15 +76,15 @@ async function getCoverUrl(artist, track) {
   if (coverUrl) { console.log("ðŸŽµ Capa encontrada no Last.fm"); return coverUrl; }
 
   coverUrl = await fetchCoverFromDeezer(artist, track);
-  if (coverUrl) { console.log("ðŸŽµ Capa encontrada no Deezer"); return coverUrl; }
+  if (coverUrl) { console.log("🎵 Capa encontrada no Deezer"); return coverUrl; }
 
   coverUrl = await fetchCoverFromApple(artist, track);
-  if (coverUrl) { console.log("ðŸŽµ Capa encontrada no Apple Music"); return coverUrl; }
+  if (coverUrl) { console.log("🎵 Capa encontrada no Apple Music"); return coverUrl; }
 
   coverUrl = await fetchCoverFromMusicBrainz(artist, track);
-  if (coverUrl) { console.log("ðŸŽµ Capa encontrada no MusicBrainz"); return coverUrl; }
+  if (coverUrl) { console.log("🎵 Capa encontrada no MusicBrainz"); return coverUrl; }
 
-  console.warn("âš ï¸ Nenhuma capa encontrada, usando padrão.");
+  console.warn("🎵 Nenhuma capa encontrada, usando padrão.");
   return null;
 }
 
@@ -176,4 +176,5 @@ volMinus.addEventListener('click', () => {
 // Atualiza a cada 30 segundos
 setInterval(fetchMetadata, 30000);
 // JavaScript Document
+
 
