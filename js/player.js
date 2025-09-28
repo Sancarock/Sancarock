@@ -219,9 +219,9 @@ async function fetchMetadata() {
   } catch (err) {
     console.error('Erro em fetchMeta', err);
     albumCover.src = 'img/sanca.png';
-    trackTitle.innerText = 'Rádio Sanca Rock';
+    trackTitle.innerText = `${artist} - ${track}`;
     artistName.innerText = '';
-    document.title = 'Rádio Sanca Rock | Erro';
+    document.title = `${artist} - ${track} | Rádio Sanca Rock`;
   }
 }
 // Controles
