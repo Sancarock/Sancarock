@@ -11,9 +11,16 @@ const volumeDisplay = document.getElementById('volumeDisplay');
 const playerContainer = document.getElementById('playerContainer');
 const apiKeyLastFm = 'd08d389671438f325d13d64f0c94b583';
 
+function decodeHtmlEntities(text) {
+  if (!text || typeof text !== 'string') return text;
+  const textarea = document.createElement('textarea');
+  textarea.innerHTML = text;
+  return textarea.value;
+}
+
 let lastTrack = "";
 
-// --- Funções de busca de capa ---
+// --- FunÃ§Ãµes de busca de capa ---
 async function fetchCoverFromLastFm(artist, track) {
   try {
     const res = await fetch(`https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${apiKeyLastFm}&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(track)}&format=json`);
@@ -61,27 +68,27 @@ async function fetchCoverFromMusicBrainz(artist, track) {
   return null;
 }
 
-// --- Função central para pegar capa na nova ordem ---
+// --- FunÃ§Ã£o central para pegar capa na nova ordem ---
 async function getCoverUrl(artist, track) {
   let coverUrl = null;
 
   coverUrl = await fetchCoverFromLastFm(artist, track);
-  if (coverUrl) { console.log("🎵 Capa encontrada no Last.fm"); return coverUrl; }
+  if (coverUrl) { console.log("ðŸŽµ Capa encontrada no Last.fm"); return coverUrl; }
 
   coverUrl = await fetchCoverFromDeezer(artist, track);
-  if (coverUrl) { console.log("🎵 Capa encontrada no Deezer"); return coverUrl; }
+  if (coverUrl) { console.log("ðŸŽµ Capa encontrada no Deezer"); return coverUrl; }
 
   coverUrl = await fetchCoverFromApple(artist, track);
-  if (coverUrl) { console.log("🎵 Capa encontrada no Apple Music"); return coverUrl; }
+  if (coverUrl) { console.log("ðŸŽµ Capa encontrada no Apple Music"); return coverUrl; }
 
   coverUrl = await fetchCoverFromMusicBrainz(artist, track);
-  if (coverUrl) { console.log("🎵 Capa encontrada no MusicBrainz"); return coverUrl; }
+  if (coverUrl) { console.log("ðŸŽµ Capa encontrada no MusicBrainz"); return coverUrl; }
 
-  console.warn("⚠️ Nenhuma capa encontrada, usando padrão.");
+  console.warn("âš ï¸ Nenhuma capa encontrada, usando padrÃ£o.");
   return null;
 }
 
-// --- Atualização do fetchMetadata ---
+// --- AtualizaÃ§Ã£o do fetchMetadata ---
 async function fetchMetadata() {
   try {
     const response = await fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU=');
@@ -96,11 +103,12 @@ async function fetchMetadata() {
     trackInfo = trackInfo.replace(/<[^>]*>/g, '');
     const urlRegex = /https?:\/\/[^\s]+/g;
     let currentTrack = trackInfo.replace(urlRegex, '').trim();
+	currentTrack = decodeHtmlEntities(currentTrack); // ← ADICIONE ESSA LINHA AQUI
 
     if (currentTrack === lastTrack) return;
     lastTrack = currentTrack;
 
-    trackTitle.innerText = currentTrack || "Música desconhecida";
+    trackTitle.innerText = currentTrack || "MÃºsica desconhecida";
     artistName.innerText = "";
 
     let artist = "", track = "";
@@ -109,13 +117,13 @@ async function fetchMetadata() {
       artistName.innerText = artist;
     }
 
-    // ➤ Casos Especiais
+    // âž¤ Casos Especiais
     const trackNormalized = currentTrack.toLowerCase().replace(/[-_]/g, " ");
     if (trackNormalized.includes("monstros do rock")) { albumCover.src = "img/monstrosdorock.gif"; return; }
     if (trackNormalized.includes("disco novo")) { albumCover.src = "img/disconovo.png"; return; }
     if (!artist || !track) { albumCover.src = "img/sanca.png"; return; }
 
-    // ➤ Busca capa usando a nova ordem
+    // âž¤ Busca capa usando a nova ordem
     const coverUrl = await getCoverUrl(artist, track);
     albumCover.src = coverUrl || "img/sanca.png";
 
@@ -127,7 +135,7 @@ async function fetchMetadata() {
   }
 }
 
-// --- Inicialização ---
+// --- InicializaÃ§Ã£o ---
 window.onload = function() {
   radioPlayer.volume = 0.5;
   volumeDisplay.textContent = '50%';
@@ -137,7 +145,7 @@ window.onload = function() {
     equalizer.style.display = 'flex';
     playPauseBtn.textContent = '❚❚';
   }).catch(() => {
-    // Autoplay bloqueado — ainda busca metadados
+    // Autoplay bloqueado â€” ainda busca metadados
     fetchMetadata();
   });
 };
@@ -146,11 +154,11 @@ window.onload = function() {
 playPauseBtn.addEventListener('click', () => {
   if (radioPlayer.paused) {
     radioPlayer.play();
-    playPauseBtn.textContent = '❚❚';
+    playPauseBtn.innerHTML = '&#10074;&#10074;'; // Pausa: ❚❚
     equalizer.style.display = 'flex';
   } else {
     radioPlayer.pause();
-    playPauseBtn.textContent = '►';
+    playPauseBtn.innerHTML = '&#9654;'; // Play: ►
     equalizer.style.display = 'none';
   }
 });
@@ -167,3 +175,4 @@ volMinus.addEventListener('click', () => {
 
 // Atualiza a cada 30 segundos
 setInterval(fetchMetadata, 30000);
+// JavaScript Document
