@@ -149,13 +149,19 @@ async function fetchMetadata() {
 
     // ✅ Agora SIM: formato "Artista - Música"
     if (afterKbps.includes(' - ')) {
-      const parts = afterKbps.split(' - ', 2); // divide só na primeira ocorrência
-      artist = parts[0].trim();
-      track = parts[1].trim();
-    } else {
-      // fallback: tudo é música
-      track = afterKbps;
-    }
+  const parts = afterKbps.split(' - ', 2);
+  artist = parts[0].trim();
+  track = parts[1].trim();
+} else {
+  // É vinheta, identificação ou dado inválido
+  artist = '';
+  track = '';
+  // Atualiza UI para modo "ao vivo genérico"
+  artistName.innerText = '';
+  trackTitle.innerText = 'Sanca Rock FM';
+  albumCover.src = 'img/sanca.png';
+  return; // ← sai aqui, não busca capa
+}
 
     // Atualiza elementos
     artistName.innerText = artist;
