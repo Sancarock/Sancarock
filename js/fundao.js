@@ -4,9 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const CAPA = 'img/capa.jpg';
   const IMAGENS = [
-    'img/wall/01.jpg','img/wall/02.jpg','img/wall/03.jpg','img/wall/04.jpg',
-    'img/wall/05.jpg','img/wall/06.jpg','img/wall/07.jpg','img/wall/08.jpg',
-    'img/wall/09.jpg','img/wall/10.jpg','img/wall/11.jpg','img/wall/12.jpg'
+    'img/wall/f01.jpg','img/wall/f02.jpg','img/wall/f03.jpg','img/wall/f04.jpg',
+    'img/wall/f05.jpg','img/wall/f06.jpg','img/wall/f07.jpg','img/wall/f08.jpg',
+    'img/wall/f09.jpg','img/wall/f10.jpg','img/wall/f11.jpg','img/wall/f12.jpg'
   ];
 
   // --- Detecção segura de mobile ---
