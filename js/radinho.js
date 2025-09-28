@@ -1,150 +1,4 @@
-// Elementos existentes no HTML
-const radioPlayer = document.getElementById('radioPlayer');
-const playPauseBtn = document.getElementById('playPauseBtn');
-const trackTitle = document.getElementById('trackTitle');
-const artistName = document.getElementById('artistName');
-const albumCover = document.getElementById('albumCover');
-const volumeSlider = document.getElementById('volumeSlider');
-const volumeDisplay = document.getElementById('volumeDisplay');
-const statusPlayer = document.getElementById('statusPlayer');
-const playerContainer = document.getElementById('playerContainer');
-const apiKeyLastFm = 'd08d389671438f325d13d64f0c94b583';
-
-let lastTrack = "";
-
-// ---------------- CAPAS ---------------- //
-async function fetchCoverFromiTunes(artist, track) {
-  try {
-    const query = encodeURIComponent(`${artist} ${track}`);
-    const res = await fetch(`https://itunes.apple.com/search?term=${query}&entity=song&limit=1`);
-    const data = await res.json();
-    if (data.results && data.results.length > 0) {
-      return data.results[0].artworkUrl100.replace("100x100", "600x600");
-    }
-  } catch (e) {
-    console.warn("iTunes falhou:", e);
-  }
-  return null;
-}
-
-async function fetchArtistCoverFromiTunes(artist) {
-  try {
-    const query = encodeURIComponent(artist);
-    const res = await fetch(`https://itunes.apple.com/search?term=${query}&entity=musicArtist&limit=1`);
-    const data = await res.json();
-    if (data.results && data.results.length > 0 && data.results[0].artworkUrl100) {
-      return data.results[0].artworkUrl100.replace("100x100", "600x600");
-    }
-  } catch (e) {
-    console.warn("iTunes (artista) falhou:", e);
-  }
-  return null;
-}
-
-async function fetchCoverFromDeezer(artist, track) {
-  try {
-    const res = await fetch(
-      `https://api.deezer.com/search/track?q=artist:"${encodeURIComponent(artist)}" track:"${encodeURIComponent(track)}"&limit=1`
-    );
-    const data = await res.json();
-    return data.data?.[0]?.album?.cover_big || null;
-  } catch (e) {
-    console.warn("Deezer falhou:", e);
-  }
-  return null;
-}
-
-async function fetchCoverFromLastFm(artist, track) {
-  try {
-    const res = await fetch(
-      `https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${apiKeyLastFm}&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(track)}&format=json`
-    );
-    const data = await res.json();
-    const images = data?.track?.album?.image || [];
-    const cover = images.find(img => img.size === "extralarge")?.["#text"];
-    if (cover) {
-      return `https://images.weserv.nl/?url=${encodeURIComponent(cover)}&w=300&h=300&fit=cover`;
-    }
-  } catch (e) {
-    console.warn("Last.fm falhou:", e);
-  }
-  return null;
-}
-
-async function fetchCoverFromMusicBrainz(artist, track) {
-  try {
-    const query = `artist:"${encodeURIComponent(artist)}" AND recording:"${encodeURIComponent(track)}"`;
-    const res = await fetch(`https://musicbrainz.org/ws/2/recording?query=${query}&fmt=json&limit=1`);
-    const data = await res.json();
-    if (data.recordings?.[0]?.releases?.[0]) {
-      const releaseId = data.recordings[0].releases[0].id;
-      const coverUrl = `https://coverartarchive.org/release/${releaseId}/front-500.jpg`;
-      const head = await fetch(coverUrl, { method: "HEAD" });
-      if (head.ok) return coverUrl;
-    }
-  } catch (e) {
-    console.warn("MusicBrainz falhou:", e);
-  }
-  return null;
-}
-
-// Orquestrador: iTunes ? Deezer ? Last.fm ? MusicBrainz ? iTunes (artista) ? Avatar ? Padr�o
-async function getCoverUrl(artist, track) {
-  let coverUrl = null;
-
-  // 1. iTunes (track)
-  coverUrl = await fetchCoverFromiTunes(artist, track);
-  if (coverUrl) {
-    console.log("?? Capa encontrada no iTunes (faixa):", coverUrl);
-    return coverUrl;
-  }
-
-  // 2. Deezer
-  coverUrl = await fetchCoverFromDeezer(artist, track);
-  if (coverUrl) {
-    console.log("?? Capa encontrada no Deezer:", coverUrl);
-    return coverUrl;
-  }
-
-  // 3. Last.fm
-  coverUrl = await fetchCoverFromLastFm(artist, track);
-  if (coverUrl) {
-    console.log("?? Capa encontrada no Last.fm:", coverUrl);
-    return coverUrl;
-  }
-
-  // 4. MusicBrainz
-  coverUrl = await fetchCoverFromMusicBrainz(artist, track);
-  if (coverUrl) {
-    console.log("?? Capa encontrada no MusicBrainz:", coverUrl);
-    return coverUrl;
-  }
-
-  // 5. iTunes (artista)
-  coverUrl = await fetchArtistCoverFromiTunes(artist);
-  if (coverUrl) {
-    console.log("?? Capa encontrada no iTunes (artista):", coverUrl);
-    return coverUrl;
-  }
-
-  // 6. Avatar
-  if (artist) {
-    coverUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(artist)}&background=000&color=fff&size=300`;
-    console.log("?? Usando avatar gerado para artista:", coverUrl);
-    return coverUrl;
-  }
-
-  // 7. �ltimo recurso
-  console.warn("?? Nenhuma capa encontrada, usando padr�o.");
-  return "img/sanca.png";
-}
-
-// ---------------- PLAYER ---------------- //
-function updateStatus() {
-  statusPlayer.textContent = radioPlayer.paused ? "⏸🟡 Pausado" : "🟡 Ao vivo";
-}
-
-// Atualiza metadados da API da Transmissão Digital
+// Atualiza metadados da API da TransmissÃ£o Digital
 async function fetchMetadata() {
   try {
     const response = await fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU=');
@@ -158,12 +12,13 @@ async function fetchMetadata() {
     let trackInfo = text.slice(kbpsIndex + 4).trim();
     const urlRegex = /https?:\/\/[^\s]+/g;
     let currentTrack = trackInfo.replace(urlRegex, '').replace(/<[^>]*>/g, '').trim();
+	currentTrack = decodeHtmlEntities(currentTrack); // ← ADICIONE ESSA LINHA AQUI
 
     if (currentTrack === lastTrack) return;
     lastTrack = currentTrack;
 
     // Atualiza elementos
-    trackTitle.innerText = currentTrack || 'Música desconhecida';
+    trackTitle.innerText = currentTrack || 'MÃºsica desconhecida';
     artistName.innerText = '';
 
     // Separa artista e música
@@ -173,7 +28,7 @@ async function fetchMetadata() {
       artistName.innerText = artist;
     }
 
-    // Título da aba
+    // TÃ­tulo da aba
     document.title = `${currentTrack || 'Sanca Rock'} | Sanca Rock`;
 
     // Casos especiais
@@ -234,7 +89,7 @@ function adjustVolume(change) {
   volumeDisplay.textContent = `${Math.round(newVol * 100)}%`;
 }
 
-// Inicialização
+// InicializaÃ§Ã£o
 document.addEventListener('DOMContentLoaded', () => {
   radioPlayer.volume = parseFloat(volumeSlider.value);
   volumeDisplay.textContent = `${Math.round(radioPlayer.volume * 100)}%`;
@@ -261,10 +116,12 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(updateStatus, 1000);
 });
 
-// Funções globais para os botões do HTML
+// FunÃ§Ãµes globais para os botÃµes do HTML
 window.togglePlayPause = togglePlayPause;
 window.adjustVolume = adjustVolume;
 window.setVolume = setVolume;
 window.abrir_mail_popup = () => {
   window.open("cont.html", "", "width=550,height=550,toolbar=no,location=no,status=yes,scrollbars=no,resizable=NO");
 };
+
+// JavaScript Document
