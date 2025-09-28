@@ -8,9 +8,9 @@ const trackTitle = document.getElementById('trackTitle');
 const artistName = document.getElementById('artistName');
 const albumCover = document.getElementById('albumCover');
 const volumeDisplay = document.getElementById('volumeDisplay');
-const playerContainer = document.getElementById('playerContainer');
 const apiKeyLastFm = 'd08d389671438f325d13d64f0c94b583';
 
+// Função para decodificar entidades HTML (ex: &amp; → &)
 function decodeHtmlEntities(text) {
   if (!text || typeof text !== 'string') return text;
   const textarea = document.createElement('textarea');
@@ -20,7 +20,7 @@ function decodeHtmlEntities(text) {
 
 let lastTrack = "";
 
-// --- Funções de busca de capa ---
+// --- Busca de capas ---
 async function fetchCoverFromLastFm(artist, track) {
   try {
     const res = await fetch(`https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${apiKeyLastFm}&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(track)}&format=json`);
@@ -68,27 +68,27 @@ async function fetchCoverFromMusicBrainz(artist, track) {
   return null;
 }
 
-// --- Função central para pegar capa na nova ordem ---
+// --- Busca de capa com fallback ---
 async function getCoverUrl(artist, track) {
   let coverUrl = null;
 
   coverUrl = await fetchCoverFromLastFm(artist, track);
-  if (coverUrl) { console.log("ðŸŽµ Capa encontrada no Last.fm"); return coverUrl; }
+  if (coverUrl) { console.log("Capa encontrada no Last.fm"); return coverUrl; }
 
   coverUrl = await fetchCoverFromDeezer(artist, track);
-  if (coverUrl) { console.log("🎵 Capa encontrada no Deezer"); return coverUrl; }
+  if (coverUrl) { console.log("Capa encontrada no Deezer"); return coverUrl; }
 
   coverUrl = await fetchCoverFromApple(artist, track);
-  if (coverUrl) { console.log("🎵 Capa encontrada no Apple Music"); return coverUrl; }
+  if (coverUrl) { console.log("Capa encontrada no Apple Music"); return coverUrl; }
 
   coverUrl = await fetchCoverFromMusicBrainz(artist, track);
-  if (coverUrl) { console.log("🎵 Capa encontrada no MusicBrainz"); return coverUrl; }
+  if (coverUrl) { console.log("Capa encontrada no MusicBrainz"); return coverUrl; }
 
-  console.warn("🎵 Nenhuma capa encontrada, usando padrão.");
+  console.warn("Nenhuma capa encontrada, usando padrão.");
   return null;
 }
 
-// --- Atualização do fetchMetadata ---
+// --- Busca metadados da rádio ---
 async function fetchMetadata() {
   try {
     const response = await fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU=');
@@ -103,7 +103,7 @@ async function fetchMetadata() {
     trackInfo = trackInfo.replace(/<[^>]*>/g, '');
     const urlRegex = /https?:\/\/[^\s]+/g;
     let currentTrack = trackInfo.replace(urlRegex, '').trim();
-	currentTrack = decodeHtmlEntities(currentTrack); // ← ADICIONE ESSA LINHA AQUI
+    currentTrack = decodeHtmlEntities(currentTrack);
 
     if (currentTrack === lastTrack) return;
     lastTrack = currentTrack;
@@ -113,17 +113,27 @@ async function fetchMetadata() {
 
     let artist = "", track = "";
     if (currentTrack.includes(" - ")) {
-      [artist, track] = currentTrack.split(" - ").map(p => p.trim());
+      [artist, track] = currentTrack.split(" - ", 2).map(p => p.trim());
+      artistName.innerText = artist;
+    } else {
+      // Fallback: usa o título completo como música, artista genérico
+      track = currentTrack;
+      artist = "Rádio Sanca Rock";
       artistName.innerText = artist;
     }
 
-    // ¤ Casos Especiais
+    // Casos especiais
     const trackNormalized = currentTrack.toLowerCase().replace(/[-_]/g, " ");
-    if (trackNormalized.includes("monstros do rock")) { albumCover.src = "img/monstrosdorock.gif"; return; }
-    if (trackNormalized.includes("disco novo")) { albumCover.src = "img/disconovo.png"; return; }
-    if (!artist || !track) { albumCover.src = "img/sanca.png"; return; }
+    if (trackNormalized.includes("monstros do rock")) {
+      albumCover.src = "img/monstrosdorock.gif";
+      return;
+    }
+    if (trackNormalized.includes("disco novo")) {
+      albumCover.src = "img/disconovo.png";
+      return;
+    }
 
-    // âž¤ Busca capa usando a nova ordem
+    // Busca capa
     const coverUrl = await getCoverUrl(artist, track);
     albumCover.src = coverUrl || "img/sanca.png";
 
@@ -140,12 +150,13 @@ window.onload = function() {
   radioPlayer.volume = 0.5;
   volumeDisplay.textContent = '50%';
   radioPlayer.muted = false;
+
   radioPlayer.play().then(() => {
     fetchMetadata();
     equalizer.style.display = 'flex';
-    playPauseBtn.textContent = '❚❚';
+    playPauseBtn.innerHTML = '&#10074;&#10074;'; // Pausa
   }).catch(() => {
-    // Autoplay bloqueado â€” ainda busca metadados
+    // Autoplay bloqueado — ainda busca metadados
     fetchMetadata();
   });
 };
@@ -154,11 +165,11 @@ window.onload = function() {
 playPauseBtn.addEventListener('click', () => {
   if (radioPlayer.paused) {
     radioPlayer.play();
-    playPauseBtn.innerHTML = '&#10074;&#10074;'; // Pausa: ❚❚
+    playPauseBtn.innerHTML = '&#10074;&#10074;';
     equalizer.style.display = 'flex';
   } else {
     radioPlayer.pause();
-    playPauseBtn.innerHTML = '&#9654;'; // Play: ►
+    playPauseBtn.innerHTML = '&#9654;';
     equalizer.style.display = 'none';
   }
 });
@@ -175,6 +186,6 @@ volMinus.addEventListener('click', () => {
 
 // Atualiza a cada 30 segundos
 setInterval(fetchMetadata, 30000);
-// JavaScript Document
+
 
 
