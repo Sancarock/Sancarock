@@ -12,29 +12,61 @@ const apiKeyLastFm = 'd08d389671438f325d13d64f0c94b583';
 
 let lastTrack = "";
 
-// ---------------- FUNÇÕES DE CAPA ---------------- //
+// ---------------- CAPAS ---------------- //
+async function fetchCoverFromiTunes(artist, track) {
+  try {
+    const query = encodeURIComponent(`${artist} ${track}`);
+    const res = await fetch(`https://itunes.apple.com/search?term=${query}&entity=song&limit=1`);
+    const data = await res.json();
+    if (data.results && data.results.length > 0) {
+      return data.results[0].artworkUrl100.replace("100x100", "600x600");
+    }
+  } catch (e) {
+    console.warn("iTunes falhou:", e);
+  }
+  return null;
+}
+
+async function fetchArtistCoverFromiTunes(artist) {
+  try {
+    const query = encodeURIComponent(artist);
+    const res = await fetch(`https://itunes.apple.com/search?term=${query}&entity=musicArtist&limit=1`);
+    const data = await res.json();
+    if (data.results && data.results.length > 0 && data.results[0].artworkUrl100) {
+      return data.results[0].artworkUrl100.replace("100x100", "600x600");
+    }
+  } catch (e) {
+    console.warn("iTunes (artista) falhou:", e);
+  }
+  return null;
+}
+
 async function fetchCoverFromDeezer(artist, track) {
   try {
-    const res = await fetch(`https://api.deezer.com/search/track?q=artist:"${encodeURIComponent(artist)}" track:"${encodeURIComponent(track)}"&limit=1`);
+    const res = await fetch(
+      `https://api.deezer.com/search/track?q=artist:"${encodeURIComponent(artist)}" track:"${encodeURIComponent(track)}"&limit=1`
+    );
     const data = await res.json();
     return data.data?.[0]?.album?.cover_big || null;
   } catch (e) {
-    console.warn('Deezer falhou:', e);
+    console.warn("Deezer falhou:", e);
   }
   return null;
 }
 
 async function fetchCoverFromLastFm(artist, track) {
   try {
-    const res = await fetch(`https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${apiKeyLastFm}&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(track)}&format=json`);
+    const res = await fetch(
+      `https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${apiKeyLastFm}&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(track)}&format=json`
+    );
     const data = await res.json();
     const images = data?.track?.album?.image || [];
-    const cover = images.find(img => img.size === 'extralarge')?.['#text'];
+    const cover = images.find(img => img.size === "extralarge")?.["#text"];
     if (cover) {
       return `https://images.weserv.nl/?url=${encodeURIComponent(cover)}&w=300&h=300&fit=cover`;
     }
   } catch (e) {
-    console.warn('Last.fm falhou:', e);
+    console.warn("Last.fm falhou:", e);
   }
   return null;
 }
@@ -47,39 +79,64 @@ async function fetchCoverFromMusicBrainz(artist, track) {
     if (data.recordings?.[0]?.releases?.[0]) {
       const releaseId = data.recordings[0].releases[0].id;
       const coverUrl = `https://coverartarchive.org/release/${releaseId}/front-500.jpg`;
-      const head = await fetch(coverUrl, { method: 'HEAD' });
+      const head = await fetch(coverUrl, { method: "HEAD" });
       if (head.ok) return coverUrl;
     }
   } catch (e) {
-    console.warn('MusicBrainz falhou:', e);
+    console.warn("MusicBrainz falhou:", e);
   }
   return null;
 }
 
-// Handler central: Deezer > Last.fm > MusicBrainz
+// Orquestrador: iTunes ? Deezer ? Last.fm ? MusicBrainz ? iTunes (artista) ? Avatar ? Padr�o
 async function getCoverUrl(artist, track) {
   let coverUrl = null;
 
+  // 1. iTunes (track)
+  coverUrl = await fetchCoverFromiTunes(artist, track);
+  if (coverUrl) {
+    console.log("?? Capa encontrada no iTunes (faixa):", coverUrl);
+    return coverUrl;
+  }
+
+  // 2. Deezer
   coverUrl = await fetchCoverFromDeezer(artist, track);
   if (coverUrl) {
-    console.log("🎵 Capa encontrada no Deezer:", coverUrl);
+    console.log("?? Capa encontrada no Deezer:", coverUrl);
     return coverUrl;
   }
 
+  // 3. Last.fm
   coverUrl = await fetchCoverFromLastFm(artist, track);
   if (coverUrl) {
-    console.log("🎵 Capa encontrada no Last.fm:", coverUrl);
+    console.log("?? Capa encontrada no Last.fm:", coverUrl);
     return coverUrl;
   }
 
+  // 4. MusicBrainz
   coverUrl = await fetchCoverFromMusicBrainz(artist, track);
   if (coverUrl) {
-    console.log("🎵 Capa encontrada no MusicBrainz:", coverUrl);
+    console.log("?? Capa encontrada no MusicBrainz:", coverUrl);
     return coverUrl;
   }
 
-  console.warn("⚠️ Nenhuma capa encontrada, usando padrão.");
-  return null;
+  // 5. iTunes (artista)
+  coverUrl = await fetchArtistCoverFromiTunes(artist);
+  if (coverUrl) {
+    console.log("?? Capa encontrada no iTunes (artista):", coverUrl);
+    return coverUrl;
+  }
+
+  // 6. Avatar
+  if (artist) {
+    coverUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(artist)}&background=000&color=fff&size=300`;
+    console.log("?? Usando avatar gerado para artista:", coverUrl);
+    return coverUrl;
+  }
+
+  // 7. �ltimo recurso
+  console.warn("?? Nenhuma capa encontrada, usando padr�o.");
+  return "img/sanca.png";
 }
 
 // ---------------- PLAYER ---------------- //
@@ -184,15 +241,20 @@ document.addEventListener('DOMContentLoaded', () => {
   updateStatus();
 
   // Tenta tocar (autoplay)
-  radioPlayer.play().catch(() => {
-    document.body.addEventListener('click', () => {
-      radioPlayer.play().then(() => {
-        playPauseBtn.textContent = 'Pause';
-        playPauseBtn.className = 'pause-button';
-        document.getElementById('equalizer').style.display = 'flex';
-      });
-    }, { once: true });
-  });
+ radioPlayer.play().then(() => {
+  playPauseBtn.textContent = 'Pause';
+  playPauseBtn.className = 'pause-button';
+  document.getElementById('equalizer').style.display = 'flex';
+}).catch(() => {
+  document.body.addEventListener('click', () => {
+    radioPlayer.play().then(() => {
+      playPauseBtn.textContent = 'Pause';
+      playPauseBtn.className = 'pause-button';
+      document.getElementById('equalizer').style.display = 'flex';
+    });
+  }, { once: true });
+});
+
 
   fetchMetadata();
   setInterval(fetchMetadata, 30000);
