@@ -186,6 +186,3 @@ volMinus.addEventListener('click', () => {
 
 // Atualiza a cada 30 segundos
 setInterval(fetchMetadata, 30000);
-
-
-

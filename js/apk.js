@@ -15,8 +15,7 @@ const apiKeyLastFm="d08d389671438f325d13d64f0c94b583";
 let lastTrack="";
 let metadataInterval=null;
 
-function abrir_video(){window.location.href="video-2.html";}
-function abrir_contato(){window.location.href="mailto:radio_sancarock@sancarock.com?subject=Contato%20pelo%20App&body=Olá,%20gostaria%20de%20mais%20informações.";}
+function abrir_contato(){window.open("cont.html", "", "width=550,height=550,toolbar=no,location=no,status=yes,scrollbars=no,resizable=NO");}
 
 // --- Play/Pause ---
 async function togglePlayPause() {
