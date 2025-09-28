@@ -1,4 +1,4 @@
-// Atualiza metadados da API da TransmissÃ£o Digital
+// Atualiza metadados da API da Transmissão Digital
 async function fetchMetadata() {
   try {
     const response = await fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU=');
@@ -18,7 +18,7 @@ async function fetchMetadata() {
     lastTrack = currentTrack;
 
     // Atualiza elementos
-    trackTitle.innerText = currentTrack || 'MÃºsica desconhecida';
+    trackTitle.innerText = currentTrack || 'Música Desconhecida';
     artistName.innerText = '';
 
     // Separa artista e música
@@ -89,7 +89,7 @@ function adjustVolume(change) {
   volumeDisplay.textContent = `${Math.round(newVol * 100)}%`;
 }
 
-// InicializaÃ§Ã£o
+// Inicialização
 document.addEventListener('DOMContentLoaded', () => {
   radioPlayer.volume = parseFloat(volumeSlider.value);
   volumeDisplay.textContent = `${Math.round(radioPlayer.volume * 100)}%`;
@@ -125,3 +125,4 @@ window.abrir_mail_popup = () => {
 };
 
 // JavaScript Document
+
