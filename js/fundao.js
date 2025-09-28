@@ -6,9 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const IMAGENS = [
     'img/wall/01.jpg','img/wall/02.jpg','img/wall/03.jpg','img/wall/04.jpg',
     'img/wall/05.jpg','img/wall/06.jpg','img/wall/07.jpg','img/wall/08.jpg',
-    'img/wall/09.jpg','img/wall/10.jpg','img/wall/11.jpg','img/wall/12.jpg',
-    'img/wall/13.jpg','img/wall/14.jpg','img/wall/15.jpg','img/wall/16.jpg',
-    'img/wall/17.jpg'
+    'img/wall/09.jpg','img/wall/10.jpg','img/wall/11.jpg','img/wall/12.jpg'
   ];
 
   // --- Detecção segura de mobile ---
