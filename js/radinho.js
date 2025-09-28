@@ -224,22 +224,12 @@ function adjustVolume(change) {
 document.addEventListener('DOMContentLoaded', () => {
   radioPlayer.volume = parseFloat(volumeSlider.value);
   volumeDisplay.textContent = `${Math.round(radioPlayer.volume * 100)}%`;
-  updateStatus();
+  updateStatus(); // mostra "Pausado" desde o início
 
-  // Tenta autoplay (falhará silenciosamente em muitos navegadores)
-  radioPlayer.play().catch(() => {
-    // Só tenta tocar após o primeiro clique do usuário
-    document.body.addEventListener('click', () => {
-      radioPlayer.play().then(() => {
-        playPauseBtn.textContent = 'Pause';
-        playPauseBtn.className = 'pause-button';
-        document.getElementById('equalizer').style.display = 'flex';
-      }).catch(e => console.warn('Falha ao tocar após clique:', e));
-    }, { once: true });
-  });
-
+  // NÃO tenta tocar automaticamente
+  // Apenas atualiza metadados
   fetchMetadata();
-  setInterval(fetchMetadata, 30000); // Atualiza a cada 30s
+  setInterval(fetchMetadata, 30000);
   setInterval(updateStatus, 1000);
 });
 
