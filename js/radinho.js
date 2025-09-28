@@ -28,7 +28,7 @@ async function fetchMetadata() {
       artistName.innerText = artist;
     }
 
-    // TÃ­tulo da aba
+    // Título da aba
     document.title = `${currentTrack || 'Sanca Rock'} | Sanca Rock`;
 
     // Casos especiais
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(updateStatus, 1000);
 });
 
-// FunÃ§Ãµes globais para os botÃµes do HTML
+// Funções Globais para botões do HTML
 window.togglePlayPause = togglePlayPause;
 window.adjustVolume = adjustVolume;
 window.setVolume = setVolume;
@@ -125,4 +125,5 @@ window.abrir_mail_popup = () => {
 };
 
 // JavaScript Document
+
 
