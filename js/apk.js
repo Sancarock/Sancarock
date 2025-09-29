@@ -71,7 +71,7 @@ async function getCoverUrl(artist, track) {
 
 // ---------------- PLAYER ---------------- //
 function updateStatus() {
-  statusPlayer.textContent = radioPlayer.paused ? "⏸️ Pausado" : "🔴 Ao vivo";
+  statusPlayer.textContent = radioPlayer.paused ? &#9208;&#65039; Pausado" : "&#128308; Ao vivo";
 }
 
 async function fetchMetadata() {
@@ -194,3 +194,4 @@ window.setVolume = setVolume;
 function abrir_contato() {
   window.location.href = "mailto:sancanight@gmail.com?subject=Contato&body=Olá!";
 }
+
