@@ -15,8 +15,9 @@ const apiKeyLastFm="d08d389671438f325d13d64f0c94b583";
 let lastTrack="";
 let metadataInterval=null;
 
-function abrir_contato(){window.open("cont.html", "", "width=550,height=550,toolbar=no,location=no,status=yes,scrollbars=no,resizable=NO");}
-
+function abrir_contato() {
+    window.location.href = "mailto:sancanight@gmail.com?subject=Contato&body=Olá!";
+}
 // --- Play/Pause ---
 async function togglePlayPause() {
   const statusMessage = document.getElementById("statusMessage");
@@ -156,4 +157,5 @@ window.onload=function(){
   radioPlayer.volume=parseFloat(document.getElementById("volumeSlider").value);
   updateVolumeDisplay(radioPlayer.volume);
   updatePlayerVisual(radioPlayer.volume);
+
 };
