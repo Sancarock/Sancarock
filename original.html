@@ -3,138 +3,288 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rádio Sancarock</title>
-<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=gFjWos3lgj1JGs948-uHAYiR4HxXGDhNO0iSNQcPY8JA4lbypyEy1lRP_Hn1iP80ACVyTZx9LLqX-VxVKMqliwbYSQBv9j9rohYyZWP3cTzpoX2-5Y3-uLTv9Ott13ZzOxUbkGI3UHOWaTpkm8p14A" charset="UTF-8"></script><style>
-body{margin:0;font-family:Arial,sans-serif;background:#000;color:#fff;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px;}
-.player-container{background: rgba(0,0,0,0.75);border-radius:25px;padding:10px;width:90%;max-width:460px;text-align:center;box-shadow:0 0 25px rgba(255,0,0,0.7);}
-.radio-logo{width:220px;margin-bottom:15px;transition:opacity 1s ease-in-out;}
-.album-cover{width:100%;max-width:130px;border-radius:12px;border:3px solid #fff;margin:15px auto;box-shadow:0 4px 15px rgba(0,0,0,0.6);display:block;transition:0.3s;}
-.track-info{margin-top:15px;font-size:18px;}
-.track-info p{margin:5px 0;}
-.equalizer{display:flex;gap:6px;height:20px;margin:10px auto;justify-content:center;}
-.equalizer span{width:8px;background:linear-gradient(180deg,#ff0000,#ffff00,#00ff00);animation:bounce 1.2s infinite ease-in-out;border-radius:3px;}
-.equalizer span:nth-child(2){animation-delay:0.15s;} .equalizer span:nth-child(3){animation-delay:0.3s;} .equalizer span:nth-child(4){animation-delay:0.45s;} .equalizer span:nth-child(5){animation-delay:0.6s;}
-@keyframes bounce{0%,100%{transform:scaleY(1);}50%{transform:scaleY(2.5);}}
-.controls{display:flex;flex-wrap:wrap;justify-content:center;margin-top:15px;gap:10px;}
-.controls button{flex:1 1 40%;padding:10px 0;font-size:16px;cursor:pointer;color:white;border:none;border-radius:25px;transition:0.3s;}
-.play-button{background:#4CAF50;} .pause-button{background:#f44336;} .video-button{background:#0033ff;} .mail-button{background:#6A5ACD;} .atualizar{background:#363636;}
-.controls button:hover{opacity:0.85;transform:scale(1.05);}
-.volume-control{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:20px;}
-.volume-control button{background:#222;color:#fff;border:none;border-radius:50%;font-size:18px;width:42px;height:42px;cursor:pointer;transition:0.3s;}
-.volume-control button:hover{background:#444;}
-#volumeSlider{width:120px;accent-color:#ff4444;}
-#volumeDisplay{min-width:35px;text-align:right;font-size:14px;}
+<title>Rádio Sanca Rock</title>
+<style>
+/* ---------------- BODY ---------------- */
+body {
+  margin: 0;
+  font-family: 'Bebas Neue', Arial, sans-serif;
+  background: radial-gradient(circle at center, #ff4500, #800080, #000);
+  background-attachment: fixed;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  overflow-x: hidden;
+}
+
+/* ---------------- ANIMAÇÃO PULSE ---------------- */
+@keyframes pulseLight {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 15px rgba(255, 69, 0, 0.5);
+  }
+  50% {
+    transform: scale(1.03);
+    box-shadow: 0 0 25px rgba(255, 69, 0, 0.8);
+  }
+}
+
+/* ---------------- CAPA ---------------- */
+.album-cover {
+  width: 100%;
+  max-width: 130px;
+  border-radius: 16px;
+  border: 3px solid #ff4500;
+  margin: 220px auto 15px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.8);
+  transition: 0.3s;
+  display: block;
+  animation: pulseLight 3s infinite ease-in-out;
+}
+
+/* ---------------- CONTAINER DO PLAYER ---------------- */
+.player-container {
+  background: url("img/fundoradio.png") no-repeat center center fixed;
+  background-size: cover;
+  backdrop-filter: blur(10px);
+  border-radius: 25px;
+  padding: 25px;
+  width: 90%;
+  max-width: 460px;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 69, 0, 0.3);
+}
+
+/* ---------------- LOGO ---------------- */
+.radio-logo {
+  width: 220px;
+  margin-bottom: 15px;
+  transition: opacity 1s ease-in-out;
+  filter: drop-shadow(0 0 8px rgba(255,69,0,0.6));
+}
+
+/* ---------------- INFOS DA MÚSICA ---------------- */
+.track-info {
+  margin-top: 15px;
+  font-size: 20px;
+  letter-spacing: 0.5px;
+  color: yellow;
+}
+
+.track-info p {
+  margin: 5px 0;
+  font-weight: 500;
+  color: yellow;
+}
+
+#statusPlayer {
+  color: #fff;
+  font-weight: bold;
+  margin-top: 8px;
+  text-shadow: 0 0 5px rgba(255, 204, 0, 0.7);
+}
+
+/* ---------------- EQUALIZER ---------------- */
+.equalizer {
+  display: flex;
+  gap: 6px;
+  height: 25px;
+  margin: 15px auto;
+  justify-content: center;
+}
+
+.equalizer span {
+  width: 8px;
+  background: linear-gradient(180deg, #ff4500, #ff1493, #da70d6);
+  animation: bounce 1.2s infinite ease-in-out;
+  border-radius: 3px;
+}
+
+.equalizer span:nth-child(2) { animation-delay: 0.15s; }
+.equalizer span:nth-child(3) { animation-delay: 0.3s; }
+.equalizer span:nth-child(4) { animation-delay: 0.45s; }
+.equalizer span:nth-child(5) { animation-delay: 0.6s; }
+
+@keyframes bounce {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(2.8); }
+}
+
+/* ---------------- CONTROLES ---------------- */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 12px;
+}
+
+.controls button {
+  flex: 1 1 20%;
+  padding: 12px 0;
+  font-size: 16px;
+  cursor: pointer;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.play-button { background: linear-gradient(135deg, #28a745, #1e7e34); }
+.pause-button { background: linear-gradient(135deg, #dc3545, #c82333); }
+.mail-button { background: linear-gradient(135deg, #6f42c1, #5a32a3); }
+.atualizar { background: linear-gradient(135deg, #343a40, #23272b); }
+
+.controls button:hover {
+  opacity: 1;
+  transform: scale(1.06) translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+}
+
+/* ---------------- VOLUME ---------------- */
+.volume-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.volume-control button {
+  background: #1a1a2e;
+  color: #ffcc00;
+  border: 1px solid #ff4500;
+  border-radius: 50%;
+  font-size: 18px;
+  width: 42px;
+  height: 42px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: bold;
+}
+
+.volume-control button:hover {
+  background: #2a2a4e;
+  box-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+}
+
+#volumeSlider {
+  width: 120px;
+  accent-color: #ff4500;
+}
+
+#volumeDisplay {
+  min-width: 35px;
+  text-align: right;
+  font-size: 14px;
+  color: #ffcc00;
+  font-weight: bold;
+}
 </style>
 </head>
 <body>
 
-<div class="player-container" id="playerContainer">
-  <img id="logo" src="img/logu1.png" class="radio-logo">
-  <img id="albumCover" src="img/tocar.png" alt="Capa do Álbum" class="album-cover">
-
-  <div class="track-info">
-    <p id="trackTitle"><img src="img/playy.gif" alt="play"></p>
+<div align="center">
+  <img src="img/logu1.png" alt="Logo" id="logo" width="218" height="90">
+  
+  <div class="player-container" id="playerContainer">
+    <div class="track-info"></div>
+    <div class="equalizer" id="equalizer" style="display: none;">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div id="statusPlayer"></div>
+    <img id="albumCover" src="img/tocar.png" alt="Capa do Álbum" class="album-cover">
+    <span class="track-info"></span>
+    <p id="trackTitle">Se não iniciar, Clique em Play</p>
     <p id="artistName"></p>
-  </div>
 
-  <div class="equalizer" id="equalizer" style="display:none;">
-    <span></span><span></span><span></span><span></span><span></span>
-  </div>
+    <div class="controls">
+      <button id="playPauseBtn" class="play-button">Play</button>
+      <button class="mail-button" onClick="abrir_mail_popup()">Contato</button>
+      <button class="atualizar" onClick="history.go(0)">Atualizar</button>
+    </div>
 
-  <div class="controls">
-    <button id="playPauseBtn" class="play-button" onClick="togglePlayPause()">Play</button>
-    <button class="video-button" onClick="abrir_video()">Vídeos</button>
-    <button class="mail-button" onClick="abrir_contato()">Contato</button>
-    <button class="atualizar" type="button" onClick="history.go(0)">Atualizar</button>
-  </div>
+    <div class="volume-control">
+      <button onClick="adjustVolume(-0.03)">-</button>
+      <img src="img/audio.png" width="30" height="30">
+      <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.2">
+      <button onClick="adjustVolume(0.03)">+</button>
+      <span id="volumeDisplay">20%</span>
+    </div>
 
-  <div class="volume-control">
-    <button onClick="adjustVolume(-0.03)">-</button>
-    <img src="img/audio.png" width="30" height="30">
-    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.2" oninput="setVolume(this.value)">
-    <button onClick="adjustVolume(0.03)">+</button>
-    <span id="volumeDisplay">20%</span>
+    <audio id="radioPlayer" src="https://s02.transmissaodigital.com:6716/stream;" preload="auto"></audio>
   </div>
-
-  <audio id="radioPlayer" src="https://s02.transmissaodigital.com:6716/;" autoplay preload="auto"></audio>
 </div>
 
 <script>
-// --- Logo animado ---
-const logos=["img/logu1.png","img/logu2.png"];
-let index=0; const logo=document.getElementById("logo");
-function cycleLogo(){ index=(index+1)%logos.length; logo.style.opacity=0; setTimeout(()=>{logo.src=logos[index];logo.style.opacity=1;},1000); setTimeout(cycleLogo,5000);}
-cycleLogo();
+// ---------------- ELEMENTOS ----------------
+const radioPlayer = document.getElementById('radioPlayer');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const trackTitle = document.getElementById('trackTitle');
+const artistName = document.getElementById('artistName');
+const albumCover = document.getElementById('albumCover');
+const volumeSlider = document.getElementById('volumeSlider');
+const volumeDisplay = document.getElementById('volumeDisplay');
+const statusPlayer = document.getElementById('statusPlayer');
+const equalizer = document.getElementById('equalizer');
 
-// --- Player JS ultra-light ---
-const playerContainer=document.getElementById("playerContainer");
-const radioPlayer=document.getElementById("radioPlayer");
-const trackTitle=document.getElementById("trackTitle");
-const artistName=document.getElementById("artistName");
-const albumCover=document.getElementById("albumCover");
-const playPauseBtn=document.getElementById("playPauseBtn");
-const apiKeyLastFm="d08d389671438f325d13d64f0c94b583";
-let lastTrack="";
+let lastTrack = "";
 
-function normalizeName(name){return name.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/^(the|os|as)\s+/i,"").replace(/[_-]/g," ").trim();}
-function tryFetchCoverLastFM(artist,track){return fetch(`https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${apiKeyLastFm}&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(track)}&format=json`).then(r=>r.json()).then(d=>{const i=d?.track?.album?.image||[]; return i.find(img=>img.size==="large")?.["#text"]||null}).catch(()=>null);}
-function fetchAppleMusicArtwork(artist,track){const q=`${artist} ${track}`; return fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(q)}&entity=musicTrack&limit=1`).then(r=>r.json()).then(d=>{let a=d.results?.[0]?.artworkUrl100; if(!a){return fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(artist)}&entity=musicArtist&limit=1`).then(r=>r.json()).then(ad=>ad.results?.[0]?.artworkUrl100||null);} return a||null;}).catch(()=>null);}
-function abrir_video(){window.location.href="video-2.html";}
-function abrir_contato(){window.location.href="mailto:radio_sancarock@sancarock.com?subject=Contato%20pelo%20App&body=Olá,%20gostaria%20de%20mais%20informações.";}
-
-function togglePlayPause(){if(radioPlayer.paused){playRadio();playPauseBtn.textContent="Pause";playPauseBtn.className="pause-button";}else{pauseRadio();playPauseBtn.textContent="Play";playPauseBtn.className="play-button";}}
-function playRadio(){radioPlayer.muted=false; radioPlayer.play().catch(()=>{}); document.getElementById("equalizer").style.display="flex";}
-function pauseRadio(){radioPlayer.pause(); document.getElementById("equalizer").style.display="none";}
-function setVolume(value){radioPlayer.volume=parseFloat(value); updateVolumeDisplay(radioPlayer.volume);}
-function adjustVolume(change){const slider=document.getElementById("volumeSlider"); let newVolume=Math.max(0,Math.min(1,parseFloat(slider.value)+change)); radioPlayer.volume=newVolume; slider.value=newVolume; updateVolumeDisplay(newVolume);}
-function updateVolumeDisplay(value){document.getElementById("volumeDisplay").textContent=`${Math.round(value*100)}%`;}
-
-// Pulsação leve só no volume
-function updatePlayerVisual(vol){const scale=1+vol*0.08; playerContainer.style.transform=`scale(${scale})`; playerContainer.style.boxShadow=`0 0 ${15+vol*30}px rgba(255,0,0,0.7),0 10px ${25+vol*25}px rgba(0,0,0,0.8)`;}
-radioPlayer.addEventListener("volumechange",()=>updatePlayerVisual(radioPlayer.volume));
-
-// Fetch metadados apenas se mudar a música
-function fetchMetadata(){
-  fetch("https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU=")
-  .then(r=>r.text())
-  .then(str=>new DOMParser().parseFromString(str,"text/xml"))
-  .then(data=>{
-    const currentTrack=data.querySelector("musica_atual")?.textContent||"";
-    if(currentTrack===lastTrack) return; lastTrack=currentTrack;
-    const albumCoverURL=data.querySelector("capa_musica")?.textContent||"";
-    trackTitle.innerText=currentTrack||"Música desconhecida";
-    let artist="", track="";
-    if(currentTrack.includes(" - ")) [artist, track]=currentTrack.split(" - ").map(p=>p.trim());
-    artistName.innerText=artist||"";
-
-    let cached=sessionStorage.getItem(currentTrack);
-    if(cached){ albumCover.src=cached; return; }
-
-    if(artist && track){
-      const artistNorm=normalizeName(artist), trackNorm=normalizeName(track);
-      tryFetchCoverLastFM(artist,track)
-      .then(c=>c||tryFetchCoverLastFM(artistNorm,trackNorm))
-      .then(c=>c||fetchAppleMusicArtwork(artist,track))
-      .then(c=>{c=c||albumCoverURL||"img/sanca.png"; albumCover.src=c.replace("100x100bb.jpg","300x300bb.jpg"); sessionStorage.setItem(currentTrack,c);})
-      .catch(()=>{albumCover.src=albumCoverURL||"img/sanca.png"; sessionStorage.setItem(currentTrack,albumCover.src);});
-    } else { albumCover.src=albumCoverURL||"img/sanca.png"; sessionStorage.setItem(currentTrack,albumCover.src);}
-  })
-  .catch(()=>{albumCover.src="img/sanca.png"; sessionStorage.setItem(lastTrack,"img/sanca.png");});
+// ---------------- FUNÇÕES ----------------
+function updateStatus() {
+  statusPlayer.textContent = radioPlayer.paused ? "⏸️🟠 Pausado" : "🟢 Ao vivo";
 }
 
-// Inicialização
-window.onload=function(){
-  radioPlayer.volume=parseFloat(document.getElementById("volumeSlider").value);
-  updateVolumeDisplay(radioPlayer.volume);
-  updatePlayerVisual(radioPlayer.volume);
+function togglePlayPause() {
+  if (radioPlayer.paused) {
+    radioPlayer.play().then(() => {
+      playPauseBtn.textContent = 'Pause';
+      playPauseBtn.className = 'pause-button';
+      equalizer.style.display = 'flex';
+    }).catch(err => {
+      console.warn('Autoplay bloqueado. Clique no botão para iniciar.');
+    });
+  } else {
+    radioPlayer.pause();
+    playPauseBtn.textContent = 'Play';
+    playPauseBtn.className = 'play-button';
+    equalizer.style.display = 'none';
+  }
+  updateStatus();
+}
 
-  function ensureAudioPlays(){ radioPlayer.muted=false; radioPlayer.play().catch(()=>{radioPlayer.muted=true; radioPlayer.play().catch(()=>{}); document.addEventListener("click",()=>{radioPlayer.muted=false;},{once:true});}); }
-  ensureAudioPlays();
-  document.addEventListener("touchstart",ensureAudioPlays,{once:true});
-  document.addEventListener("click",ensureAudioPlays,{once:true});
+function setVolume(value) {
+  radioPlayer.volume = parseFloat(value);
+  volumeDisplay.textContent = `${Math.round(radioPlayer.volume * 100)}%`;
+}
 
-  fetchMetadata();
-};
+function adjustVolume(change) {
+  const newVol = Math.max(0, Math.min(1, radioPlayer.volume + change));
+  radioPlayer.volume = newVol;
+  volumeSlider.value = newVol;
+  volumeDisplay.textContent = `${Math.round(newVol * 100)}%`;
+}
+
+function abrir_mail_popup() {
+  window.location.href = "mailto:sancanight@gmail.com";
+}
+
+// ---------------- INICIALIZAÇÃO ----------------
+document.addEventListener('DOMContentLoaded', () => {
+  radioPlayer.volume = parseFloat(volumeSlider.value);
+  volumeDisplay.textContent = `${Math.round(radioPlayer.volume * 100)}%`;
+  updateStatus();
+
+  // Play/Pause botão
+  playPauseBtn.addEventListener('click', togglePlayPause);
+  volumeSlider.addEventListener('input', e => setVolume(e.target.value));
+});
 </script>
 
 </body>
