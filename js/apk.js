@@ -15,7 +15,7 @@ const apiKeyLastFm="d08d389671438f325d13d64f0c94b583";
 let lastTrack="";
 let metadataInterval=null;
 
-function abrir_contato() {
+function abrir_mail_popup() {
     window.location.href = "mailto:sancanight@gmail.com?subject=Contato&body=Olá!";
 }
 // --- Play/Pause ---
@@ -159,3 +159,4 @@ window.onload=function(){
   updatePlayerVisual(radioPlayer.volume);
 
 };
+
