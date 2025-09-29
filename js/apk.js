@@ -120,7 +120,6 @@ async function getCoverUrl(artist, track) {
   if (coverUrl) return coverUrl;
 
   // fallback sÃ³ pelo artista
-  coverUrl = await fetchArtistCoverFromiTunes(artist);
   if (coverUrl) return coverUrl;
 
   // fallback genÃ©rico
@@ -272,5 +271,6 @@ window.togglePlayPause = togglePlayPause;
 window.adjustVolume = adjustVolume;
 window.setVolume = setVolume;
 function abrir_contato() {
-    window.location.href = "mailto:sancanight@dgmail.com?subject=Contato&body=Olá!";}
-};
+    window.location.href = "mailto:sancanight@gmail.com?subject=Contato&body=Olá!";
+}
+
