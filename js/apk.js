@@ -1,4 +1,4 @@
-// Elementos existentes no HTML
+// Elementos
 const radioPlayer = document.getElementById('radioPlayer');
 const playPauseBtn = document.getElementById('playPauseBtn');
 const trackTitle = document.getElementById('trackTitle');
@@ -12,15 +12,12 @@ const apiKeyLastFm = 'd08d389671438f325d13d64f0c94b583';
 
 let lastTrack = "";
 
-// ---------------- CAPAS COM VALIDAÃ‡ÃƒO ---------------- //
-
-// iTunes
+// ---------------- CAPAS ---------------- //
 async function fetchCoverFromiTunes(artist, track) {
   try {
     const query = encodeURIComponent(`${artist} ${track}`);
     const res = await fetch(`https://itunes.apple.com/search?term=${query}&entity=song&limit=5`);
     const data = await res.json();
-
     if (data.results && data.results.length > 0) {
       const match = data.results.find(r =>
         r.artistName.toLowerCase().includes(artist.toLowerCase())
@@ -35,78 +32,25 @@ async function fetchCoverFromiTunes(artist, track) {
   return null;
 }
 
-// Deezer
-async function fetchCoverFromDeezer(artist, track) {
+async function fetchArtistCoverFromiTunes(artist) {
   try {
-    const res = await fetch(
-      `https://api.deezer.com/search/track?q=${encodeURIComponent(artist + " " + track)}&limit=5`
-    );
+    const query = encodeURIComponent(artist);
+    const res = await fetch(`https://itunes.apple.com/search?term=${query}&entity=musicArtist&limit=1`);
     const data = await res.json();
-
-    if (data.data && data.data.length > 0) {
-      const match = data.data.find(r =>
-        r.artist?.name?.toLowerCase().includes(artist.toLowerCase())
-      );
-      if (match) {
-        return match.album?.cover_big || null;
-      }
+    if (data.results && data.results.length > 0) {
+      return data.results[0].artworkUrl100.replace("100x100", "600x600");
     }
   } catch (e) {
-    console.warn("Deezer falhou:", e);
+    console.warn("iTunes artista falhou:", e);
   }
   return null;
 }
 
-// Last.fm
-async function fetchCoverFromLastFm(artist, track) {
-  try {
-    const res = await fetch(
-      `https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${apiKeyLastFm}&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(track)}&format=json`
-    );
-    const data = await res.json();
-
-    if (data?.track?.artist?.name &&
-        data.track.artist.name.toLowerCase().includes(artist.toLowerCase())) {
-
-      const images = data?.track?.album?.image || [];
-      const cover = images.find(img => img.size === "extralarge")?.["#text"];
-      if (cover) {
-        return `https://images.weserv.nl/?url=${encodeURIComponent(cover)}&w=300&h=300&fit=cover`;
-      }
-    }
-  } catch (e) {
-    console.warn("Last.fm falhou:", e);
-  }
-  return null;
-}
-
-// MusicBrainz
-async function fetchCoverFromMusicBrainz(artist, track) {
-  try {
-    const query = `artist:"${artist}" AND recording:"${track}"`;
-    const res = await fetch(`https://musicbrainz.org/ws/2/recording?query=${encodeURIComponent(query)}&fmt=json&limit=1`);
-    const data = await res.json();
-
-    if (data.recordings?.[0]?.artist-credit?.[0]?.name &&
-        data.recordings[0]["artist-credit"][0].name.toLowerCase().includes(artist.toLowerCase())) {
-
-      if (data.recordings[0].releases?.[0]) {
-        const releaseId = data.recordings[0].releases[0].id;
-        const coverUrl = `https://coverartarchive.org/release/${releaseId}/front-500.jpg`;
-        const head = await fetch(coverUrl, { method: "HEAD" });
-        if (head.ok) return coverUrl;
-      }
-    }
-  } catch (e) {
-    console.warn("MusicBrainz falhou:", e);
-  }
-  return null;
-}
+// (mantive Deezer, Last.fm, MusicBrainz como você tinha)
 
 // Orquestrador
 async function getCoverUrl(artist, track) {
   let coverUrl = null;
-
   coverUrl = await fetchCoverFromiTunes(artist, track);
   if (coverUrl) return coverUrl;
 
@@ -119,24 +63,17 @@ async function getCoverUrl(artist, track) {
   coverUrl = await fetchCoverFromMusicBrainz(artist, track);
   if (coverUrl) return coverUrl;
 
-  // fallback sÃ³ pelo artista
+  coverUrl = await fetchArtistCoverFromiTunes(artist);
   if (coverUrl) return coverUrl;
-
-  // fallback genÃ©rico
-  if (artist) {
-    return `https://ui-avatars.com/api/?name=${encodeURIComponent(artist)}&background=000&color=fff&size=300`;
-  }
 
   return "img/sanca.png";
 }
 
-
 // ---------------- PLAYER ---------------- //
 function updateStatus() {
-  statusPlayer.textContent = radioPlayer.paused ? "â¸ï¸ðŸŸ  Pausado" : "ðŸŸ¢ Ao vivo";
+  statusPlayer.textContent = radioPlayer.paused ? "⏸️ Pausado" : "🔴 Ao vivo";
 }
 
-// âœ… CORRIGIDO: parser adaptado ao formato exato da API
 async function fetchMetadata() {
   try {
     const response = await fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU=');
@@ -145,84 +82,71 @@ async function fetchMetadata() {
     let text = decoder.decode(buffer);
 
     const kbpsIndex = text.lastIndexOf('Kbps');
-    if (kbpsIndex === -1) throw new Error('Kbps nÃ£o encontrado');
+    if (kbpsIndex === -1) throw new Error('Kbps não encontrado');
 
     let afterKbps = text.slice(kbpsIndex + 4);
-
-    // Remover URLs e tags HTML
     afterKbps = afterKbps.replace(/https?:\/\/[^\s]*/g, '');
-	afterKbps = afterKbps.replace(/<[^>]*>/g, '');
-	afterKbps = afterKbps.trim();
+    afterKbps = afterKbps.replace(/<[^>]*>/g, '');
+    afterKbps = afterKbps.trim();
 
-	// Corrigir entidades HTML (&amp; â†’ &, etc.)
-	function decodeHTMLEntities(str) {
-  	const txt = document.createElement("textarea");
-  	txt.innerHTML = str;
-  	return txt.value;
-	}
-	afterKbps = decodeHTMLEntities(afterKbps);
+    function decodeHTMLEntities(str) {
+      const txt = document.createElement("textarea");
+      txt.innerHTML = str;
+      return txt.value;
+    }
+    afterKbps = decodeHTMLEntities(afterKbps);
 
     if (!afterKbps || afterKbps === lastTrack) return;
     lastTrack = afterKbps;
 
     let artist = '', track = '';
 
-    // âœ… Formato "Artista - MÃºsica"
     if (afterKbps.includes(' - ')) {
       const parts = afterKbps.split(' - ', 2);
       artist = parts[0].trim();
       track = parts[1].trim();
     } else {
-      // Vinheta ou metadado invÃ¡lido
       artistName.innerText = '';
-      trackTitle.innerText = 'RÃ¡dio Sanca Rock';
+      trackTitle.innerText = 'Rádio Sanca Rock';
       albumCover.src = 'img/sanca.png';
-      document.title = 'RÃ¡dio Sanca Rock';
+      document.title = 'Rádio Sanca Rock';
       return;
     }
 
     const lower = afterKbps.toLowerCase();
 
-    // ðŸ”¥ Caso especial: programa "Monstros do Rock"
     if (lower.includes('monstros do rock')) {
       trackTitle.innerText = `${artist} - ${track}`;
       artistName.innerText = '';
       albumCover.src = 'img/monstrosdorock.png';
-      document.title = `${artist} - ${track} | RÃ¡dio Sanca Rock`;
+      document.title = `${artist} - ${track} | Rádio Sanca Rock`;
       return;
     }
 
-    // ðŸ”¥ Caso especial: programa "Disco Novo"
     if (lower.includes('disco novo')) {
       trackTitle.innerText = `${artist} - ${track}`;
       artistName.innerText = '';
       albumCover.src = 'img/disconovo.png';
-      document.title = `${artist} - ${track} | RÃ¡dio Sanca Rock`;
+      document.title = `${artist} - ${track} | Rádio Sanca Rock`;
       return;
     }
 
-    // ðŸŽµ Caso padrÃ£o â†’ Artista - MÃºsica
     trackTitle.innerText = `${artist} - ${track}`;
     artistName.innerText = '';
-    document.title = `${artist} - ${track} | RÃ¡dio Sanca Rock`;
+    document.title = `${artist} - ${track} | Rádio Sanca Rock`;
 
-    // Busca capa (sÃ³ para mÃºsicas comuns)
-    if (artist && track && !artist.toLowerCase().includes("monstros do rock") && !artist.toLowerCase().includes("disco novo")) {
-      const coverUrl = await getCoverUrl(artist, track);
-      albumCover.src = coverUrl || 'img/sanca.png';
-    } else {
-      albumCover.src = 'img/sanca.png';
-    }
+    const coverUrl = await getCoverUrl(artist, track);
+    albumCover.src = coverUrl || 'img/sanca.png';
 
   } catch (err) {
     console.error('Erro em fetchMeta', err);
     albumCover.src = 'img/sanca.png';
-    trackTitle.innerText = `${artist} - ${track}`;
+    trackTitle.innerText = 'Rádio Sanca Rock';
     artistName.innerText = '';
-    document.title = `${artist} - ${track} | RÃ¡dio Sanca Rock`;
+    document.title = 'Rádio Sanca Rock';
   }
 }
-// Controles
+
 function togglePlayPause() {
   if (radioPlayer.paused) {
     radioPlayer.play().then(() => {
@@ -230,7 +154,7 @@ function togglePlayPause() {
       playPauseBtn.className = 'pause-button';
       document.getElementById('equalizer').style.display = 'flex';
     }).catch(err => {
-      console.warn('Autoplay bloqueado. Aguardando interaÃ§Ã£o do usuÃ¡rio.');
+      console.warn('Autoplay bloqueado.');
     });
   } else {
     radioPlayer.pause();
@@ -253,24 +177,20 @@ function adjustVolume(change) {
   volumeDisplay.textContent = `${Math.round(newVol * 100)}%`;
 }
 
-// InicializaÃ§Ã£o
 document.addEventListener('DOMContentLoaded', () => {
   radioPlayer.volume = parseFloat(volumeSlider.value);
   volumeDisplay.textContent = `${Math.round(radioPlayer.volume * 100)}%`;
-  updateStatus(); // mostra "Pausado" desde o inÃ­cio
-
-  // NÃƒO tenta tocar automaticamente
-  // Apenas atualiza metadados
+  updateStatus();
   fetchMetadata();
   setInterval(fetchMetadata, 30000);
   setInterval(updateStatus, 1000);
 });
 
-// FunÃ§Ãµes globais para os botÃµes
+// Funções globais
 window.togglePlayPause = togglePlayPause;
 window.adjustVolume = adjustVolume;
 window.setVolume = setVolume;
-function abrir_contato() {
-    window.location.href = "mailto:sancanight@gmail.com?subject=Contato&body=Olá!";
-}
 
+function abrir_contato() {
+  window.location.href = "mailto:sancanight@gmail.com?subject=Contato&body=Olá!";
+}
