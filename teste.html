@@ -6,101 +6,84 @@
 <title>Rádio SancaRock</title>
 <style>
 body {
-  margin:0;
-  font-family:'Bebas Neue',Arial,sans-serif;
-  background: radial-gradient(circle,#ff4500,#800080,#000);
-  color:#fff;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:100vh;
-  padding:20px;
+  margin: 0;
+  font-family: 'Bebas Neue', Arial, sans-serif;
+  background: radial-gradient(circle at center, #ff4500, #800080, #000);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
 }
-  /* Equalizer maior e centralizado */
-.equalizer {
-      display: flex;
-      gap: 6px;
-      height: 25px;
-      margin: 15px auto;
-      justify-content: center;
-    }
-
-    .equalizer span {
-      width: 8px;
-      background: linear-gradient(180deg, #ff4500, #ff1493, #da70d6); /* Vermelho, rosa, roxo — vibe rock/pop */
-      animation: bounce 1.2s infinite ease-in-out;
-      border-radius: 3px;
-    }
-
-    .equalizer span:nth-child(2) { animation-delay: 0.15s; }
-    .equalizer span:nth-child(3) { animation-delay: 0.3s; }
-    .equalizer span:nth-child(4) { animation-delay: 0.45s; }
-    .equalizer span:nth-child(5) { animation-delay: 0.6s; }
-
-/* Capa descendo */
-.album-cover {
-  margin: 20px auto 15px; /* Reduzi o topo para descer a capa */
-  width: 120px;
-  max-width: 130px;
-  border-radius: 16px;
-  border: 3px solid #ff4500;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.8);
-  animation: pulseLight 3s infinite ease-in-out;
-}
-
 .player-container {
   background: url("img/fundoradio.png") no-repeat center center fixed;
   background-size: cover;
   backdrop-filter: blur(10px);
-  border-radius:40px;
-  padding: 40px;           /* Aumentado de 25px para 40px */
-  width: 95%;              /* Aumentado de 90% para 95% */
-  max-width: 460px;        /* Aumentado de 460px para 560px */
-  text-align:center;
-  box-shadow:0 0 30px rgba(0,0,0,0.7);
+  border-radius: 25px;
+  padding: 25px;
+  width: 90%;
+  max-width: 460px;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(0,0,0,0.7);
+  border:1px solid rgba(255,69,0,0.3);
 }
 .album-cover {
-  width:130px;
-  border-radius:16px;
-  border:3px solid #ff4500;
-  margin:20px auto;
-  box-shadow:0 6px 20px rgba(0,0,0,0.8);
+  width: 130px;
+  margin: 20px auto;
+  border-radius: 16px;
+  border: 3px solid #ff4500;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.8);
+  transition: transform 0.3s;
 }
-.track-info { font-size:20px; color:yellow; margin-top:10px; }
-#statusPlayer { margin-top:8px; font-weight:bold; text-shadow:0 0 5px rgba(255,204,0,0.7); }
-.controls { display:flex; justify-content:center; gap:10px; margin-top:15px; flex-wrap:wrap; }
-.controls button { padding:10px 15px; border:none; border-radius:25px; cursor:pointer; color:#fff; font-weight:bold; }
+.track-info { margin-top: 10px; font-size: 20px; color: yellow; }
+#statusPlayer { margin-top: 8px; font-weight: bold; text-shadow:0 0 5px rgba(255,204,0,0.7);}
+.equalizer { display:flex; justify-content:center; gap:6px; height:25px; margin:20px auto; }
+.equalizer span { width:8px; background:linear-gradient(180deg,#ff4500,#ff1493,#da70d6); border-radius:3px; animation:bounce 1.2s infinite ease-in-out; }
+.equalizer span:nth-child(2){animation-delay:0.15s;}
+.equalizer span:nth-child(3){animation-delay:0.3s;}
+.equalizer span:nth-child(4){animation-delay:0.45s;}
+.equalizer span:nth-child(5){animation-delay:0.6s;}
+@keyframes bounce { 0%,100%{transform:scaleY(1);}50%{transform:scaleY(2.8);} }
+.equalizer.paused span { animation:none; transform:scaleY(0.2); background:gray; }
+.controls { display:flex; justify-content:center; gap:12px; margin-top:20px; flex-wrap:wrap; }
+.controls button { padding:12px 20px; font-size:16px; cursor:pointer; border:none; border-radius:25px; color:white; font-weight:bold; }
 .play-button{background:linear-gradient(135deg,#28a745,#1e7e34);}
 .pause-button{background:linear-gradient(135deg,#dc3545,#c82333);}
 .mail-button{background:linear-gradient(135deg,#6f42c1,#5a32a3);}
-.atualizar {background: linear-gradient(135deg, #343a40, #23272b); /* Cinza grafite */
-#volumeSlider{width:120px; accent-color:#ff4500; margin-left:10px;}
+.atualizar{background:linear-gradient(135deg,#343a40,#23272b);}
+.controls button:hover{opacity:1;transform:scale(1.06) translateY(-2px); box-shadow:0 5px 15px rgba(0,0,0,0.4);}
+.volume-control{display:flex; align-items:center; justify-content:center; gap:12px; margin-top:20px;}
+.volume-control button{background:#1a1a2e;color:#ffcc00;border:1px solid #ff4500;border-radius:50%;width:42px;height:42px;font-weight:bold; cursor:pointer;}
+#volumeSlider{width:120px; accent-color:#ff4500;}
+#volumeDisplay{min-width:35px;text-align:right;color:#ffcc00;font-weight:bold;}
+@media(max-width:480px){.controls button{flex:1 1 30%; font-size:14px;} .track-info{font-size:16px;} }
 </style>
 </head>
 <body>
 <div class="player-container">
-  <!-- Equalizer no topo -->
-  <div class="equalizer" id="equalizer">
+  <div class="track-info"></div>
+  <div class="equalizer paused" id="equalizer">
     <span></span><span></span><span></span><span></span><span></span>
   </div>
-
-  <!-- Capa descendo um pouco -->
+  <div id="statusPlayer">⏸ Pausado</div>
   <img id="albumCover" src="img/tocar.png" class="album-cover" alt="Capa do Álbum">
-
   <p id="trackTitle">Se não iniciar, Clique em Play</p>
   <p id="artistName"></p>
-  <div id="statusPlayer">⏸ Pausado</div>
-
   <div class="controls">
     <button id="playPauseBtn" class="play-button">Play</button>
     <button class="mail-button" onclick="window.location.href='mailto:sancanight@gmail.com?subject=Contato&body=Olá!'">Contato</button>
-    <button class="atualizar" type="button" onClick="history.go(0)">Atualizar</button>
-    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.2">
+    <button class="atualizar" onclick="history.go(0)">Atualizar</button>
   </div>
-</div>
-
+  <div class="volume-control">
+    <button onclick="adjustVolume(-0.03)">-</button>
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.2">
+    <button onclick="adjustVolume(0.03)">+</button>
+    <span id="volumeDisplay">20%</span>
+  </div>
   <audio id="radioPlayer" preload="auto"></audio>
 </div>
+
 <script>
 const radio = document.getElementById('radioPlayer');
 const playBtn = document.getElementById('playPauseBtn');
@@ -108,70 +91,62 @@ const titleEl = document.getElementById('trackTitle');
 const artistEl = document.getElementById('artistName');
 const coverEl = document.getElementById('albumCover');
 const statusEl = document.getElementById('statusPlayer');
+const equalizer = document.getElementById('equalizer');
 const volumeSlider = document.getElementById('volumeSlider');
 const apiKeyLastFm = 'd08d389671438f325d13d64f0c94b583';
 
 let lastTrack = '';
-radio.src = "https://s02.transmissaodigital.com:6716/stream;"; // streaming direto HTTPS
+radio.src = "https://s02.transmissaodigital.com:6716/stream;";
 
 // ---------------- Controles ----------------
 playBtn.onclick = () => {
   if(radio.paused){
-    radio.play().then(()=>{ playBtn.textContent='Pause'; playBtn.className='pause-button'; statusEl.textContent='🔊 Ao vivo'; })
+    radio.play().then(()=>{
+      playBtn.textContent='Pause';
+      playBtn.className='pause-button';
+      statusEl.textContent='🔊 Ao vivo';
+      equalizer.classList.remove('paused');
+    }).catch(()=>{console.warn('Interação do usuário necessária');});
   } else {
-    radio.pause(); playBtn.textContent='Play'; playBtn.className='play-button'; statusEl.textContent='⏸ Pausado';
+    radio.pause();
+    playBtn.textContent='Play';
+    playBtn.className='play-button';
+    statusEl.textContent='⏸ Pausado';
+    equalizer.classList.add('paused');
   }
 };
 
-volumeSlider.oninput = ()=>{ radio.volume = volumeSlider.value; };
-
-// ---------------- Casos especiais ----------------
-function checkSpecialCases(lower, artist, track){
-  const specials = [
-    { term: 'monstros do rock', cover: 'img/monstrosdorock.png', hideArtist: true },
-    { term: 'disco novo', cover: 'img/disconovo.png', hideArtist: true }
-    // Adicione novos casos aqui se quiser
-  ];
-
-  for(const s of specials){
-    if(lower.includes(s.term)){
-      titleEl.textContent = `${artist} - ${track}`;
-      artistEl.textContent = s.hideArtist ? '' : artist;
-      coverEl.src = s.cover;
-      document.title = `${artist} - ${track} | Rádio SancaRock`;
-      return true;
-    }
-  }
-  return false;
-}
+volumeSlider.oninput = ()=>{ radio.volume = volumeSlider.value; volumeDisplay.textContent = Math.round(radio.volume*100)+'%'; };
 
 // ---------------- Metadados ----------------
 async function updateMetadata(){
   try{
-    const res = await fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU='); // seu endpoint de metadados
+    const res = await fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU=');
     const buffer = await res.arrayBuffer();
-    const text = new TextDecoder('iso-8859-1').decode(buffer);
+    let text = new TextDecoder('iso-8859-1').decode(buffer);
     let afterKbps = text.split('Kbps').pop().replace(/https?:\/\/[^\s]*/g,'').replace(/<[^>]*>/g,'').trim();
 
     if(!afterKbps || afterKbps === lastTrack) return;
     lastTrack = afterKbps;
 
-    afterKbps = afterKbps.replace(/(\d+,)+\d+,?/g,'').trim(); // remove números indesejados
+    afterKbps = afterKbps.replace(/(\d+,)+\d+,?/g,'').trim();
 
     let artist='', track='';
     if(afterKbps.includes(' - ')){
       [artist, track] = afterKbps.split(' - ').map(s=>s.trim());
-    } else { track = afterKbps; }
+    } else { track = afterKbps; artist=''; }
 
-    const lower = afterKbps.toLowerCase();
-    if(checkSpecialCases(lower, artist, track)) return; // aplica capa especial se necessário
-
-    // Caso normal
     titleEl.textContent = track;
     artistEl.textContent = artist;
     document.title = `${artist} - ${track} | Rádio SancaRock`;
 
-    // ---------------- Capas ----------------
+    // 🔥 Caso especial: programa "Monstros do Rock"
+    const lower = afterKbps.toLowerCase();
+    if(lower.includes('monstros do rock')){
+      coverEl.src = 'img/monstrosdorock.png';
+      return;
+    }
+
     let cover = await fetchCoveriTunes(artist || track, track);
     if(!cover) cover = await fetchCoverLastFm(artist || track, track);
     coverEl.src = cover || 'img/sanca.png';
@@ -179,7 +154,6 @@ async function updateMetadata(){
   } catch(e){ console.warn(e); }
 }
 
-// ---------------- Capas ----------------
 async function fetchCoveriTunes(artist, track){
   try{
     const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(artist+' '+track)}&entity=song&limit=5`);
@@ -205,16 +179,5 @@ async function fetchCoverLastFm(artist, track){
 // ---------------- Loop ----------------
 setInterval(updateMetadata, 30000);
 </script>
-
-
 </body>
 </html>
-
-
-
-
-
-
-
-
-
