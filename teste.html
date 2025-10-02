@@ -93,12 +93,18 @@ const titleEl = document.getElementById('trackTitle');
 const artistEl = document.getElementById('artistName');
 const coverEl = document.getElementById('albumCover');
 const statusEl = document.getElementById('statusPlayer');
-const equalizer = document.getElementById('equalizer');
 const volumeSlider = document.getElementById('volumeSlider');
 const apiKeyLastFm = 'd08d389671438f325d13d64f0c94b583';
 
 let lastTrack = '';
-radio.src = "https://s02.transmissaodigital.com:6716/stream;";
+radio.src = "https://s02.transmissaodigital.com:6716/stream;"; // streaming direto HTTPS
+
+// ---------------- Função para decodificar HTML entities ----------------
+function decodeHtmlEntities(str) {
+  const txt = document.createElement('textarea');
+  txt.innerHTML = str;
+  return txt.value;
+}
 
 // ---------------- Controles ----------------
 playBtn.onclick = () => {
@@ -107,30 +113,32 @@ playBtn.onclick = () => {
       playBtn.textContent='Pause';
       playBtn.className='pause-button';
       statusEl.textContent='🔊 Ao vivo';
-      equalizer.classList.remove('paused');
-    }).catch(()=>{console.warn('Interação do usuário necessária');});
+    });
   } else {
     radio.pause();
     playBtn.textContent='Play';
     playBtn.className='play-button';
     statusEl.textContent='⏸ Pausado';
-    equalizer.classList.add('paused');
   }
 };
 
-volumeSlider.oninput = ()=>{ radio.volume = volumeSlider.value; volumeDisplay.textContent = Math.round(radio.volume*100)+'%'; };
+volumeSlider.oninput = ()=>{ radio.volume = volumeSlider.value; };
 
 // ---------------- Metadados ----------------
 async function updateMetadata(){
   try{
-    const res = await fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU=');
+    const res = await fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU='); // seu endpoint de metadados
     const buffer = await res.arrayBuffer();
-    const text = new TextDecoder('iso-8859-1').decode(buffer);
-    let afterKbps = text.split('Kbps').pop().replace(/https?:\/\/[^\s]*/g,'').replace(/<[^>]*>/g,'').trim();
+    let afterKbps = new TextDecoder('iso-8859-1').decode(buffer);
+    afterKbps = afterKbps.split('Kbps').pop()
+      .replace(/https?:\/\/[^\s]*/g,'')
+      .replace(/<[^>]*>/g,'')
+      .trim();
 
     if(!afterKbps || afterKbps === lastTrack) return;
     lastTrack = afterKbps;
 
+    // Remove números indesejados
     afterKbps = afterKbps.replace(/(\d+,)+\d+,?/g,'').trim();
 
     let artist='', track='';
@@ -138,23 +146,31 @@ async function updateMetadata(){
       [artist, track] = afterKbps.split(' - ').map(s=>s.trim());
     } else { track = afterKbps; }
 
+    // Decodifica entidades HTML
+    track = decodeHtmlEntities(track);
+    artist = decodeHtmlEntities(artist);
+
     titleEl.textContent = track;
     artistEl.textContent = artist;
     document.title = `${artist} - ${track} | Rádio SancaRock`;
 
     // ---------------- Capas ----------------
-    let cover = await fetchCoveriTunes(artist || track, track);
-    if(!cover) cover = await fetchCoverLastFm(artist || track, track);
-    coverEl.src = cover || 'img/sanca.png';
+    // 🔥 Caso especial: programa "Monstros do Rock"
+    if((artist + ' ' + track).toLowerCase().includes('monstros do rock')){
+      coverEl.src = 'img/monstrosdorock.png';
+    } else {
+      let cover = await fetchCoveriTunes(artist || track, track);
+      if(!cover) cover = await fetchCoverLastFm(artist || track, track);
+      coverEl.src = cover || 'img/sanca.png';
+    }
 
-    // 🔥 Efeito de destaque da capa (pulse rápido)
+    // 🔹 Efeito de destaque da capa (pulse rápido)
     coverEl.style.opacity = 1;        // destaca
-    setTimeout(() => {
-      coverEl.style.opacity = 0.5;    // volta para transparente
-    }, 1000);                         // duração do efeito 1s
+    setTimeout(() => { coverEl.style.opacity = 0.5; }, 1000); // volta para transparente
 
   } catch(e){ console.warn(e); }
 }
+
 async function fetchCoveriTunes(artist, track){
   try{
     const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(artist+' '+track)}&entity=song&limit=5`);
@@ -179,8 +195,10 @@ async function fetchCoverLastFm(artist, track){
 
 // ---------------- Loop ----------------
 setInterval(updateMetadata, 30000);
+
 </script>
 </body>
 </html>
+
 
 
