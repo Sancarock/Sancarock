@@ -10,7 +10,7 @@ const albumCover = document.getElementById('albumCover');
 const volumeDisplay = document.getElementById('volumeDisplay');
 const apiKeyLastFm = 'd08d389671438f325d13d64f0c94b583';
 
-// Função para decodificar entidades HTML (ex: &amp; → &)
+// Função para decodificar entidades HTML
 function decodeHtmlEntities(text) {
   if (!text || typeof text !== 'string') return text;
   const textarea = document.createElement('textarea');
@@ -116,11 +116,13 @@ async function fetchMetadata() {
       [artist, track] = currentTrack.split(" - ", 2).map(p => p.trim());
       artistName.innerText = artist;
     } else {
-      // Fallback: usa o título completo como música, artista genérico
       track = currentTrack;
       artist = "Rádio Sanca Rock";
       artistName.innerText = artist;
     }
+
+    // 🔹 Atualiza título da aba
+    document.title = `${artist} - ${track} | Rádio Sanca Rock`;
 
     // Casos especiais
     const trackNormalized = currentTrack.toLowerCase().replace(/[-_]/g, " ");
@@ -142,6 +144,7 @@ async function fetchMetadata() {
     albumCover.src = "img/sanca.png";
     trackTitle.innerText = "Erro ao carregar";
     artistName.innerText = "";
+    document.title = "Rádio Sanca Rock";
   }
 }
 
@@ -149,14 +152,12 @@ async function fetchMetadata() {
 window.onload = function() {
   radioPlayer.volume = 0.5;
   volumeDisplay.textContent = '50%';
-  radioPlayer.muted = false;
 
   radioPlayer.play().then(() => {
     fetchMetadata();
     equalizer.style.display = 'flex';
-    playPauseBtn.innerHTML = '&#10074;&#10074;'; // Pausa
+    playPauseBtn.innerHTML = '&#10074;&#10074;';
   }).catch(() => {
-    // Autoplay bloqueado — ainda busca metadados
     fetchMetadata();
   });
 };
