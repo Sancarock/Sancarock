@@ -102,7 +102,7 @@ body {
   <p id="artistName"></p>
   <div class="controls">
     <button id="playPauseBtn" class="play-button">Play</button>
-    <button class="mail-button" onclick="window.location.href='mailto:sancanight@gmail.com?subject=Contato&body=Olá!'">Contato</button>
+    <button class="mail-button" onclick="abrir_mail_popup()">Contato</button>
     <button class="atualizar" onclick="history.go(0)">Atualizar</button>
   </div>
   <div class="volume-control">
@@ -264,11 +264,14 @@ setInterval(updateMetadata, 30000);
 document.addEventListener('DOMContentLoaded', ()=>{
   radio.volume = parseFloat(volumeSlider.value);
   volumeDisplay.textContent = Math.round(radio.volume*100)+'%';
+  window.abrir_mail_popup = () => {
+  window.open("cont.html", "", "width=550,height=750,toolbar=no,location=no,status=yes,scrollbars=no,resizable=NO");
 });
 
 </script>
 </body>
 </html>
+
 
 
 
