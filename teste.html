@@ -29,12 +29,14 @@ body {
   border:1px solid rgba(255,69,0,0.3);
 }
 .album-cover {
-  width: 130px;
-  margin: 20px auto;
+  width: 100%;
+  max-width: 130px;
   border-radius: 16px;
   border: 3px solid #ff4500;
+  margin: 220px auto 15px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.8);
-  transition: transform 0.3s;
+  opacity: 0.3; /* capa semi-transparente por padrão */
+  transition: opacity 1s ease-in-out; /* transição suave */
 }
 .track-info { margin-top: 10px; font-size: 20px; color: yellow; }
 #statusPlayer { margin-top: 8px; font-weight: bold; text-shadow:0 0 5px rgba(255,204,0,0.7);}
@@ -123,7 +125,7 @@ async function updateMetadata(){
   try{
     const res = await fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU=');
     const buffer = await res.arrayBuffer();
-    let text = new TextDecoder('iso-8859-1').decode(buffer);
+    const text = new TextDecoder('iso-8859-1').decode(buffer);
     let afterKbps = text.split('Kbps').pop().replace(/https?:\/\/[^\s]*/g,'').replace(/<[^>]*>/g,'').trim();
 
     if(!afterKbps || afterKbps === lastTrack) return;
@@ -134,26 +136,25 @@ async function updateMetadata(){
     let artist='', track='';
     if(afterKbps.includes(' - ')){
       [artist, track] = afterKbps.split(' - ').map(s=>s.trim());
-    } else { track = afterKbps; artist=''; }
+    } else { track = afterKbps; }
 
     titleEl.textContent = track;
     artistEl.textContent = artist;
     document.title = `${artist} - ${track} | Rádio SancaRock`;
 
-    // 🔥 Caso especial: programa "Monstros do Rock"
-    const lower = afterKbps.toLowerCase();
-    if(lower.includes('monstros do rock')){
-      coverEl.src = 'img/monstrosdorock.png';
-      return;
-    }
-
+    // ---------------- Capas ----------------
     let cover = await fetchCoveriTunes(artist || track, track);
     if(!cover) cover = await fetchCoverLastFm(artist || track, track);
     coverEl.src = cover || 'img/sanca.png';
 
+    // 🔥 Efeito de destaque da capa (pulse rápido)
+    coverEl.style.opacity = 1;        // destaca
+    setTimeout(() => {
+      coverEl.style.opacity = 0.3;    // volta para transparente
+    }, 1000);                         // duração do efeito 1s
+
   } catch(e){ console.warn(e); }
 }
-
 async function fetchCoveriTunes(artist, track){
   try{
     const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(artist+' '+track)}&entity=song&limit=5`);
@@ -181,3 +182,4 @@ setInterval(updateMetadata, 30000);
 </script>
 </body>
 </html>
+
