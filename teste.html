@@ -16,6 +16,33 @@ body {
   min-height:100vh;
   padding:20px;
 }
+  /* Equalizer maior e centralizado */
+.equalizer {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  height: 30px;           /* Aumentado para destacar */
+  margin: 0 auto 20px;    /* Espaço abaixo do equalizer */
+}
+
+.equalizer span {
+  width: 10px;
+  background: linear-gradient(180deg,#ff4500,#ff1493,#da70d6);
+  animation: bounce 1.2s infinite ease-in-out;
+  border-radius: 3px;
+}
+
+/* Capa descendo */
+.album-cover {
+  margin: 20px auto 15px; /* Reduzi o topo para descer a capa */
+  width: 120px;
+  max-width: 130px;
+  border-radius: 16px;
+  border: 3px solid #ff4500;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.8);
+  animation: pulseLight 3s infinite ease-in-out;
+}
+
 .player-container {
   background: url("img/fundoradio.png") no-repeat center center fixed;
   background-size: cover;
@@ -177,6 +204,7 @@ setInterval(updateMetadata, 30000);
 
 </body>
 </html>
+
 
 
 
