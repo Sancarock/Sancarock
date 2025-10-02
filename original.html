@@ -5,75 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rádio SancaRock</title>
 <style>
-body {
-  margin:0; font-family:'Bebas Neue',Arial,sans-serif;
-  background: radial-gradient(circle at center,#ff4500,#800080,#000);
-  color:#fff; display:flex; justify-content:center; align-items:center;
-  min-height:100vh; padding:20px;
-}
-.album-cover { width:100%; max-width:130px; border-radius:16px; border:3px solid #ff4500;
-  margin:220px auto 15px; box-shadow:0 6px 20px rgba(0,0,0,0.8);
-  animation: pulseLight 3s infinite ease-in-out; }
-@keyframes pulseLight {0%,100%{transform:scale(1);box-shadow:0 0 15px rgba(255,69,0,0.5);}
-  50%{transform:scale(1.03);box-shadow:0 0 25px rgba(255,69,0,0.8);}}
-.player-container { background:url("img/fundoradio.png") no-repeat center center fixed;
-  background-size:cover; backdrop-filter:blur(10px); border-radius:25px; padding:25px;
-  width:90%; max-width:460px; text-align:center; box-shadow:0 0 30px rgba(0,0,0,0.7);
-  border:1px solid rgba(255,69,0,0.3);}
-.track-info { margin-top:15px; font-size:20px; color:yellow;}
-#statusPlayer { color:#fff; font-weight:bold; margin-top:8px; text-shadow:0 0 5px rgba(255,204,0,0.7);}
-.equalizer { display:flex; gap:6px; height:25px; margin:15px auto; justify-content:center;}
-.equalizer span { width:8px; background:linear-gradient(180deg,#ff4500,#ff1493,#da70d6);
-  animation:bounce 1.2s infinite ease-in-out; border-radius:3px;}
-.equalizer span:nth-child(2){animation-delay:0.15s;}
-.equalizer span:nth-child(3){animation-delay:0.3s;}
-.equalizer span:nth-child(4){animation-delay:0.45s;}
-.equalizer span:nth-child(5){animation-delay:0.6s;}
-@keyframes bounce{0%,100%{transform:scaleY(1);}50%{transform:scaleY(2.8);}}
-.equalizer.paused span{animation:none; transform:scaleY(0.2); background:gray;}
-.controls { display:flex; flex-wrap:wrap; justify-content:center; margin-top:20px; gap:12px;}
-.controls button { flex:1 1 20%; padding:12px 0; font-size:16px; cursor:pointer; color:white;
-  border:none; border-radius:25px; font-weight:bold;}
+body { margin:0; font-family:'Bebas Neue', Arial; background: radial-gradient(circle at center,#ff4500,#800080,#000); color:#fff; display:flex; justify-content:center; align-items:center; min-height:100vh; padding:20px; }
+.player-container { background: url("img/fundoradio.png") no-repeat center center fixed; background-size:cover; backdrop-filter:blur(10px); border-radius:25px; padding:25px; width:90%; max-width:460px; text-align:center; box-shadow:0 0 30px rgba(0,0,0,0.7); border:1px solid rgba(255,69,0,0.3); }
+.album-cover { width:100%; max-width:130px; border-radius:16px; border:3px solid #ff4500; margin:220px auto 15px; box-shadow:0 6px 20px rgba(0,0,0,0.8); }
+.track-info { margin-top:15px; font-size:20px; color:yellow; }
+.controls { display:flex; justify-content:center; margin-top:20px; gap:12px; }
+.controls button { padding:12px 20px; font-size:16px; cursor:pointer; color:white; border:none; border-radius:25px; font-weight:bold; }
 .play-button{background:linear-gradient(135deg,#28a745,#1e7e34);}
 .pause-button{background:linear-gradient(135deg,#dc3545,#c82333);}
-.mail-button{background:linear-gradient(135deg,#6f42c1,#5a32a3);}
-.atualizar{background:linear-gradient(135deg,#343a40,#23272b);}
-.controls button:hover{opacity:1; transform:scale(1.06) translateY(-2px); box-shadow:0 5px 15px rgba(0,0,0,0.4);}
-.volume-control{display:flex; align-items:center; justify-content:center; gap:12px; margin-top:25px;}
-.volume-control button{background:#1a1a2e; color:#ffcc00; border:1px solid #ff4500; border-radius:50%; width:42px;height:42px;font-weight:bold;}
-#volumeSlider{width:120px; accent-color:#ff4500;}
-#volumeDisplay{min-width:35px;text-align:right;color:#ffcc00;font-weight:bold;}
-@media(max-width:480px){.player-container{padding:15px;}.controls button{flex:1 1 30%; font-size:14px;}.track-info{font-size:16px;}}
+.equalizer { display:flex; gap:6px; height:25px; justify-content:center; margin-top:15px; }
+.equalizer span { width:8px; background:linear-gradient(180deg,#ff4500,#ff1493,#da70d6); animation:bounce 1.2s infinite ease-in-out; border-radius:3px; }
+@keyframes bounce {0%,100%{transform:scaleY(1);}50%{transform:scaleY(2.8);}}
 </style>
 </head>
 <body>
-<div align="center">
-  <div class="player-container" id="playerContainer">
-    <div class="track-info"></div>
-    <div class="equalizer" id="equalizer">
-      <span></span><span></span><span></span><span></span><span></span>
-    </div>
-    <div id="statusPlayer"></div>
-    <img id="albumCover" src="img/tocar.png" alt="Capa do Álbum" class="album-cover">
-    <p id="trackTitle">Se não iniciar, Clique em Play</p>
-    <p id="artistName"></p>
-
-    <div class="controls">
-      <button id="playPauseBtn" class="play-button" onclick="togglePlayPause()">Play</button>
-      <button class="mail-button" onclick="abrir_mail_popup()">Contato</button>
-      <button class="atualizar" type="button" onclick="history.go(0)">Atualizar</button>
-    </div>
-
-    <div class="volume-control">
-      <button onclick="adjustVolume(-0.03)">-</button>
-      <img src="img/audio.png" width="30" height="30">
-      <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.2" oninput="setVolume(this.value)">
-      <button onclick="adjustVolume(0.03)">+</button>
-      <span id="volumeDisplay">20%</span>
-    </div>
-
-    <audio id="radioPlayer" preload="auto"></audio>
+<div class="player-container">
+  <img id="albumCover" src="img/tocar.png" alt="Capa do Álbum" class="album-cover">
+  <p id="trackTitle">Se não iniciar, Clique em Play</p>
+  <p id="artistName"></p>
+  
+  <div class="equalizer" id="equalizer">
+    <span></span><span></span><span></span><span></span><span></span>
   </div>
+
+  <div class="controls">
+    <button id="playPauseBtn" class="play-button" onclick="togglePlayPause()">Play</button>
+  </div>
+
+  <audio id="radioPlayer" preload="auto"></audio>
 </div>
 
 <script>
@@ -82,52 +41,82 @@ const playPauseBtn = document.getElementById('playPauseBtn');
 const trackTitle = document.getElementById('trackTitle');
 const artistName = document.getElementById('artistName');
 const albumCover = document.getElementById('albumCover');
-const volumeSlider = document.getElementById('volumeSlider');
-const volumeDisplay = document.getElementById('volumeDisplay');
-const statusPlayer = document.getElementById('statusPlayer');
 const equalizer = document.getElementById('equalizer');
 
-let isPlaying = false;
+let lastTrack = "";
 
-// URL do stream direto (coloque a URL real do seu servidor)
-const STREAM_URL = "https://s02.transmissaodigital.com:6716/stream;";
+async function startPlayer() {
+  // Coloque aqui o stream do seu servidor (pode ser do listen.pls ou direto URL do stream)
+  const streamUrl = "https://s02.transmissaodigital.com:6716/stream;";
+  radioPlayer.src = streamUrl;
+  radioPlayer.play().catch(()=>{});
 
-radioPlayer.src = STREAM_URL;
+  // Atualiza metadados
+  updateMetadataLoop();
+  setInterval(updateMetadataLoop, 30000);
+  setInterval(updateStatus, 1000);
+}
 
-function togglePlayPause() {
-  if (radioPlayer.paused) {
-    radioPlayer.play().then(()=>{
-      playPauseBtn.textContent = "Pause";
-      playPauseBtn.className = "pause-button";
-      equalizer.style.display = "flex";
-      isPlaying = true;
-    }).catch(()=>{});
+function togglePlayPause(){
+  if(radioPlayer.paused){
+    radioPlayer.play();
+    playPauseBtn.textContent = "Pause";
+    playPauseBtn.className = "pause-button";
+    equalizer.style.display = "flex";
   } else {
     radioPlayer.pause();
     playPauseBtn.textContent = "Play";
     playPauseBtn.className = "play-button";
     equalizer.style.display = "none";
-    isPlaying = false;
   }
   updateStatus();
 }
 
-function updateStatus() {
-  statusPlayer.textContent = isPlaying ? "🔊 Ao vivo" : "⏸ Pausado";
-  equalizer.style.opacity = isPlaying ? "1" : "0.3";
+function updateStatus(){
+  equalizer.style.opacity = radioPlayer.paused ? "0.3" : "1";
 }
 
-function setVolume(v){ radioPlayer.volume=parseFloat(v); volumeDisplay.textContent=Math.round(radioPlayer.volume*100)+'%'; }
-function adjustVolume(ch){ let v=Math.max(0,Math.min(1,radioPlayer.volume+ch)); radioPlayer.volume=v; volumeSlider.value=v; volumeDisplay.textContent=Math.round(v*100)+'%'; }
-function abrir_mail_popup(){ window.location.href="mailto:sancanight@gmail.com?subject=Contato&body=Olá!"; }
+// ---------------- Puxa metadados ---------------- //
+async function updateMetadataLoop(){
+  try {
+    // Endpoint do seu servidor Shoutcast/Icecast que retorna JSON (CORS deve estar habilitado)
+    const res = await fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU=');
+    const buffer = await res.arrayBuffer();
+    const text = new TextDecoder('iso-8859-1').decode(buffer);
 
+    // Limpeza do texto e remoção de números indesejados
+    let meta = text.slice(text.lastIndexOf('Kbps')+4).replace(/(\d+,)+\d+,?/g,'').replace(/<[^>]*>/g,'').trim();
+    if(!meta || meta===lastTrack) return;
+    lastTrack = meta;
+
+    // Divide artista e música
+    let artist='', track='';
+    if(meta.includes(' - ')){
+      [artist, track] = meta.split(' - ').map(s=>s.trim());
+    } else {
+      track = meta;
+      artist = '';
+    }
+
+    trackTitle.textContent = track;
+    artistName.textContent = artist;
+    document.title = `${artist} - ${track} | Rádio SancaRock`;
+
+    // Capa padrão (sem busca externa)
+    albumCover.src = 'img/sanca.png';
+    
+  } catch(e){
+    console.warn("Erro ao buscar metadados:", e);
+  }
+}
+
+// ---------------- Inicia ---------------- //
 document.addEventListener('DOMContentLoaded', ()=>{
-  radioPlayer.volume = parseFloat(volumeSlider.value);
-  volumeDisplay.textContent = `${Math.round(radioPlayer.volume*100)}%`;
-  equalizer.style.opacity = "0.3";
+  radioPlayer.volume = 0.2;
+  updateStatus();
+  startPlayer();
+  window.togglePlayPause = togglePlayPause;
 });
 </script>
 </body>
 </html>
-
-
