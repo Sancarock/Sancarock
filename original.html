@@ -114,8 +114,6 @@ function updateMetadata(fullTitle){
   let coverUrl = 'img/sanca.png';
   if(artist.toLowerCase().includes('iron maiden')) coverUrl='img/ironmaiden.png';
   else if(artist.toLowerCase().includes('witchfinder general')) coverUrl='img/witchfinder.png';
-  // Adicione mais artistas conforme desejar
-
   albumCover.src = coverUrl;
 }
 
@@ -126,7 +124,7 @@ function togglePlayPause(){
       playPauseBtn.textContent='Pause';
       playPauseBtn.className='pause-button';
       equalizer.style.display='flex';
-    });
+    }).catch(()=>{statusPlayer.textContent='⛔ Play bloqueado';});
   }else{
     radioPlayer.pause();
     playPauseBtn.textContent='Play';
@@ -156,10 +154,10 @@ radioPlayer.addEventListener('error', ()=>{
 
 // ---------------- Inicia Player ---------------- //
 async function startPlayer(){
-  const streamUrl = await getStreamFromPls('listen.pls'); // arquivo .pls
+  const streamUrl = await getStreamFromPls('listen.pls'); 
   if(!streamUrl){ statusPlayer.textContent='⚠ Não foi possível carregar stream'; return; }
   radioPlayer.src = streamUrl;
-  radioPlayer.play().catch(()=>{});
+  radioPlayer.play().catch(()=>{statusPlayer.textContent='⛔ Play bloqueado';});
 
   async function updateLoop(){
     try{
@@ -194,3 +192,5 @@ document.addEventListener('DOMContentLoaded', ()=>{
 </script>
 </body>
 </html>
+
+
