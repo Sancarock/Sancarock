@@ -70,6 +70,10 @@ body {
   </div>
   <div id="statusPlayer">⏸ Pausado</div>
   <img id="albumCover" src="img/tocar.png" class="album-cover" alt="Capa do Álbum">
+  <div style="margin-top:10px; display:flex; justify-content:center; gap:10px;">
+  <button id="coverMinus">-</button>
+  <button id="coverPlus">+</button>
+</div>
   <p id="trackTitle">Se não iniciar, Clique em Play</p>
   <p id="artistName"></p>
   <div class="controls">
@@ -95,6 +99,25 @@ const coverEl = document.getElementById('albumCover');
 const statusEl = document.getElementById('statusPlayer');
 const volumeSlider = document.getElementById('volumeSlider');
 const apiKeyLastFm = 'd08d389671438f325d13d64f0c94b583';
+const coverEl = document.getElementById('albumCover');
+const coverMinus = document.getElementById('coverMinus');
+const coverPlus = document.getElementById('coverPlus');
+
+// valor inicial de opacidade
+let coverOpacity = 0.5;
+coverEl.style.opacity = coverOpacity;
+
+// decrementa opacidade
+coverMinus.onclick = () => {
+  coverOpacity = Math.max(0, coverOpacity - 0.1);
+  coverEl.style.opacity = coverOpacity.toFixed(2);
+};
+
+// incrementa opacidade
+coverPlus.onclick = () => {
+  coverOpacity = Math.min(1, coverOpacity + 0.1);
+  coverEl.style.opacity = coverOpacity.toFixed(2);
+};
 
 let lastTrack = '';
 radio.src = "https://s02.transmissaodigital.com:6716/stream;"; // streaming direto HTTPS
@@ -199,6 +222,7 @@ setInterval(updateMetadata, 30000);
 </script>
 </body>
 </html>
+
 
 
 
