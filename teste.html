@@ -47,7 +47,14 @@ body {
 </head>
 <body>
 <div class="player-container">
+  <!-- Equalizer no topo -->
+  <div class="equalizer" id="equalizer">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <!-- Capa descendo um pouco -->
   <img id="albumCover" src="img/tocar.png" class="album-cover" alt="Capa do Álbum">
+
   <p id="trackTitle">Se não iniciar, Clique em Play</p>
   <p id="artistName"></p>
   <div id="statusPlayer">⏸ Pausado</div>
@@ -58,10 +65,10 @@ body {
     <button class="atualizar" type="button" onClick="history.go(0)">Atualizar</button>
     <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.2">
   </div>
+</div>
 
   <audio id="radioPlayer" preload="auto"></audio>
 </div>
-
 <script>
 const radio = document.getElementById('radioPlayer');
 const playBtn = document.getElementById('playPauseBtn');
@@ -86,6 +93,26 @@ playBtn.onclick = () => {
 
 volumeSlider.oninput = ()=>{ radio.volume = volumeSlider.value; };
 
+// ---------------- Casos especiais ----------------
+function checkSpecialCases(lower, artist, track){
+  const specials = [
+    { term: 'monstros do rock', cover: 'img/monstrosdorock.png', hideArtist: true },
+    { term: 'disco novo', cover: 'img/disconovo.png', hideArtist: true }
+    // Adicione novos casos aqui se quiser
+  ];
+
+  for(const s of specials){
+    if(lower.includes(s.term)){
+      titleEl.textContent = `${artist} - ${track}`;
+      artistEl.textContent = s.hideArtist ? '' : artist;
+      coverEl.src = s.cover;
+      document.title = `${artist} - ${track} | Rádio SancaRock`;
+      return true;
+    }
+  }
+  return false;
+}
+
 // ---------------- Metadados ----------------
 async function updateMetadata(){
   try{
@@ -104,6 +131,10 @@ async function updateMetadata(){
       [artist, track] = afterKbps.split(' - ').map(s=>s.trim());
     } else { track = afterKbps; }
 
+    const lower = afterKbps.toLowerCase();
+    if(checkSpecialCases(lower, artist, track)) return; // aplica capa especial se necessário
+
+    // Caso normal
     titleEl.textContent = track;
     artistEl.textContent = artist;
     document.title = `${artist} - ${track} | Rádio SancaRock`;
@@ -116,6 +147,7 @@ async function updateMetadata(){
   } catch(e){ console.warn(e); }
 }
 
+// ---------------- Capas ----------------
 async function fetchCoveriTunes(artist, track){
   try{
     const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(artist+' '+track)}&entity=song&limit=5`);
@@ -141,8 +173,11 @@ async function fetchCoverLastFm(artist, track){
 // ---------------- Loop ----------------
 setInterval(updateMetadata, 30000);
 </script>
+
+
 </body>
 </html>
+
 
 
 
