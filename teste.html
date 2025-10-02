@@ -98,34 +98,45 @@ const artistEl = document.getElementById('artistName');
 const coverEl = document.getElementById('albumCover');
 const statusEl = document.getElementById('statusPlayer');
 const volumeSlider = document.getElementById('volumeSlider');
+const volumeDisplay = document.getElementById('volumeDisplay');
+const apiKeyLastFm = 'd08d389671438f325d13d64f0c94b583';
 const coverMinus = document.getElementById('coverMinus');
 const coverPlus = document.getElementById('coverPlus');
-const apiKeyLastFm = 'd08d389671438f325d13d64f0c94b583';
 
+radio.src = "https://s02.transmissaodigital.com:6716/stream;"; // streaming direto HTTPS
 let lastTrack = '';
-radio.src = "https://s02.transmissaodigital.com:6716/stream;";
 
-// ---------------- Opacidade da capa ----------------
-let userOpacity = null; // null = usuário ainda não mexeu
-coverEl.style.opacity = 0.5;
+// ---------------- Volume ----------------
+let coverOpacity = 0.5;
+coverEl.style.opacity = coverOpacity;
 
+// Botões capa
 coverMinus.onclick = () => {
-  userOpacity = Math.max(0, (userOpacity ?? 0.5) - 0.1);
-  coverEl.style.opacity = userOpacity.toFixed(2);
+  coverOpacity = Math.max(0, coverOpacity - 0.1);
+  coverEl.style.opacity = coverOpacity.toFixed(2);
 };
 coverPlus.onclick = () => {
-  userOpacity = Math.min(1, (userOpacity ?? 0.5) + 0.1);
-  coverEl.style.opacity = userOpacity.toFixed(2);
+  coverOpacity = Math.min(1, coverOpacity + 0.1);
+  coverEl.style.opacity = coverOpacity.toFixed(2);
 };
 
-// ---------------- Função para decodificar HTML entities ----------------
-function decodeHtmlEntities(str){
-  const txt = document.createElement('textarea');
-  txt.innerHTML = str;
-  return txt.value;
+// Ajusta volume com botões
+function adjustVolume(change){
+  let v = parseFloat(radio.volume) || 0;
+  v = Math.min(1, Math.max(0, v + change));
+  radio.volume = v;
+  volumeSlider.value = v;
+  volumeDisplay.textContent = Math.round(v*100) + '%';
 }
 
-// ---------------- Controles ----------------
+// Slider de volume
+volumeSlider.oninput = () => {
+  let v = parseFloat(volumeSlider.value);
+  radio.volume = v;
+  volumeDisplay.textContent = Math.round(v*100) + '%';
+};
+
+// ---------------- Play/Pause ----------------
 playBtn.onclick = () => {
   if(radio.paused){
     radio.play().then(()=>{
@@ -141,12 +152,11 @@ playBtn.onclick = () => {
   }
 };
 
-volumeSlider.oninput = ()=>{ radio.volume = volumeSlider.value; };
-function adjustVolume(change){
-  let v = Math.max(0, Math.min(1, radio.volume + change));
-  radio.volume = v;
-  volumeSlider.value = v;
-  document.getElementById('volumeDisplay').textContent = Math.round(v*100)+'%';
+// ---------------- Decodifica HTML entities ----------------
+function decodeHtmlEntities(str){
+  const txt = document.createElement('textarea');
+  txt.innerHTML = str;
+  return txt.value;
 }
 
 // ---------------- Metadados ----------------
@@ -162,6 +172,7 @@ async function updateMetadata(){
 
     if(!afterKbps || afterKbps === lastTrack) return;
     lastTrack = afterKbps;
+
     afterKbps = afterKbps.replace(/(\d+,)+\d+,?/g,'').trim();
 
     let artist='', track='';
@@ -177,7 +188,7 @@ async function updateMetadata(){
     document.title = `${artist} - ${track} | Rádio SancaRock`;
 
     // ---------------- Capas ----------------
-    if((artist+' '+track).toLowerCase().includes('monstros do rock')){
+    if((artist + ' ' + track).toLowerCase().includes('monstros do rock')){
       coverEl.src = 'img/monstrosdorock.png';
     } else {
       let cover = await fetchCoveriTunes(artist || track, track);
@@ -185,17 +196,14 @@ async function updateMetadata(){
       coverEl.src = cover || 'img/sanca.png';
     }
 
-    // ---------------- Pulse da capa ----------------
-    if(userOpacity === null){
-      coverEl.style.opacity = 1;
-      setTimeout(()=>{ coverEl.style.opacity = 0.5; }, 1000);
-    } else {
-      coverEl.style.opacity = userOpacity.toFixed(2);
-    }
+    // 🔹 efeito destaque rápido
+    coverEl.style.opacity = 1;
+    setTimeout(()=>{ coverEl.style.opacity = coverOpacity; }, 1000);
 
   } catch(e){ console.warn(e); }
 }
 
+// ---------------- Busca capas ----------------
 async function fetchCoveriTunes(artist, track){
   try{
     const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(artist+' '+track)}&entity=song&limit=5`);
@@ -221,6 +229,13 @@ async function fetchCoverLastFm(artist, track){
 // ---------------- Loop ----------------
 setInterval(updateMetadata, 30000);
 
+// ---------------- Init ----------------
+document.addEventListener('DOMContentLoaded', ()=>{
+  radio.volume = parseFloat(volumeSlider.value);
+  volumeDisplay.textContent = Math.round(radio.volume*100)+'%';
+});
+
 </script>
 </body>
 </html>
+
