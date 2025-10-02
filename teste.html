@@ -102,6 +102,7 @@ const volumeDisplay = document.getElementById('volumeDisplay');
 const apiKeyLastFm = 'd08d389671438f325d13d64f0c94b583';
 const coverMinus = document.getElementById('coverMinus');
 const coverPlus = document.getElementById('coverPlus');
+const equalizer = document.getElementById('equalizer'); 
 
 radio.src = "https://s02.transmissaodigital.com:6716/stream;"; // streaming direto HTTPS
 let lastTrack = '';
@@ -137,18 +138,23 @@ volumeSlider.oninput = () => {
 };
 
 // ---------------- Play/Pause ----------------
+equalizer.classList.add('paused');
+
+// Play / Pause
 playBtn.onclick = () => {
-  if(radio.paused){
-    radio.play().then(()=>{
-      playBtn.textContent='Pause';
-      playBtn.className='pause-button';
-      statusEl.textContent='🔊 Ao vivo';
+  if (radio.paused) {
+    radio.play().then(() => {
+      playBtn.textContent = 'Pause';
+      playBtn.className = 'pause-button';
+      statusEl.textContent = '🔊 Ao vivo';
+      equalizer.classList.remove('paused'); // equalizer animado
     });
   } else {
     radio.pause();
-    playBtn.textContent='Play';
-    playBtn.className='play-button';
-    statusEl.textContent='⏸ Pausado';
+    playBtn.textContent = 'Play';
+    playBtn.className = 'play-button';
+    statusEl.textContent = '⏸ Pausado';
+    equalizer.classList.add('paused'); // equalizer parado
   }
 };
 
@@ -238,6 +244,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 </script>
 </body>
 </html>
+
 
 
 
