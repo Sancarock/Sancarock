@@ -150,7 +150,7 @@ async function updateMetadata(){
     // 🔥 Efeito de destaque da capa (pulse rápido)
     coverEl.style.opacity = 1;        // destaca
     setTimeout(() => {
-      coverEl.style.opacity = 0.3;    // volta para transparente
+      coverEl.style.opacity = 0.5;    // volta para transparente
     }, 1000);                         // duração do efeito 1s
 
   } catch(e){ console.warn(e); }
@@ -182,4 +182,5 @@ setInterval(updateMetadata, 30000);
 </script>
 </body>
 </html>
+
 
