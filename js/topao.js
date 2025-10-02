@@ -123,6 +123,10 @@ async function fetchMetadata() {
 
     // 🔹 Atualiza título da aba
     document.title = `${artist} - ${track} | Rádio Sanca Rock`;
+    // Atualiza título da aba principal (index que contém o iframe)
+if (window.parent && window.parent !== window) {
+    window.parent.document.title = `${artist} - ${track} | Rádio Sanca Rock`;
+}
 
     // Casos especiais
     const trackNormalized = currentTrack.toLowerCase().replace(/[-_]/g, " ");
@@ -187,3 +191,4 @@ volMinus.addEventListener('click', () => {
 
 // Atualiza a cada 30 segundos
 setInterval(fetchMetadata, 30000);
+
