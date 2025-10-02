@@ -264,17 +264,19 @@ setInterval(updateMetadata, 30000);
 document.addEventListener('DOMContentLoaded', ()=>{
   radio.volume = parseFloat(volumeSlider.value);
   volumeDisplay.textContent = Math.round(radio.volume*100)+'%';
+});
 
+</script>
+<script>
 function abrir_mail_popup() {
   // Abre o cont.html em popup ou nova janela
   window.open('cont.html', 'Contato', 'width=500,height=600,scrollbars=yes,resizable=yes');
 }
- 
-});
-
 </script>
+
 </body>
 </html>
+
 
 
 
