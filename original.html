@@ -107,8 +107,8 @@ const equalizer = document.getElementById('equalizer');
 radio.src = "https://s02.transmissaodigital.com:6716/stream;"; // streaming direto HTTPS
 let lastTrack = '';
 
-// ---------------- Volume ----------------
-let coverOpacity = 0.5;
+// ---------------- Opacidade ----------------
+let coverOpacity = 0.8;
 coverEl.style.opacity = coverOpacity;
 
 // Botões capa
@@ -121,6 +121,7 @@ coverPlus.onclick = () => {
   coverEl.style.opacity = coverOpacity.toFixed(2);
 };
 
+// ---------------- Volume ----------------
 // Ajusta volume com botões
 function adjustVolume(change){
   let v = parseFloat(radio.volume) || 0;
@@ -244,4 +245,5 @@ document.addEventListener('DOMContentLoaded', ()=>{
 </script>
 </body>
 </html>
+
 
