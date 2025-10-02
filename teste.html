@@ -112,11 +112,11 @@ coverEl.style.opacity = coverOpacity;
 
 // Botões capa
 coverMinus.onclick = () => {
-  coverOpacity = Math.max(0, coverOpacity - 0.1);
+  coverOpacity = Math.max(0, coverOpacity - 0.2);
   coverEl.style.opacity = coverOpacity.toFixed(2);
 };
 coverPlus.onclick = () => {
-  coverOpacity = Math.min(1, coverOpacity + 0.1);
+  coverOpacity = Math.min(1, coverOpacity + 0.2);
   coverEl.style.opacity = coverOpacity.toFixed(2);
 };
 
@@ -238,5 +238,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
 </script>
 </body>
 </html>
+
 
 
