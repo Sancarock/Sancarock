@@ -63,6 +63,30 @@ body {
 </style>
 </head>
 <body>
+  <div align="center">
+ <p><img src="img/logu1.png" alt="Logo" name="logo" width="218" height="90" border="0" id="logo" style="transition: opacity 1s ease-in-out;">
+</a></p>
+ <p>
+   
+   <script>
+  // Lista de imagens que vão alternar
+  const logos = ["img/logu1.png", "img/logu2.png"];
+  let index = 0;
+  const logo = document.getElementById("logo");
+
+  setInterval(() => {
+    index = (index + 1) % logos.length;
+
+    // Fade out
+    logo.style.opacity = 0;
+
+    setTimeout(() => {
+      logo.src = logos[index];
+      // Fade in
+      logo.style.opacity = 1;
+    }, 1000); // tempo do fade
+  }, 5000); // troca a cada 10 segundos
+      </script>
 <div class="player-container">
   <div class="track-info"></div>
   <div class="equalizer paused" id="equalizer">
@@ -245,6 +269,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 </script>
 </body>
 </html>
+
 
 
 
