@@ -1,50 +1,143 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-  <style>
-    body { background: #000; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-    #player { width: 560px; height: 315px; }
-    #loading { position: absolute; color: white; font-family: Arial; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rádio SancaRock</title>
+<style>
+body {
+  margin:0;
+  font-family:'Bebas Neue',Arial,sans-serif;
+  background: radial-gradient(circle,#ff4500,#800080,#000);
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  padding:20px;
+}
+.player-container {
+  background: url("img/fundoradio.png") no-repeat center center fixed;
+  background-size: cover;
+  backdrop-filter: blur(10px);
+  border-radius:25px;
+  padding:25px;
+  width:90%;
+  max-width:460px;
+  text-align:center;
+  box-shadow:0 0 30px rgba(0,0,0,0.7);
+}
+.album-cover {
+  width:130px;
+  border-radius:16px;
+  border:3px solid #ff4500;
+  margin:20px auto;
+  box-shadow:0 6px 20px rgba(0,0,0,0.8);
+}
+.track-info { font-size:20px; color:yellow; margin-top:10px; }
+#statusPlayer { margin-top:8px; font-weight:bold; text-shadow:0 0 5px rgba(255,204,0,0.7); }
+.controls { display:flex; justify-content:center; gap:10px; margin-top:15px; flex-wrap:wrap; }
+.controls button { padding:10px 15px; border:none; border-radius:25px; cursor:pointer; color:#fff; font-weight:bold; }
+.play-button{background:linear-gradient(135deg,#28a745,#1e7e34);}
+.pause-button{background:linear-gradient(135deg,#dc3545,#c82333);}
+.mail-button{background:linear-gradient(135deg,#6f42c1,#5a32a3);}
+#volumeSlider{width:120px; accent-color:#ff4500; margin-left:10px;}
+</style>
 </head>
 <body>
-  <div id="loading">Carregando...</div>
-  <div id="player"></div>
+<div class="player-container">
+  <img id="albumCover" src="img/tocar.png" class="album-cover" alt="Capa do Álbum">
+  <p id="trackTitle">Se não iniciar, Clique em Play</p>
+  <p id="artistName"></p>
+  <div id="statusPlayer">⏸ Pausado</div>
 
-  <script src="https://www.youtube.com/iframe_api"></script>
-  <script>
-    let player;
+  <div class="controls">
+    <button id="playPauseBtn" class="play-button">Play</button>
+    <button class="mail-button" onclick="window.location.href='mailto:sancanight@gmail.com?subject=Contato&body=Olá!'">Contato</button>
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.2">
+  </div>
 
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('player', {
-        events: {
-          onReady: onPlayerReady,
-          onStateChange: onPlayerStateChange
-        }
-      });
+  <audio id="radioPlayer" preload="auto"></audio>
+</div>
+
+<script>
+const radio = document.getElementById('radioPlayer');
+const playBtn = document.getElementById('playPauseBtn');
+const titleEl = document.getElementById('trackTitle');
+const artistEl = document.getElementById('artistName');
+const coverEl = document.getElementById('albumCover');
+const statusEl = document.getElementById('statusPlayer');
+const volumeSlider = document.getElementById('volumeSlider');
+const apiKeyLastFm = 'd08d389671438f325d13d64f0c94b583';
+
+let lastTrack = '';
+radio.src = "https://s02.transmissaodigital.com:6716/stream;"; // streaming direto HTTPS
+
+// ---------------- Controles ----------------
+playBtn.onclick = () => {
+  if(radio.paused){
+    radio.play().then(()=>{ playBtn.textContent='Pause'; playBtn.className='pause-button'; statusEl.textContent='🔊 Ao vivo'; })
+  } else {
+    radio.pause(); playBtn.textContent='Play'; playBtn.className='play-button'; statusEl.textContent='⏸ Pausado';
+  }
+};
+
+volumeSlider.oninput = ()=>{ radio.volume = volumeSlider.value; };
+
+// ---------------- Metadados ----------------
+async function updateMetadata(){
+  try{
+    const res = await fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU='); // seu endpoint de metadados
+    const buffer = await res.arrayBuffer();
+    const text = new TextDecoder('iso-8859-1').decode(buffer);
+    let afterKbps = text.split('Kbps').pop().replace(/https?:\/\/[^\s]*/g,'').replace(/<[^>]*>/g,'').trim();
+
+    if(!afterKbps || afterKbps === lastTrack) return;
+    lastTrack = afterKbps;
+
+    afterKbps = afterKbps.replace(/(\d+,)+\d+,?/g,'').trim(); // remove números indesejados
+
+    let artist='', track='';
+    if(afterKbps.includes(' - ')){
+      [artist, track] = afterKbps.split(' - ').map(s=>s.trim());
+    } else { track = afterKbps; }
+
+    titleEl.textContent = track;
+    artistEl.textContent = artist;
+    document.title = `${artist} - ${track} | Rádio SancaRock`;
+
+    // ---------------- Capas ----------------
+    let cover = await fetchCoveriTunes(artist || track, track);
+    if(!cover) cover = await fetchCoverLastFm(artist || track, track);
+    coverEl.src = cover || 'img/sanca.png';
+
+  } catch(e){ console.warn(e); }
+}
+
+async function fetchCoveriTunes(artist, track){
+  try{
+    const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(artist+' '+track)}&entity=song&limit=5`);
+    const data = await res.json();
+    if(data.results?.length>0){
+      const match = data.results.find(r=>r.artistName.toLowerCase().includes(artist.toLowerCase()));
+      if(match) return match.artworkUrl100.replace("100x100","600x600");
     }
+  } catch(e){ return null; }
+  return null;
+}
 
-    function onPlayerReady() {
-      playRandomVideo();
-    }
+async function fetchCoverLastFm(artist, track){
+  try{
+    const res = await fetch(`https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${apiKeyLastFm}&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(track)}&format=json`);
+    const data = await res.json();
+    const images = data?.track?.album?.image;
+    if(images) return images.find(img=>img.size==='extralarge')?.['#text'];
+  } catch(e){ return null; }
+  return null;
+}
 
-    function playRandomVideo() {
-      const safeVideoIds = [
-        'dQw4w9WgXcQ',
-        'JGwWNGJdvx8',
-        'kJQP7kiw5Fk',
-        'PT2_F-1esPk',
-        '3AtDnEC4zak'
-      ];
-      const randomId = safeVideoIds[Math.floor(Math.random() * safeVideoIds.length)];
-      player.loadVideoById(randomId);
-    }
-
-    function onPlayerStateChange(event) {
-      if (event.data === YT.PlayerState.PLAYING) {
-        document.getElementById('loading').style.display = 'none';
-      }
-    }
-  </script>
+// ---------------- Loop ----------------
+setInterval(updateMetadata, 30000);
+</script>
 </body>
 </html>
