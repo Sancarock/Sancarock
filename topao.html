@@ -142,17 +142,17 @@ const slogan = { titulo: "🤘 Programa Monstros do Rock - Especial Rainbow, Sá
 const patrocinadores = [
   { titulo: "VJ Suplementos, a melhor loja de Suplementos de São Carlos", url: "https://www.instagram.com/vjsuplementos_saocarlos/" },
   { titulo: "JM Bebidas - A sua Melhor opção em Bebidas", url: "https://www.instagram.com/jm.bebidass23/" },
-  { titulo: "Siga nosso Instagram - @radio_sancarock/", url: "https://www.instagram.com/radio_sancarock/" }
+  { titulo: "Siga nosso Instagram - @radio_sancarock", url: "https://www.instagram.com/radio_sancarock/" }
 ];
 
 let todasNoticias = [];
 const noticiasSpan = document.getElementById('noticias');
 
-// Normaliza HTML entities e caracteres especiais
-function normalizeText(text) {
+// Normaliza HTML entities
+function decodeHTMLEntities(text) {
   const txt = document.createElement('textarea');
   txt.innerHTML = text;
-  return txt.value.normalize('NFC').trim();
+  return txt.value.trim();
 }
 
 // Busca RSS
@@ -161,10 +161,7 @@ async function fetchRSS(url) {
     const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`);
     const data = await response.json();
     if (data.items) {
-      return data.items.map(item => ({
-        titulo: normalizeText(item.title),
-        url: item.link
-      }));
+      return data.items.map(item => ({ titulo: decodeHTMLEntities(item.title), url: item.link }));
     }
     return [];
   } catch (error) {
@@ -173,7 +170,7 @@ async function fetchRSS(url) {
   }
 }
 
-// Embaralhar array
+// Embaralhar array (Fisher-Yates)
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -198,27 +195,31 @@ async function carregarNoticias() {
   noticiasRSS = shuffleArray(noticiasRSS);
   if (noticiasRSS.length === 0) noticiasRSS.push({ titulo: "Nenhuma notícia disponível", url: null });
 
-  // Monta array intercalando: a cada 3 mensagens, insere o slogan
+  // Monta array: começa com slogan + patrocinadores, depois 5 notícias,
+  // depois entra no ciclo slogan + patrocinadores + 5 notícias ...
   todasNoticias = [];
   let noticiaIndex = 0;
-  let patrocinadorIndex = 0;
 
-  while (noticiaIndex < noticiasRSS.length || patrocinadorIndex < patrocinadores.length) {
-    // A cada 3 mensagens, coloca o slogan
-    if (todasNoticias.length % 4 === 0) {
-      todasNoticias.push(slogan);
-    }
+  // Primeira vez: slogan + patrocinadores
+  todasNoticias.push(slogan);
+  shuffleArray(patrocinadores).forEach(p => todasNoticias.push(p));
 
-    // Intercala notícias
-    if (noticiaIndex < noticiasRSS.length) {
+  // 5 notícias iniciais
+  for (let i = 0; i < 5 && noticiaIndex < noticiasRSS.length; i++) {
+    todasNoticias.push(noticiasRSS[noticiaIndex]);
+    noticiaIndex++;
+  }
+
+  // Ciclo contínuo
+  while (noticiaIndex < noticiasRSS.length) {
+    // Bloco: slogan + patrocinadores
+    todasNoticias.push(slogan);
+    shuffleArray(patrocinadores).forEach(p => todasNoticias.push(p));
+
+    // 5 notícias
+    for (let i = 0; i < 5 && noticiaIndex < noticiasRSS.length; i++) {
       todasNoticias.push(noticiasRSS[noticiaIndex]);
       noticiaIndex++;
-    }
-
-    // Intercala patrocinadores
-    if (patrocinadorIndex < patrocinadores.length) {
-      todasNoticias.push(patrocinadores[patrocinadorIndex]);
-      patrocinadorIndex++;
     }
   }
 
@@ -240,34 +241,20 @@ function mostrarMensagem(index) {
     noticiasSpan.style.opacity = 1;
   }, 500);
 
-  const duration = Math.max(2, todasNoticias[index].titulo.length * 0.15) * 1000;
+  // Tempo fixo de 10s por mensagem
+  const duration = 10000;
 
   setTimeout(() => {
     mostrarMensagem((index + 1) % todasNoticias.length);
   }, duration + 500);
 }
 
-// Inicia o letreiro
+// Inicia
 carregarNoticias();
-
-// Atualiza os RSS a cada 5 minutos
-setInterval(() => {
-  carregarNoticias();
-}, 300000);
-
-
-
-
-
-
-
-
-
-
-
-  </script>
+</script>
 </body>
 
 </html>
+
 
 
