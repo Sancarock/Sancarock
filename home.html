@@ -162,29 +162,7 @@
 	<!-- Header section end -->
 <div id="playerContainer"></div>
 
-<script>
-  function isMobileOrTV() {
-    const ua = navigator.userAgent;
-    return /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|SmartTV|TV|AppleTV|Roku|Chromecast|WebTV|HbbTV/i.test(ua);
-  }
 
-  const container = document.getElementById('playerContainer');
-  const useMobileVersion = isMobileOrTV();
-  const iframeSrc = useMobileVersion ? 'resp.html' : 'topao.html';
-  const iframeHeight = useMobileVersion ? '120' : '98';
-
-  container.innerHTML = `
-    <iframe 
-      src="${iframeSrc}" 
-      frameborder="0" 
-      width="100%" 
-      height="${iframeHeight}" 
-      scrolling="no"
-      allow="autoplay"
-      title="Player da Rádio Sanca Rock">
-    </iframe>
-  `;
-</script>
 	<!--  section -->
 	<section id="hero" class="hero-section set-bg" data-setbg="img/capa.jpg"></section>
 	
@@ -327,5 +305,51 @@ atualizarTitulo();
 </script>
 
 <script src="js/fundao.js?v=5"></script>
+<script>
+  function detectarDispositivo() {
+    const ua = navigator.userAgent;
+
+    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+    const isTV = /SmartTV|TV|AppleTV|Roku|Chromecast|WebTV|HbbTV|Tizen|webOS/i.test(ua);
+
+    if (isMobile) return 'mobile';
+    if (isTV) return 'tv';
+    return 'pc';
+  }
+
+  const container = document.getElementById('playerContainer');
+  const tipo = detectarDispositivo();
+
+  let iframeSrc = 'topao.html';
+  let iframeHeight = '98';
+
+  switch (tipo) {
+    case 'mobile':
+      iframeSrc = 'resp.html';
+      iframeHeight = '120';
+      break;
+    case 'tv':
+      iframeSrc = 'player_tv.html';
+      iframeHeight = '98';
+      break;
+    case 'pc':
+    default:
+      iframeSrc = 'topao.html';
+      iframeHeight = '98';
+  }
+
+  container.innerHTML = `
+    <iframe 
+      src="${iframeSrc}" 
+      frameborder="0" 
+      width="100%" 
+      height="${iframeHeight}" 
+      scrolling="no" 
+      allow="autoplay" 
+      allowfullscreen
+      title="Player da Rádio Sanca Rock">
+    </iframe>
+  `;
+</script>
 </body>
 </html>
