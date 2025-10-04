@@ -307,49 +307,71 @@ atualizarTitulo();
 <script src="js/fundao.js?v=5"></script>
 <script>
   function detectarDispositivo() {
-    const ua = navigator.userAgent;
+    const ua = navigator.userAgent
 
-    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
-    const isTV = /SmartTV|TV|AppleTV|Roku|Chromecast|WebTV|HbbTV|Tizen|webOS/i.test(ua);
+    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua)
+    const isTV = /SmartTV|TV|AppleTV|Roku|Chromecast|WebTV|HbbTV|Tizen|webOS/i.test(ua)
 
-    if (isMobile) return 'mobile';
-    if (isTV) return 'tv';
-    return 'pc';
+    if (isMobile) return 'mobile'
+    if (isTV) return 'tv'
+    return 'pc'
   }
 
-  const container = document.getElementById('playerContainer');
-  const tipo = detectarDispositivo();
+  const container = document.getElementById('playerContainer')
+  const tipo = detectarDispositivo()
 
-  let iframeSrc = 'topao.html';
-  let iframeHeight = '98';
+  let src = 'topao.html'
+  let height = '98'
+  let html = ''
 
   switch (tipo) {
     case 'mobile':
-      iframeSrc = 'resp.html';
-      iframeHeight = '120';
-      break;
+      src = 'resp.html'
+      height = '120'
+      html = `
+        <iframe
+          src="${src}"
+          frameborder="0"
+          width="100%"
+          height="${height}"
+          scrolling="no"
+          allow="autoplay"
+          allowfullscreen
+          title="Player da Rádio Sanca Rock">
+        </iframe>`
+      break
+
     case 'tv':
-      iframeSrc = 'player_tv.html';
-      iframeHeight = '98';
-      break;
+      src = 'player_tv.html'
+      height = '98'
+      html = `
+        <object
+          data="${src}"
+          type="text/html"
+          width="100%"
+          height="${height}">
+        </object>`
+      break
+
     case 'pc':
     default:
-      iframeSrc = 'topao.html';
-      iframeHeight = '98';
+      src = 'topao.html'
+      height = '98'
+      html = `
+        <iframe
+          src="${src}"
+          frameborder="0"
+          width="100%"
+          height="${height}"
+          scrolling="no"
+          allow="autoplay"
+          allowfullscreen
+          title="Player da Rádio Sanca Rock">
+        </iframe>`
   }
 
-  container.innerHTML = `
-    <iframe 
-      src="${iframeSrc}" 
-      frameborder="0" 
-      width="100%" 
-      height="${iframeHeight}" 
-      scrolling="no" 
-      allow="autoplay" 
-      allowfullscreen
-      title="Player da Rádio Sanca Rock">
-    </iframe>
-  `;
+  container.innerHTML = html
 </script>
+
 </body>
 </html>
