@@ -5,25 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Rádio Sancarock - Dados Móveis</title>
-<style>
-.body, html {
+<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=wGaSA0Ntlk2LiTtW2c1jKAnsRRyMccJSwGsiBiQo3-69J19TM1i_6x1kDMSoLzKB" charset="UTF-8"></script><style>
+body, html {
   margin: 0;
   padding: 0;
-  background: transparent !important; /* ← Garante transparência no body */
+  background: transparent !important;
 }
 
 #playerContainer {
   display: flex;
   align-items: center;
   gap: 50px;
-  background: transparent !important; /* ← REMOVIDO FUNDOS OPACOS */
+  background: transparent !important;
   padding: 2px;
   margin: 0;
   border-radius: 0;
   color: #fff;
   font-family: Arial, sans-serif;
   font-size: 12px;
-  box-shadow: 0 0 20px rgba(255,0,0,0.4); /* Mantém sombra para destacar */
+  box-shadow: 0 0 20px rgba(255,0,0,0.4);
 }
 .album-cover {
   width: 80px;
@@ -70,9 +70,25 @@
 
 #volumeDisplay { min-width: 30px; text-align: center; }
 
-
 audio {
-  display: none; /* esconde o <audio> que pode gerar espaço */
+  display: none;
+}
+
+#noticias {
+  font-family: 'Arial Black', sans-serif; /* Fonte */
+  font-size: 20px;                        /* Tamanho */
+  color: #ffcc00;                          /* Cor */
+  text-align: center;                      /* Centralizado */
+  transition: opacity 0.5s;                /* Fade */
+}
+
+#noticias a {
+  color: #ffcc00;
+  text-decoration: none;
+}
+
+#noticias a:hover {
+  text-decoration: underline;
 }
 </style>
 </head>
@@ -86,7 +102,7 @@ audio {
     <p id="artistName"></p>
   </div>
 
- <button id="playPause" class="player-button">&#9654;</button>
+  <button id="playPause" class="player-button">&#9654;</button>
   <button id="atualizar" class="player-button" type="button" onClick="history.go(0)">↻</button>
   <button id="volMinus" class="player-button">-</button>
   <span id="volumeDisplay">50%</span>
@@ -95,14 +111,51 @@ audio {
   <div class="equalizer" id="equalizer" style="display: none;">
     <span></span><span></span><span></span><span></span><span></span>
   </div>
+  <div class="marquee">
+    <span id="noticias"></span>
+
+<script>
+// Frases com e sem link
+const frases = [
+  { texto: "Rádio Sanca Rock" },
+  { texto: "Aqui Toca de Tudo, Tudo que é Rock" },
+  { texto: "VJ Suplementos, a melhor loja de suplementos de são carlos", link: "https://www.instagram.com/vjsuplementos_saocarlos/" } // exemplo com link
+];
+
+let indice = 0;
+const span = document.getElementById("noticias");
+
+function trocarFrase() {
+  span.style.opacity = 0; // some
+  setTimeout(() => {
+    const item = frases[indice];
+    if (item.link) {
+      span.innerHTML = `<a href="${item.link}" target="_blank">${item.texto}</a>`;
+    } else {
+      span.textContent = item.texto;
+    }
+    span.style.opacity = 1; // aparece
+    indice = (indice + 1) % frases.length;
+  }, 1000);
+}
+
+// Inicializa
+trocarFrase();
+setInterval(trocarFrase, 10000); // troca a cada 10s
+</script>
+  </div>
 </div>
 
+<audio id="radioPlayer" src="https://s02.transmissaodigital.com:6716/stream;" preload="none"></audio>
+
+<script src="js/topao.js?v=6"></script>
+<rssapp-ticker id="2Fr1w9xx2gCoMK0G"></rssapp-ticker><script src="https://widget.rss.app/v1/ticker.js" type="text/javascript" async></script>
 
 
-<audio id="radioPlayer" src="https://s02.transmissaodigital.com:6716/stream;" preload="auto"></audio>
-</script>
-<script src="js/topao.js?v=8"></script>
+
 </body>
 </html>
+
+
 
 
