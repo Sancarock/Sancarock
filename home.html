@@ -265,10 +265,24 @@ Sanca Rock - Todos os Direitos Reservados| Brazil </p>
 			<p>&nbsp;</p>
 			<p><a href="https://colorlib.com" target="_blank">Template Desenvolvido ByColorlib</a>
 			  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            - Adapatado por Sanca Rock - Web Rádio e Desenvolvimento de Web Sites - 2019 <img src="img/br.PNG" alt="brazil" width="50" height="50"></p>
-			
-			
-	  </div> 
+            - Adapatado por Sanca Rock - Web Rádio e Desenvolvimento de Web Sites - 2019 <a href="#" id="upload" onclick="upload(); return false;">
+  <img src="img/br.PNG" width="50" height="50" border="0" title="Abrir Player Pop-up" />
+</a></p>
+          
+		
+
+<script>
+function upload() {
+   const win = window.open(
+    'https://www.sancarock.com/xml.php', 
+    '_blank', 
+    'width=400,height=200'
+  );
+  setTimeout(() => win.close(), 30000); // fecha em 5 segundos
+}
+</script>
+
+	</div> 
 	</footer>
 	<!-- Footer Top section end -->
 	<!--====== Javascripts & Jquery ======-->
@@ -281,9 +295,7 @@ Sanca Rock - Todos os Direitos Reservados| Brazil </p>
 	<script src="js/wavesurfer.min.js"></script>
 	<script src="js/audio.js"></script>
 	<script src="js/popup.js?v=3"></script>
-	
-
-      <script>
+	<script>
 async function atualizarTitulo() {
   try {
     let resposta = await fetch("radio.php"); // ou o caminho do seu PHP
