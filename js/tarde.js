@@ -1,6 +1,6 @@
 const feeds = [
     'https://whiplash.net/feeds/news.xml',
-    'https://www.sancarock.com/google-news.xml',
+    'https://rss.app/feeds/VtONXXopcl0fK1zQ.xml',
     'https://www.noticiasaominuto.com.br/rss/esporte',
     'https://g1.globo.com/rss/g1/mundo/',
     'https://www.noticiasaominuto.com.br/rss/economia',
