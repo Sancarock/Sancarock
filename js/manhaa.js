@@ -1,9 +1,10 @@
 const feeds = [
  'https://admin.cnnbrasil.com.br/feed/',
  'https://g1.globo.com/rss/g1/sp/sao-carlos-regiao/',
- 'https://www.rockbizz.com.br/noticias/feed/',
  'https://www.noticiasaominuto.com.br/rss/esporte',
  'https://www.metroworldnews.com.br/arc/outboundfeeds/rss/?outputType=xml',
+ 'https://roadie-metal.com/feed/',
+ 'https://www.tenhomaisdiscosqueamigos.com/feed/',
  'https://g1.globo.com/rss/g1/economia/'
  
  ];
