@@ -16,6 +16,8 @@
     carregarScript('js/noite.js');
   } else if (hora >= 20 && hora < 24) {
     carregarScript('js/manhaa.js');
+  } else if (hora >= 0 && hora < 4) {
+    carregarScript('js/tarde.js');
   } else {
     carregarScript('js/noite.js');
   }

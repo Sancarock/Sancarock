@@ -1,11 +1,10 @@
 const feeds = [
- 'https://admin.cnnbrasil.com.br/feed/',
- 'https://g1.globo.com/rss/g1/sp/sao-carlos-regiao/',
- 'https://www.noticiasaominuto.com.br/rss/esporte',
- 'https://www.metroworldnews.com.br/arc/outboundfeeds/rss/?outputType=xml',
- 'https://roadie-metal.com/feed/',
- 'https://www.tenhomaisdiscosqueamigos.com/feed/',
- 'https://g1.globo.com/rss/g1/economia/'
+'https://www.noticiasaominuto.com.br/rss/esporte',
+'https://www.noticiasaominuto.com.br/rss/ultima-hora',
+'https://g1.globo.com/rss/g1/economia/',
+'https://www.tenhomaisdiscosqueamigos.com/feed/',
+'https://whiplash.net/feeds/news.xml',
+'https://rss.app/feeds/VtONXXopcl0fK1zQ.xml'
  
  ];
 

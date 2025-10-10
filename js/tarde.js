@@ -1,10 +1,10 @@
 const feeds = [
-    'https://whiplash.net/feeds/news.xml',
-    'https://rss.app/feeds/VtONXXopcl0fK1zQ.xml',
-    'https://www.noticiasaominuto.com.br/rss/esporte',
-    'https://g1.globo.com/rss/g1/mundo/',
+    'https://www.noticiasaominuto.com.br/rss/politica',
     'https://www.noticiasaominuto.com.br/rss/economia',
-    'https://www.inovacaotecnologica.com.br/boletim/rss.xml'
+    'https://g1.globo.com/rss/g1/mundo/',
+    'https://admin.cnnbrasil.com.br/feed/',
+    'https://roadie-metal.com/feed/',
+    'https://www.bahianoticias.com.br/esportes/rss.xml'
 ];
 
 // === VARIÁVEIS DE SLOGAN E PATROCINADORES ===

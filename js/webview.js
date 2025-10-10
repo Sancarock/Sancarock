@@ -11,9 +11,10 @@ const equalizer = document.getElementById('equalizer');
 const apiKeyLastFm = 'd08d389671438f325d13d64f0c94b583';
 
 let lastTrack = "";
+let retryCount = 0;
+const maxRetries = 3;
 
 // ---------------- CAPAS ---------------- //
-// iTunes (track)
 async function fetchCoverFromiTunes(artist, track) {
   try {
     const query = encodeURIComponent(`${artist} ${track}`);
@@ -34,22 +35,6 @@ async function fetchCoverFromiTunes(artist, track) {
   return null;
 }
 
-// iTunes (apenas artista)
-async function fetchArtistCoverFromiTunes(artist) {
-  try {
-    const query = encodeURIComponent(artist);
-    const res = await fetch(`https://itunes.apple.com/search?term=${query}&entity=musicArtist&limit=1`);
-    const data = await res.json();
-    if (data.results?.[0]?.artistLinkUrl) {
-      return null; // ❌ não volta avatar preto
-    }
-  } catch (e) {
-    console.warn("iTunes artista falhou:", e);
-  }
-  return null;
-}
-
-// Last.fm
 async function fetchCoverFromLastFm(artist, track) {
   try {
     const res = await fetch(
@@ -68,7 +53,6 @@ async function fetchCoverFromLastFm(artist, track) {
   return null;
 }
 
-// Orquestrador
 async function getCoverUrl(artist, track) {
   let coverUrl = null;
 
@@ -78,10 +62,7 @@ async function getCoverUrl(artist, track) {
   coverUrl = await fetchCoverFromLastFm(artist, track);
   if (coverUrl) return coverUrl;
 
-  coverUrl = await fetchArtistCoverFromiTunes(artist);
-  if (coverUrl) return coverUrl;
-
-  return "img/sanca.png"; // fallback
+  return "img/sanca.png"; // fallback único
 }
 
 // ---------------- PLAYER ---------------- //
@@ -102,12 +83,10 @@ async function fetchMetadata() {
 
     let afterKbps = text.slice(kbpsIndex + 4);
 
-    // limpeza
     afterKbps = afterKbps.replace(/https?:\/\/[^\s]*/g, '');
     afterKbps = afterKbps.replace(/<[^>]*>/g, '');
     afterKbps = afterKbps.trim();
 
-    // corrige entidades HTML
     function decodeHTMLEntities(str) {
       const txt = document.createElement("textarea");
       txt.innerHTML = str;
@@ -133,7 +112,6 @@ async function fetchMetadata() {
 
     const lower = afterKbps.toLowerCase();
 
-    // casos especiais
     if (lower.includes('monstros do rock')) {
       trackTitle.innerText = `${artist} - ${track}`;
       artistName.innerText = '';
@@ -150,7 +128,6 @@ async function fetchMetadata() {
       return;
     }
 
-    // caso padrão
     trackTitle.innerText = `${artist} - ${track}`;
     artistName.innerText = '';
     document.title = `${artist} - ${track} | Rádio Sanca Rock`;
@@ -215,7 +192,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(updateStatus, 1000);
 });
 
-// ---------------- CONTATO ---------------- //
 function abrir_mail_popup() {
   window.location.href = "mailto:sancanight@gmail.com?subject=Contato&body=Olá!";
 }
@@ -225,9 +201,6 @@ window.adjustVolume = adjustVolume;
 window.setVolume = setVolume;
 
 // ---------------- RECONEXÃO AUTOMÁTICA ---------------- //
-let retryCount = 0;
-const maxRetries = 3;
-
 radioPlayer.addEventListener("error", () => {
   if (radioPlayer.paused) return;
 

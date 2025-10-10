@@ -1,11 +1,10 @@
 const feeds = [
-    'https://www.rockbizz.com.br/noticias/feed/',
-    'https://whiplash.net/feeds/news.xml',
-    'https://www.noticiasaominuto.com.br/rss/ultima-hora',
-    'https://www.noticiasaominuto.com.br/rss/politica',
-    'https://www.noticiasaominuto.com.br/rss/economia',
     'https://www.noticiasaominuto.com.br/rss/mundo',
-    'https://www.noticiasaominuto.com.br/rss/brasil'
+    'https://www.noticiasaominuto.com.br/rss/brasil',
+    'https://g1.globo.com/rss/g1/sp/sao-carlos-regiao/',
+    'https://www.metroworldnews.com.br/arc/outboundfeeds/rss/?outputType=xml',
+    'https://www.inovacaotecnologica.com.br/boletim/rss.xml',
+    'https://www.rockbizz.com.br/noticias/feed/'
 ];
 
 // === VARIÁVEIS DE SLOGAN E PATROCINADORES ===
