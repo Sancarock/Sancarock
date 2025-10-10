@@ -299,7 +299,7 @@ function upload() {
 async function atualizarAba() {
   try {
     // Busca o conteúdo do playsr.html, com timestamp pra evitar cache
-    const resposta = await fetch('playsr.html?v=' + Date.now());
+    const resposta = await fetch('teste.html?v=' + Date.now());
     const html = await resposta.text();
 
     // Cria um DOM temporário pra ler o conteúdo
@@ -401,5 +401,6 @@ setInterval(atualizarAba, 30000);
 </body>
 
 </html>
+
 
 
