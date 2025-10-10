@@ -296,46 +296,34 @@ function upload() {
 	<script src="js/audio.js"></script>
 	<script src="js/popup.js?v=3"></script>
 	<script>
-async function updateMetadata() {
-  try {
-    const res = await fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU=');
-    const buffer = await res.arrayBuffer();
-    let afterKbps = new TextDecoder('iso-8859-1').decode(buffer)
-      .split('Kbps').pop()
-      .replace(/https?:\/\/[^\s]*/g,'')
-      .replace(/<[^>]*>/g,'').trim();
+async function atualizarAba(){
+    try {
+        // Busca a música atual do servidor
+        const res = await fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU=');
+        const buffer = await res.arrayBuffer();
+        const texto = new TextDecoder('iso-8859-1').decode(buffer);
+        
+        // Pega o que vem depois de "Kbps" e limpa tags e links
+        let musica = texto.split('Kbps').pop().replace(/https?:\/\/[^\s]*/g,'').replace(/<[^>]*>/g,'').trim();
 
-    if(!afterKbps || afterKbps === lastTrack) return;
-    lastTrack = afterKbps;
-
-    let artist = '', track = '';
-    if(afterKbps.includes(' - ')){
-      [artist, track] = afterKbps.split(' - ').map(s=>s.trim());
-    } else { 
-      track = afterKbps; 
+        if(musica){
+            let artista = '', faixa = musica;
+            if(musica.includes(' - ')){
+                [artista, faixa] = musica.split(' - ').map(s=>s.trim());
+            }
+            // Atualiza o título da aba
+            document.title = artista ? `${artista} - ${faixa} | Rádio Sanca Rock` : `${faixa} | Rádio Sanca Rock`;
+        }
+    } catch(e){
+        console.warn("Erro ao atualizar aba:", e);
     }
-
-    // Atualiza HTML do player
-    trackTitle.textContent = track;
-    artistName.textContent = artist;
-
-    // ✅ Atualiza a aba do navegador
-    if(artist && track){
-      document.title = `${artist} - ${track} | Rádio SancaRock`;
-    } else {
-      document.title = `${track} | Rádio SancaRock`;
-    }
-
-  } catch(e){ console.warn(e); }
 }
 
-// Loop para atualizar a aba a cada 30 segundos
-setInterval(updateMetadata, 30000);
-
-// Atualiza imediatamente ao carregar
-updateMetadata();
-
+// Atualiza a cada 10 segundos
+setInterval(atualizarAba, 10000);
+atualizarAba();
 </script>
+
 
 <script src="js/fundao.js?v=5"></script>
 <script>
@@ -409,6 +397,7 @@ updateMetadata();
 </body>
 
 </html>
+
 
 
 
