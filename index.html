@@ -296,24 +296,37 @@ function upload() {
 	<script src="js/audio.js"></script>
 	<script src="js/popup.js?v=3"></script>
 	<script>
-async function atualizarTitulo() {
+async function atualizarAba() {
   try {
-    let resposta = await fetch("radio.php"); // ou o caminho do seu PHP
-    let dados = await resposta.json(); // agora é um objeto {artist, title, track}
+    // Busca o conteúdo do playsr.html, com timestamp pra evitar cache
+    const resposta = await fetch('teste.html?v=' + Date.now());
+    const html = await resposta.text();
 
-    if (dados.artist && dados.title) {
-      document.title = dados.artist + " — " + dados.title + " | Sanca Rock 🤘";
+    // Cria um DOM temporário pra ler o conteúdo
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+
+    // Tenta encontrar o elemento com ID trackTitle ou artistName
+    const faixa = doc.querySelector('#trackTitle')?.textContent?.trim() || '';
+    const artista = doc.querySelector('#artistName')?.textContent?.trim() || '';
+
+    // Define o título da aba conforme as infos encontradas
+    if (faixa && artista) {
+      document.title = `${artista} - ${faixa} | Rádio SancaRock`;
+    } else if (faixa) {
+      document.title = `${faixa} | Rádio SancaRock`;
     } else {
-      document.title = dados.track + " | Sanca Rock 🤘";
+      document.title = 'Rádio SancaRock - Rock sem parar!';
     }
+
   } catch (e) {
-    console.error("Erro ao buscar música:", e);
+    console.warn('Erro ao buscar teste.html:', e);
   }
 }
 
-// Atualiza a cada 10 segundos
-setInterval(atualizarTitulo, 10000);
-atualizarTitulo();
+// Atualiza ao carregar e depois a cada 30 segundos
+atualizarAba();
+setInterval(atualizarAba, 30000);
 </script>
 
 <script src="js/fundao.js?v=5"></script>
@@ -386,4 +399,5 @@ atualizarTitulo();
 </script>
 
 </body>
+
 </html>
