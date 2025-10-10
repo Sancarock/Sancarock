@@ -296,37 +296,45 @@ function upload() {
 	<script src="js/audio.js"></script>
 	<script src="js/popup.js?v=3"></script>
 	<script>
-async function atualizarAba() {
+async function updateMetadata() {
   try {
-    // Busca o conteúdo do playsr.html, com timestamp pra evitar cache
-    const resposta = await fetch('teste.html?v=' + Date.now());
-    const html = await resposta.text();
+    const res = await fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU=');
+    const buffer = await res.arrayBuffer();
+    let afterKbps = new TextDecoder('iso-8859-1').decode(buffer)
+      .split('Kbps').pop()
+      .replace(/https?:\/\/[^\s]*/g,'')
+      .replace(/<[^>]*>/g,'').trim();
 
-    // Cria um DOM temporário pra ler o conteúdo
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
+    if(!afterKbps || afterKbps === lastTrack) return;
+    lastTrack = afterKbps;
 
-    // Tenta encontrar o elemento com ID trackTitle ou artistName
-    const faixa = doc.querySelector('#trackTitle')?.textContent?.trim() || '';
-    const artista = doc.querySelector('#artistName')?.textContent?.trim() || '';
-
-    // Define o título da aba conforme as infos encontradas
-    if (faixa && artista) {
-      document.title = `${artista} - ${faixa} | Rádio SancaRock`;
-    } else if (faixa) {
-      document.title = `${faixa} | Rádio SancaRock`;
-    } else {
-      document.title = 'Rádio SancaRock - Rock sem parar!';
+    let artist = '', track = '';
+    if(afterKbps.includes(' - ')){
+      [artist, track] = afterKbps.split(' - ').map(s=>s.trim());
+    } else { 
+      track = afterKbps; 
     }
 
-  } catch (e) {
-    console.warn('Erro ao buscar teste.html:', e);
-  }
+    // Atualiza HTML do player
+    trackTitle.textContent = track;
+    artistName.textContent = artist;
+
+    // ✅ Atualiza a aba do navegador
+    if(artist && track){
+      document.title = `${artist} - ${track} | Rádio SancaRock`;
+    } else {
+      document.title = `${track} | Rádio SancaRock`;
+    }
+
+  } catch(e){ console.warn(e); }
 }
 
-// Atualiza ao carregar e depois a cada 30 segundos
-atualizarAba();
-setInterval(atualizarAba, 30000);
+// Loop para atualizar a aba a cada 30 segundos
+setInterval(updateMetadata, 30000);
+
+// Atualiza imediatamente ao carregar
+updateMetadata();
+
 </script>
 
 <script src="js/fundao.js?v=5"></script>
@@ -401,6 +409,7 @@ setInterval(atualizarAba, 30000);
 </body>
 
 </html>
+
 
 
 
