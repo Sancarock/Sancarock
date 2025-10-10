@@ -1,13 +1,13 @@
 const banners = [
-  { img: "https://sancarock.com/propaganda/img/01.png", link: "https://mercadolivre.com/sec/1HpmdoD" },
-  { img: "https://sancarock.com/propaganda/img/02.png", link: "https://mercadolivre.com/sec/1eB3dWT" },
-  { img: "https://sancarock.com/propaganda/img/006.gif", link: "https://hostinger.com.br?REFERRALCODE=1IVANBELO03" },
-  { img: "https://sancarock.com/propaganda/img/03.png", link: "https://mercadolivre.com/sec/2f9FFxU" },
-  { img: "https://sancarock.com/propaganda/img/008.gif", link: "https://mercadolivre.com/sec/1Erm7HD" },
-  { img: "https://sancarock.com/propaganda/img/002.gif", link: "https://mercadolivre.com/sec/2xeEUcx" },
-  { img: "https://sancarock.com/propaganda/img/003.gif", link: "https://mercadolivre.com/sec/2XqExAw" },
-  { img: "https://sancarock.com/propaganda/img/004.gif", link: "https://mercadolivre.com/sec/1v1fK1A" },
-  { img: "https://sancarock.com/propaganda/img/009.gif", link: "https://mercadolivre.com/sec/2hhCKB3" }
+  { img: "https://sancarock.netlify.app/propaganda/img/01.png", link: "https://mercadolivre.com/sec/1HpmdoD" },
+  { img: "https://sancarock.netlify.app/propaganda/img/02.png", link: "https://mercadolivre.com/sec/1eB3dWT" },
+  { img: "https://sancarock.netlify.app/propaganda/img/006.gif", link: "https://hostinger.com.br?REFERRALCODE=1IVANBELO03" },
+  { img: "https://sancarock.netlify.app/propaganda/img/03.png", link: "https://mercadolivre.com/sec/2f9FFxU" },
+  { img: "https://sancarock.netlify.app/propaganda/img/008.gif", link: "https://mercadolivre.com/sec/1Erm7HD" },
+  { img: "https://sancarock.netlify.app/propaganda/img/002.gif", link: "https://mercadolivre.com/sec/2xeEUcx" },
+  { img: "https://sancarock.netlify.app/propaganda/img/003.gif", link: "https://mercadolivre.com/sec/2XqExAw" },
+  { img: "https://sancarock.netlify.app/propaganda/img/004.gif", link: "https://mercadolivre.com/sec/1v1fK1A" },
+  { img: "https://sancarock.netlify.app/propaganda/img/009.gif", link: "https://mercadolivre.com/sec/2hhCKB3" }
 ];
 
 let currentIndex = 0;
@@ -143,3 +143,4 @@ function checkLayout() {
 // Inicializa
 window.addEventListener("resize", checkLayout);
 window.addEventListener("load", checkLayout);
+
