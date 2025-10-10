@@ -65,5 +65,53 @@ updateMetadata();
 radio.play().catch(()=>{ console.warn("Auto play bloqueado pelo navegador."); });
 
 </script>
+  <script>
+async function atualizarAbaComCapa() {
+    try {
+        const res = await fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU=');
+        const buffer = await res.arrayBuffer();
+        let musica = new TextDecoder('iso-8859-1').decode(buffer)
+                      .split('Kbps').pop().replace(/https?:\/\/[^\s]*/g,'').replace(/<[^>]*>/g,'').trim();
+        
+        let artista='', faixa=musica;
+        if(musica.includes(' - ')) [artista, faixa] = musica.split(' - ').map(s=>s.trim());
+        
+        // Atualiza título da aba
+        document.title = artista ? `${artista} - ${faixa} | Rádio Sanca Rock` : `${faixa} | Rádio Sanca Rock`;
+
+        // Busca a capa (iTunes como fallback)
+        let coverUrl = await fetchCoveriTunes(artista || faixa, faixa);
+        if(!coverUrl) coverUrl = 'img/sanca.png'; // fallback
+
+        // Atualiza favicon
+        let link = document.querySelector("link[rel*='icon']");
+        if(!link){
+            link = document.createElement('link');
+            link.rel = 'icon';
+            document.head.appendChild(link);
+        }
+        link.href = coverUrl;
+
+    } catch(e){ console.warn(e); }
+}
+
+// Função de exemplo para buscar capa no iTunes
+async function fetchCoveriTunes(artist, track){
+    try {
+        const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(artist+' '+track)}&entity=song&limit=1`);
+        const data = await res.json();
+        if(data.results?.length>0){
+            return data.results[0].artworkUrl100.replace("100x100","64x64");
+        }
+    } catch(e){ return null; }
+    return null;
+}
+
+// Atualiza a cada 10s
+setInterval(atualizarAbaComCapa, 10000);
+atualizarAbaComCapa();
+</script>
+
 </body>
 </html>
+
