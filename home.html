@@ -298,13 +298,17 @@ function upload() {
 	<script>
 async function atualizarTitulo() {
   try {
-    let resposta = await fetch("radio.php"); // ou o caminho do seu PHP
-    let dados = await resposta.json(); // agora é um objeto {artist, title, track}
+    // Substitua este link se for outro servidor ou porta
+    const resposta = await fetch("https://s02.transmissaodigital.com:6716/status-json.xsl");
+    const dados = await resposta.json();
 
-    if (dados.artist && dados.title) {
-      document.title = dados.artist + " — " + dados.title + " | Sanca Rock 🤘";
+    // Icecast/Shoutcast normalmente colocam o título assim:
+    const musica = dados.icestats.source.title;
+
+    if (musica) {
+      document.title = musica + " | Sanca Rock 🤘";
     } else {
-      document.title = dados.track + " | Sanca Rock 🤘";
+      document.title = "Sanca Rock - A Melhor do Rock 🤘";
     }
   } catch (e) {
     console.error("Erro ao buscar música:", e);
@@ -386,4 +390,5 @@ atualizarTitulo();
 </script>
 
 </body>
+
 </html>
