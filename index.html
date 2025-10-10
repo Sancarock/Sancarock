@@ -298,19 +298,19 @@ function upload() {
 	<script>
 async function atualizarAba() {
   try {
-    // Busca o conteúdo do playsr.html, com timestamp pra evitar cache
+    // Busca o conteúdo do teste.html, evitando cache
     const resposta = await fetch('teste.html?v=' + Date.now());
     const html = await resposta.text();
 
-    // Cria um DOM temporário pra ler o conteúdo
+    // Cria um DOM temporário para ler o conteúdo
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
 
-    // Tenta encontrar o elemento com ID trackTitle ou artistName
+    // Busca os elementos com os IDs trackTitle e artistName
     const faixa = doc.querySelector('#trackTitle')?.textContent?.trim() || '';
     const artista = doc.querySelector('#artistName')?.textContent?.trim() || '';
 
-    // Define o título da aba conforme as infos encontradas
+    // Atualiza o título da aba
     if (faixa && artista) {
       document.title = `${artista} - ${faixa} | Rádio SancaRock`;
     } else if (faixa) {
@@ -328,6 +328,7 @@ async function atualizarAba() {
 atualizarAba();
 setInterval(atualizarAba, 30000);
 </script>
+
 
 <script src="js/fundao.js?v=5"></script>
 <script>
@@ -401,3 +402,4 @@ setInterval(atualizarAba, 30000);
 </body>
 
 </html>
+
