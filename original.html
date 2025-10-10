@@ -175,15 +175,6 @@ function setVolume(v){ radioPlayer.volume=parseFloat(v); volumeDisplay.textConte
 function adjustVolume(ch){ let v=Math.max(0,Math.min(1,radioPlayer.volume+ch)); radioPlayer.volume=v; volumeSlider.value=v; volumeDisplay.textContent=Math.round(v*100)+'%'; }
 function abrir_mail_popup(){ window.location.href="mailto:sancanight@gmail.com?subject=Contato&body=Olá!"; }
 
-// ---------------- Reconexão ---------------- //
-radioPlayer.addEventListener('error', ()=>{
-  if(retryCount>=maxRetries){ statusPlayer.textContent='⚠ Erro na conexão'; equalizer.style.display='none'; return; }
-  retryCount++;
-  statusPlayer.textContent=`🔄 Reconectando (${retryCount})`;
-  equalizer.style.display='none';
-  setTimeout(()=>{ startPlayer(); },5000);
-});
-
 // ---------------- Inicia Player ---------------- //
 async function startPlayer(){
   const streamUrl = await getStreamFromPls('listen.pls'); // <-- Seu arquivo .pls
@@ -227,4 +218,5 @@ document.addEventListener('DOMContentLoaded', ()=>{
 });
 </script>
 </body>
+
 </html>
