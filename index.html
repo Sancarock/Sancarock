@@ -296,37 +296,34 @@ function upload() {
 	<script src="js/audio.js"></script>
 	<script src="js/popup.js?v=3"></script>
 	<script>
-async function atualizarAba() {
-  try {
-    // Busca o conteúdo do teste.html, evitando cache
-    const resposta = await fetch('teste.html?v=' + Date.now());
-    const html = await resposta.text();
-
-    // Cria um DOM temporário para ler o conteúdo
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-
-    // Busca os elementos com os IDs trackTitle e artistName
-    const faixa = doc.querySelector('#trackTitle')?.textContent?.trim() || '';
-    const artista = doc.querySelector('#artistName')?.textContent?.trim() || '';
-
-    // Atualiza o título da aba
-    if (faixa && artista) {
-      document.title = `${artista} - ${faixa} | Rádio SancaRock`;
-    } else if (faixa) {
-      document.title = `${faixa} | Rádio SancaRock`;
-    } else {
-      document.title = 'Rádio SancaRock - Rock sem parar!';
-    }
-
-  } catch (e) {
-    console.warn('Erro ao buscar teste.html:', e);
+async function startPlayer(){
+  const streamUrl = await getStreamFromPls('listen.pls'); // <-- Seu arquivo .pls
+  if(!streamUrl){
+    statusPlayer.textContent='⚠ Não foi possível carregar stream';
+    return;
   }
-}
+  radioPlayer.src = streamUrl;
+  radioPlayer.play().catch(()=>{});
 
-// Atualiza ao carregar e depois a cada 30 segundos
-atualizarAba();
-setInterval(atualizarAba, 30000);
+  // Atualiza metadados via API do seu servidor ou Shoutcast
+  async function updateLoop(){
+    try{
+      const res = await fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU=');
+      const buffer = await res.arrayBuffer();
+      const decoder = new TextDecoder('iso-8859-1');
+      let text = decoder.decode(buffer);
+      const kbpsIndex = text.lastIndexOf('Kbps');
+      if(kbpsIndex === -1) return;
+      let afterKbps = text.slice(kbpsIndex+4).replace(/https?:\/\/[^\s]*/g,'').replace(/<[^>]*>/g,'').trim();
+      afterKbps = (new DOMParser()).parseFromString(afterKbps, 'text/html').body.textContent || '';
+      updateMetadata(afterKbps);
+    } catch(e){ console.warn(e); }
+  }
+
+  updateLoop();
+  setInterval(updateLoop, 30000);
+  setInterval(updateStatus, 1000);
+}
 </script>
 
 
@@ -402,4 +399,5 @@ setInterval(atualizarAba, 30000);
 </body>
 
 </html>
+
 
