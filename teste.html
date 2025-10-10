@@ -85,6 +85,13 @@ const apiKeyLastFm = 'd08d389671438f325d13d64f0c94b583';
 
 let lastTrack = "";
 
+// ---------------- Função para decodificar HTML ----------------
+function decodeHTML(html){
+    const txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+}
+
 // ---------------- Atualiza Metadados ----------------
 async function updateMetadata(){
   try{
@@ -98,9 +105,12 @@ async function updateMetadata(){
     lastTrack = text;
     let artist='', track=text;
     if(text.includes(' - ')) [artist, track] = text.split(' - ').map(s=>s.trim());
-    trackTitle.textContent = track;
-    artistName.textContent = artist;
-    document.title = artist ? `${artist} - ${track} | Rádio SancaRock` : `${track} | Rádio SancaRock`;
+    
+    // Decodifica HTML antes de exibir
+    trackTitle.textContent = decodeHTML(track);
+    artistName.textContent = decodeHTML(artist);
+    
+    document.title = artist ? `${decodeHTML(artist)} - ${decodeHTML(track)} | Rádio SancaRock` : `${decodeHTML(track)} | Rádio SancaRock`;
   } catch(e){ console.warn(e); }
 }
 
@@ -125,9 +135,19 @@ function togglePlayPause(){
   }
 }
 
-function setVolume(v){ radioPlayer.volume=parseFloat(v); volumeDisplay.textContent=Math.round(radioPlayer.volume*100)+'%'; }
-function adjustVolume(ch){ let v=Math.max(0,Math.min(1,radioPlayer.volume+ch)); radioPlayer.volume=v; volumeSlider.value=v; volumeDisplay.textContent=Math.round(v*100)+'%'; }
-function abrir_mail_popup(){ window.location.href="mailto:sancanight@gmail.com?subject=Contato&body=Olá!"; }
+function setVolume(v){ 
+    radioPlayer.volume=parseFloat(v); 
+    volumeDisplay.textContent=Math.round(radioPlayer.volume*100)+'%'; 
+}
+function adjustVolume(ch){ 
+    let v=Math.max(0,Math.min(1,radioPlayer.volume+ch)); 
+    radioPlayer.volume=v; 
+    volumeSlider.value=v; 
+    volumeDisplay.textContent=Math.round(v*100)+'%'; 
+}
+function abrir_mail_popup(){ 
+    window.location.href="mailto:sancanight@gmail.com?subject=Contato&body=Olá!"; 
+}
 
 // ---------------- Init ----------------
 document.addEventListener('DOMContentLoaded', ()=>{
@@ -136,5 +156,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   equalizer.style.opacity = "0.3";
 });
 </script>
+
 </body>
 </html>
+
