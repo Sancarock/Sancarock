@@ -66,30 +66,6 @@
             cursor: pointer;
             margin: 0 5px;
         }
-        
-        .hero-section {
-        position: relative;
-        overflow: hidden;
-}
-
-.hero-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0;
-  /* Transição mais leve e suave */
-  transition: opacity 1.2s cubic-bezier(0.34, 0.15, 0.66, 0.85);
-  z-index: -1;
-}
-
-.hero-bg.active {
-  opacity: 1;
-}
     </style>
     
 </head>
@@ -162,13 +138,31 @@
 	<!-- Header section end -->
 <div id="playerContainer"></div>
 
+<script>
+  function isMobile() {
+    return /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  }
 
+  const container = document.getElementById('playerContainer');
+  let iframeSrc = isMobile() ? 'resp.html' : 'topo.html';
+  let iframeHeight = isMobile() ? '120' : '98'; // ajuste se quiser altura diferente no mobile
+
+  container.innerHTML = `
+    <iframe 
+      src="${iframeSrc}" 
+      frameborder="0" 
+      width="100%" 
+      height="${iframeHeight}" 
+      scrolling="no"
+      allow="autoplay"
+      title="Player da Rádio Sanca Rock">
+    </iframe>
+  `;
+</script>
 	<!--  section -->
-	<section id="hero" class="hero-section set-bg" data-setbg="img/capa.jpg"></section>
+	<section class="hero-section set-bg" data-setbg="img/capa.jpg">
 	
-   </section>
-	<!-- Hero section end -->
-
+    </section>
 	<!-- promotion section -->
 <section class="promotion-section">
   <div class="container">
@@ -236,9 +230,9 @@
 			  </div>
 			  <div class="col-lg-3 col-md-6 ft-widget">
 				  <div class="ft-title">
-						<h4><img src="img/q8.png" alt="q3" width="250" height="35"></h4>
+						<h4><img src="img/q1.png" alt="q3" width="250" height="35"></h4>
 				</div>
-				   <iframe src="enqq.html" frameborder="0" width="260" height="260" scrolling="no"></iframe><span class="style1"></span>
+				   <iframe src="enquete.html" frameborder="0" width="260" height="260" scrolling="no"></iframe><span class="style1"></span>
 				    <div align="center" class="h4">
 						    <div align="left">
 				        </div>
@@ -265,24 +259,10 @@ Sanca Rock - Todos os Direitos Reservados| Brazil </p>
 			<p>&nbsp;</p>
 			<p><a href="https://colorlib.com" target="_blank">Template Desenvolvido ByColorlib</a>
 			  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            - Adapatado por Sanca Rock - Web Rádio e Desenvolvimento de Web Sites - 2019 <a href="#" id="upload" onclick="upload(); return false;">
-  <img src="img/br.PNG" width="50" height="50" border="0" title="Abrir Player Pop-up" />
-</a></p>
-          
-		
-
-<script>
-function upload() {
-   const win = window.open(
-    'xml.php', 
-    '_blank', 
-    'width=400,height=200'
-  );
-  setTimeout(() => win.close(), 30000); // fecha em 5 segundos
-}
-</script>
-
-	</div> 
+            - Adapatado por Sanca Rock - Web Rádio e Desenvolvimento de Web Sites - 2019 <img src="img/br.PNG" alt="brazil" width="50" height="50"></p>
+			
+			
+	  </div> 
 	</footer>
 	<!-- Footer Top section end -->
 	<!--====== Javascripts & Jquery ======-->
@@ -295,7 +275,8 @@ function upload() {
 	<script src="js/wavesurfer.min.js"></script>
 	<script src="js/audio.js"></script>
 	<script src="js/popup.js?v=3"></script>
-	<script>
+	
+      <script>
 async function atualizarTitulo() {
   try {
     let resposta = await fetch("radio.php"); // ou o caminho do seu PHP
@@ -315,75 +296,5 @@ async function atualizarTitulo() {
 setInterval(atualizarTitulo, 10000);
 atualizarTitulo();
 </script>
-
-<script src="js/fundao.js?v=5"></script>
-<script>
-  function detectarDispositivo() {
-    const ua = navigator.userAgent
-
-    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua)
-    const isTV = /SmartTV|TV|AppleTV|Roku|Chromecast|WebTV|HbbTV|Tizen|webOS/i.test(ua)
-
-    if (isMobile) return 'mobile'
-    if (isTV) return 'tv'
-    return 'pc'
-  }
-
-  const container = document.getElementById('playerContainer')
-  const tipo = detectarDispositivo()
-
-  let src = 'topao.html'
-  let height = '98'
-  let html = ''
-
-  switch (tipo) {
-    case 'mobile':
-      src = 'resp.html'
-      height = '120'
-      html = `
-        <iframe
-          src="${src}"
-          frameborder="0"
-          width="100%"
-          height="${height}"
-          scrolling="no"
-          allow="autoplay"
-          allowfullscreen
-          title="Player da Rádio Sanca Rock">
-        </iframe>`
-      break
-
-    case 'tv':
-      src = 'player_tv.html'
-      height = '98'
-      html = `
-        <object
-          data="${src}"
-          type="text/html"
-          width="100%"
-          height="${height}">
-        </object>`
-      break
-
-    case 'pc':
-    default:
-      src = 'topao.html'
-      height = '98'
-      html = `
-        <iframe
-          src="${src}"
-          frameborder="0"
-          width="100%"
-          height="${height}"
-          scrolling="no"
-          allow="autoplay"
-          allowfullscreen
-          title="Player da Rádio Sanca Rock">
-        </iframe>`
-  }
-
-  container.innerHTML = html
-</script>
-
 </body>
 </html>

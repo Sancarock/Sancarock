@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Rádio Sanca Rock</title>
+    <link>https://sancarock.com/</link>
+    <description>Rádio Sanca Rock - São Carlos / SP.</description>
+    <language>pt-br</language>
+    <lastBuildDate>Thu, 09 Out 2025 10:00:00 GMT</lastBuildDate>
+    
+    <item>
+      <title>Cidades da região de São Carlos investigam casos de intoxicação por metanol</title>
+      <link>https://www.saocarlosagora.com.br/regiao/cidades-da-regiao-de-sao-carlos-investigam-casos-de-intoxicacao-por/187975/</link>
+      <description>Cidades da região de São Carlos investigam casos de intoxicação por metanol.</description>
+      <pubDate>Thu, 09 Out 2025 10:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://www.seusite.com.br/noticia1.html</guid>
+    </item>
+    <item>
+      <title>CIESP São Carlos comemora aproximação entre Trump e Lula</title>
+      <link>https://www.saocarlosagora.com.br/cidade/ciesp-sao-carlos-comemora-aproximacao-entre-trump-e-lula/187974/</link>
+      <description>CIESP São Carlos comemora aproximação entre Trump e Lula.</description>
+     <pubDate>Thu, 09 Out 2025 10:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://www.seusite.com.br/noticia2.html</guid>
+    </item>
+  </channel>
+</rss>

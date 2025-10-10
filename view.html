@@ -9,118 +9,155 @@ body {
   margin: 0;
   font-family: 'Bebas Neue', Arial, sans-serif;
   background: radial-gradient(circle at center, #ff4500, #800080, #000);
-  background-attachment: fixed;
   color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   padding: 20px;
-  overflow-x: hidden;
-}
-
-@keyframes pulseLight {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(255,69,0,0.5);}
-  50% { transform: scale(1.03); box-shadow: 0 0 25px rgba(255,69,0,0.8);}
 }
 
 .album-cover {
-  width: 100%;
-  max-width: 130px;
+  width: 130px;
   border-radius: 16px;
   border: 3px solid #ff4500;
-  margin: 220px auto 15px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.8);
-  transition: 0.3s;
-  display: block;
-  animation: pulseLight 3s infinite ease-in-out;
+  margin: 20px auto;
 }
 
 .player-container {
-  background: url("img/fundoradio.png") no-repeat center center fixed;
-  background-size: cover;
+  background: rgba(0,0,0,0.5);
   backdrop-filter: blur(10px);
   border-radius: 25px;
   padding: 25px;
   width: 90%;
   max-width: 460px;
   text-align: center;
-  box-shadow: 0 0 30px rgba(0,0,0,0.7);
-  border: 1px solid rgba(255,69,0,0.3);
 }
 
-.track-info { margin-top: 15px; font-size: 20px; letter-spacing: 0.5px; color: yellow; }
-.track-info p { margin: 5px 0; font-weight: 500; color: yellow; }
+.track-info { margin-top: 15px; font-size: 20px; color: yellow; }
 
-#statusPlayer { color: #fff; font-weight: bold; margin-top: 8px; text-shadow: 0 0 5px rgba(255,204,0,0.7); }
-
-.equalizer { display: flex; gap: 6px; height: 25px; margin: 15px auto; justify-content: center; }
-.equalizer span { width: 8px; background: linear-gradient(180deg, #ff4500, #ff1493, #da70d6); animation: bounce 1.2s infinite ease-in-out; border-radius: 3px; }
-.equalizer span:nth-child(2){ animation-delay: 0.15s; }
-.equalizer span:nth-child(3){ animation-delay: 0.3s; }
-.equalizer span:nth-child(4){ animation-delay: 0.45s; }
-.equalizer span:nth-child(5){ animation-delay: 0.6s; }
-@keyframes bounce { 0%,100%{transform:scaleY(1);} 50%{transform:scaleY(2.8);} }
-
-/* Equalizer apagado */
-.equalizer.paused span {
-  animation: none;
-  transform: scaleY(0.2);
-  background: gray;
+.controls button {
+  padding: 10px 15px;
+  margin: 5px;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
 }
-
-.controls { display: flex; flex-wrap: wrap; justify-content: center; margin-top: 20px; gap: 12px; }
-.controls button { flex: 1 1 20%; padding: 12px 0; font-size: 16px; cursor: pointer; color: white; border: none; border-radius: 25px; transition: all 0.3s ease; font-weight: bold; letter-spacing: 0.5px; }
-.play-button { background: linear-gradient(135deg, #28a745, #1e7e34); }
-.pause-button { background: linear-gradient(135deg, #dc3545, #c82333); }
-.mail-button { background: linear-gradient(135deg, #6f42c1, #5a32a3); }
-.atualizar { background: linear-gradient(135deg, #343a40, #23272b); }
-.controls button:hover { opacity: 1; transform: scale(1.06) translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
-
-.volume-control { display:flex; align-items:center; justify-content:center; gap:12px; margin-top:25px; }
-.volume-control button { background:#1a1a2e; color:#ffcc00; border:1px solid #ff4500; border-radius:50%; font-size:18px; width:42px; height:42px; cursor:pointer; transition:0.3s; font-weight:bold; }
-.volume-control button:hover { background:#2a2a4e; box-shadow:0 0 10px rgba(255,69,0,0.5); }
-#volumeSlider { width:120px; accent-color:#ff4500; }
-#volumeDisplay { min-width:35px; text-align:right; font-size:14px; color:#ffcc00; font-weight:bold; }
-
-/* 🔹 Responsividade */
-@media (max-width: 480px) {
-  .player-container { padding: 15px; }
-  .controls button { flex: 1 1 30%; font-size: 14px; }
-  .track-info { font-size: 16px; }
-}
+.play-button { background: green; color: white; }
+.pause-button { background: red; color: white; }
 </style>
 </head>
 <body>
-<div align="center">
-  <div class="player-container" id="playerContainer">
-    <div class="track-info"></div>
-    <div class="equalizer" id="equalizer">
-      <span></span><span></span><span></span><span></span><span></span>
-    </div>
-    <div id="statusPlayer"></div>
-    <img id="albumCover" src="img/tocar.png" alt="Capa do Álbum" class="album-cover">
-    <p id="trackTitle">Se não iniciar, Clique em Play</p>
-    <p id="artistName"></p>
 
-    <div class="controls">
-      <button id="playPauseBtn" class="play-button" onClick="togglePlayPause()">Play</button>
-      <button class="mail-button" onClick="abrir_mail_popup()">Contato</button>
-      <button class="atualizar" type="button" onClick="history.go(0)">Atualizar</button>
-    </div>
+<div class="player-container">
+  <img id="albumCover" src="img/tocar.png" alt="Capa do Álbum" class="album-cover">
+  <p id="trackTitle">Se não iniciar, Clique em Play</p>
+  <p id="artistName"></p>
 
-    <div class="volume-control">
-      <button onClick="adjustVolume(-0.03)">-</button>
-      <img src="img/audio.png" width="30" height="30">
-      <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.2" oninput="setVolume(this.value)">
-      <button onClick="adjustVolume(0.03)">+</button>
-      <span id="volumeDisplay">20%</span>
-    </div>
-
-    <audio id="radioPlayer" src="https://s02.transmissaodigital.com:6716/stream;" preload="auto"></audio>
+  <div class="controls">
+    <button id="playPauseBtn" class="play-button">Play</button>
   </div>
+
+  <audio id="radioPlayer" preload="auto"></audio>
 </div>
 
-<script src="js/webview.js?v=01"></script>
+<script>
+const radioPlayer = document.getElementById('radioPlayer');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const trackTitle = document.getElementById('trackTitle');
+const artistName = document.getElementById('artistName');
+const albumCover = document.getElementById('albumCover');
+
+let streamUrl = '';
+let isPlaying = false;
+
+// -------------------- CARREGA .PLS --------------------
+async function loadPLS() {
+  try {
+    const res = await fetch('listen.pls');
+    const text = await res.text();
+    const match = text.match(/File1=(.*)/);
+    if(match && match[1]) {
+      streamUrl = match[1].trim();
+      radioPlayer.src = streamUrl;
+    }
+  } catch(e) {
+    console.error('Erro ao carregar listen.pls', e);
+  }
+}
+
+// -------------------- METADADOS --------------------
+async function fetchMetadata() {
+  if(!streamUrl) return;
+  try {
+    const res = await fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU=');
+    const buffer = await res.arrayBuffer();
+    const decoder = new TextDecoder('iso-8859-1');
+    let text = decoder.decode(buffer);
+
+    let kbpsIndex = text.lastIndexOf('Kbps');
+    if(kbpsIndex === -1) return;
+
+    let afterKbps = text.slice(kbpsIndex + 4)
+                         .replace(/https?:\/\/[^\s]*/g, '')
+                         .replace(/<[^>]*>/g, '')
+                         .trim();
+
+    function decodeHTMLEntities(str) {
+      const txt = document.createElement("textarea");
+      txt.innerHTML = str;
+      return txt.value;
+    }
+    afterKbps = decodeHTMLEntities(afterKbps);
+
+    if(!afterKbps) return;
+
+    let artist = '', track = '';
+    if(afterKbps.includes(' - ')) {
+      [artist, track] = afterKbps.split(' - ',2).map(s => s.trim());
+    } else {
+      trackTitle.innerText = 'Rádio Sanca Rock';
+      artistName.innerText = '';
+      albumCover.src = 'img/sanca.png';
+      return;
+    }
+
+    trackTitle.innerText = `${artist} - ${track}`;
+    artistName.innerText = '';
+    albumCover.src = 'img/sanca.png'; // Pode adaptar para pegar capa real
+
+  } catch(e) {
+    console.error('Erro ao buscar metadados', e);
+  }
+}
+
+// -------------------- CONTROLE PLAY/PAUSE --------------------
+playPauseBtn.addEventListener('click', async () => {
+  if(!streamUrl) await loadPLS();
+  if(!streamUrl) return alert('Stream não disponível.');
+
+  if(isPlaying) {
+    radioPlayer.pause();
+    playPauseBtn.textContent = 'Play';
+    playPauseBtn.className = 'play-button';
+    isPlaying = false;
+  } else {
+    try {
+      await radioPlayer.play();
+      playPauseBtn.textContent = 'Pause';
+      playPauseBtn.className = 'pause-button';
+      isPlaying = true;
+      fetchMetadata();
+      setInterval(fetchMetadata, 30000);
+    } catch(e) {
+      console.warn('Autoplay bloqueado', e);
+    }
+  }
+});
+</script>
+
 </body>
 </html>
+
+
