@@ -298,20 +298,29 @@ function upload() {
 	<script>
 async function atualizarAba(){
     try {
-        // Busca a música atual do servidor
         const res = await fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU=');
         const buffer = await res.arrayBuffer();
         const texto = new TextDecoder('iso-8859-1').decode(buffer);
-        
-        // Pega o que vem depois de "Kbps" e limpa tags e links
-        let musica = texto.split('Kbps').pop().replace(/https?:\/\/[^\s]*/g,'').replace(/<[^>]*>/g,'').trim();
+
+        let musica = texto.split('Kbps').pop()
+            .replace(/https?:\/\/[^\s]*/g,'')
+            .replace(/<[^>]*>/g,'')
+            .trim();
+
+        // Função para decodificar entidades HTML (&amp; -> &)
+        function decodeHtmlEntities(str) {
+            const txt = document.createElement('textarea');
+            txt.innerHTML = str;
+            return txt.value;
+        }
+
+        musica = decodeHtmlEntities(musica);
 
         if(musica){
             let artista = '', faixa = musica;
             if(musica.includes(' - ')){
                 [artista, faixa] = musica.split(' - ').map(s=>s.trim());
             }
-            // Atualiza o título da aba
             document.title = artista ? `${artista} - ${faixa} | Rádio Sanca Rock` : `${faixa} | Rádio Sanca Rock`;
         }
     } catch(e){
@@ -319,10 +328,10 @@ async function atualizarAba(){
     }
 }
 
-// Atualiza a cada 10 segundos
 setInterval(atualizarAba, 10000);
 atualizarAba();
 </script>
+
 
 
 <script src="js/fundao.js?v=5"></script>
@@ -397,3 +406,4 @@ atualizarAba();
 </body>
 
 </html>
+
