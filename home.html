@@ -296,28 +296,63 @@ function upload() {
 	<script src="js/audio.js"></script>
 	<script src="js/popup.js?v=3"></script>
 	<script>
-async function atualizarTitulo() {
+const apiKeyLastFm = "d08d389671438f325d13d64f0c94b583"; // coloque sua chave da Last.fm
+
+async function getStreamInfo() {
   try {
-    // Substitua este link se for outro servidor ou porta
-    const resposta = await fetch("https://s02.transmissaodigital.com:6716/status-json.xsl");
-    const dados = await resposta.json();
+    const res = await fetch("https://s02.transmissaodigital.com:6716/status-json.xsl");
+    const data = await res.json();
+    const track = data.icestats?.source?.title || "";
+    if (!track) return null;
 
-    // Icecast/Shoutcast normalmente colocam o título assim:
-    const musica = dados.icestats.source.title;
-
-    if (musica) {
-      document.title = musica + " | Sanca Rock 🤘";
-    } else {
-      document.title = "Sanca Rock - A Melhor do Rock 🤘";
-    }
+    // tenta separar artista e música
+    const partes = track.split(" - ");
+    return {
+      artist: partes[0]?.trim() || "",
+      title: partes[1]?.trim() || "",
+      full: track
+    };
   } catch (e) {
-    console.error("Erro ao buscar música:", e);
+    console.error("Erro ao buscar stream info:", e);
+    return null;
   }
 }
 
-// Atualiza a cada 10 segundos
-setInterval(atualizarTitulo, 10000);
-atualizarTitulo();
+async function fetchCoverLastFm(artist, track) {
+  try {
+    const res = await fetch(`https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${apiKeyLastFm}&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(track)}&format=json`);
+    const data = await res.json();
+    const images = data?.track?.album?.image;
+    if (images) return images.find(img => img.size === 'extralarge')?.['#text'];
+  } catch (e) {
+    return null;
+  }
+  return null;
+}
+
+async function updateMetadata() {
+  const info = await getStreamInfo();
+  if (!info) return;
+
+  // muda o título da aba
+  if (info.artist && info.title) {
+    document.title = `${info.artist} — ${info.title} | Sanca Rock 🤘`;
+  } else {
+    document.title = info.full + " | Sanca Rock 🤘";
+  }
+
+  // busca capa (opcional)
+  const coverUrl = await fetchCoverLastFm(info.artist, info.title);
+  if (coverUrl) {
+    console.log("Capa encontrada:", coverUrl);
+    // aqui você pode mostrar a capa no site, ex:
+    // document.getElementById("albumCover").src = coverUrl;
+  }
+}
+
+// atualiza a cada 30 segundos
+setInterval(updateMetadata, 30000);
+updateMetadata();
 </script>
 
 <script src="js/fundao.js?v=5"></script>
@@ -392,3 +427,4 @@ atualizarTitulo();
 </body>
 
 </html>
+
