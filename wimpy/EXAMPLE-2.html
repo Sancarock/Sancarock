@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<title>Wimpy Player - Example 2 - Establish a player with Javascript</title>
+
+
+<!-- Wimpy Engine -->
+<script src="wimpy.js"></script>
+
+
+</head>
+<body>
+
+
+<p>IMPORTANT: The player will only work properly on a live web server!</p>
+<p>&nbsp;</p>
+<p> This example shows how to establish a player with javascript -- take a look at the HTML source.</p>
+
+
+<!-- Create a Wimpy Player With Javascript -->
+<script>
+var myPlayer = new wimpyPlayer({
+	media : "song1.mp3|song2.mp3|song3.mp3",
+	skin : "wimpy.skins/Music.tsv",
+	startUpText : "Hello",
+	width : 350,
+	height : 200
+});
+</script>
+
+
+
+</body>
+</html>

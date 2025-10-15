@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<title>Wimpy Button - Example 3</title>
+
+<!-- Wimpy Engine -->
+<!-- NOTE: This should be located in between the opening <head> and closing </head> tags. -->
+<script src="wimpy.js"></script>
+
+
+
+</head>
+<body>
+
+
+
+<p>IMPORTANT: The player will only work properly on a live web server!</p>
+
+
+<p>&nbsp;</p>
+
+<!-- Some buttons with javascript in the "conclick" to adjust the size -->
+<p>
+	<input style="width:200px;height:60px;" type="button" onclick="wimpyButton.play('song1.mp3')" value="Play Song" />
+</p>
+
+<p>
+	<input style="width:200px;" type="button" onclick="wimpyButton.pause()" value="Pause" />
+</p>
+
+<p>
+	<input style="width:200px;" type="button" onclick="wimpyButton.rewind()" value="Rewind (continues playing)" />
+</p>
+
+<p>
+	<input style="width:200px;" type="button" onclick="wimpyButton.rewind(true)" value="Rewind &amp; Stop" />
+</p>
+
+</body>
+</html>

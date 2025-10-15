@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<title>Wimpy Player - version 7.84</title>
+<style type="text/css">
+html, body {	margin: 0;	padding: 0;	background-color: #666666;	font-family: Verdana, Geneva, sans-serif;	font-size: 18px;	color: #E1E1E1;}a {	color: #E1E1E1;	text-decoration: none;}a:hover {	color: #E1E1E1;	text-decoration: underline;}a:visited {	color: #E1E1E1;	text-decoration: none;}a:active {	color: #E1E1E1;	text-decoration: none;}.top {	height: 150px;	width: 100%;	text-align: center;	vertical-align:middle;	display:block;}.mid {	height: 130px;	width: 100%;	background-color: #4d4d4d;	text-align: center;	vertical-align:middle;	display:block;}.lower {	width: 100%;	text-align: center;	vertical-align:middle;	display:block;}/* Apps table ===========================*/.apps-table {	position:relative;	text-align: center;	margin-left: auto;	margin-right: auto;	width : 70%;	height: 130px;	display:table;	vertical-align:middle;}.app-box {	position: relative;	text-align: center;	width: 180px;	height: 80px;	/*top: 30px;*/	margin-left: auto;	margin-right: auto;	display:table-cell;	vertical-align:middle;}/* Lower table ===========================*/table.tableCellsCentered td {	text-align: center;		vertical-align:middle;}table.tableCellsLeft td {	text-align: left;		vertical-align:top;	padding-left: 30px;	white-space : nowrap;}.nowrap {	white-space : nowrap;}.centered {	text-align: center;	margin : auto;}.iconWrapperSmall {	position: relative;	width: 40px;	height: 20px;	float:left;}/*Icons=========================*/.wimpy-text {	font-size: 12px;	line-height: 18px;}.wimpy-icon {		display: block;	margin-left: auto;	margin-right: auto;	width:50px;	height:50px;	background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAdCAYAAABSZrcyAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAJ9JREFUeNpiXLFiRQMDA0M9A3bQGBER0YAsgE89UC0jmloHILUfh9kMTAwDCEYtH7V81PJRy0ctH7V81PJRy0ctJwuwEJCXhzYCUcRwKcai1oASyxOgmFiwf6gE+wWQ5Q8GyPIHIMs3APGHAbB8IxOwlwGyuJDeQQ60dwETtJuzAEgl0stiIHYEMdD7VgrQfhiIdqBm/ELxQqhHwQAgwABwCyZtm6PmhgAAAABJRU5ErkJggg==");	background-repeat:no-repeat;	background-position:center center;}.customizer-icon {		display: block;	margin-left: auto;	margin-right: auto;	width:50px;	height:50px;	background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAoxJREFUeNrsms9rE0EUx7+JgUJJSosgjRdTWqXHJIeCIG2ORQ96EOzNhujBX8T+BYpUKl5qEb3UYv8ED/3hzdBLodIkZ1swJ1NatIEWfxza+t7sLCS1G5JuZPeFefDN7LzMLvvhzdt9mUkAdWx46HI3NeOk66QU/Gu5UB2Ip9RkSd0QYCGHKHwixbnfG43iysgwEskEwpGIr25+eWERHxeX/gWphghHwkjfyeDm2C3ry9+kX3rgUYNtM2ObvWYfUMznHSOiIAYuXcTzly9UNPCdPF9Je6TDY+ILHuj2sAE1Oq6RsZMOU0vnRJxvfubtG3BEsEGeLX2izy2oIWLUPOFjjoSC2KTONsRYULf8iMXotavgaYVd6uxAlNkgt/kjfTdj9UoQZ0E9rWIcCZXcP6n3RyAIQ/BBPJm0PLsQaUH7xRfhBIfMaNggtSWIYJC2sNCpzhrQb163QtVbHKc41zVIf7tERFv23sOaws3kiNcR0VYkTXjMUWkFSGVlbTVnppYBMSAGxIAYEANiQAzIfykaY3qV0ksrtQQEepXSQ8u5AlGrkh7aVrms5HpqPZrIegoy/24O72fnXIB8Ru3S/9Gx43q+ZsbU82Vakew/4P3+SDu/R0o1nk7hIOVvVvajQy5IUS2F5AuWp0coyMraaoU5+HmsYDgiXXJrrRn+sJ/J1o6JTJAPnCu8/Kk24Dnh+wWC6OmlVgtfT7/C5pcN4Bx1BklnhJXxBMNRmd/f20f2/gMrMmfJM0S6QAoLKuMJJk0lOQhmfOrZJJYXllQ9pYpDn+dN4CQnwUxT89ju825vPJlA9HzUVzdfWC/Y2xq5gNMggknp3xkpASniDFIFxJPqBmkE/v3vVvGvAAMA9fAkcHog+34AAAAASUVORK5CYII=");	background-repeat:no-repeat;	background-position:center center;}.skinmachine-icon {		display: block;	margin-left: auto;	margin-right: auto;	width:50px;	height:50px;	background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAxCAYAAACYq/ofAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAvhJREFUeNpiZCAC2JlZKgApBYbBCy6wEHB8PhAHDHJPgIAjCw5PNACpehBbRU2VwdPbC0irDTrX52dmw9ksaB4QAFL7gdhAQlKSobKuhsHAyJBhKAAWbJ4AxcLEaVMZeHh5wHLnvv5nOPvlHwPDfxDvP8N/KM0Ap/5D0X8UPkzNf3QxrGrRzMaqFiJmKszJYAbEWD0CBPPRPXHw03+Gvuf/GJ7//Ad2zX+Yq0BsKI3CBkn/+wd1/H/caqHm/CdkFhZxEJ2jJoTdI8DYCIBmaobWrg6wJ5qe/mfY+v4fwuJBDpigdD+ISExNZgDljTmvGRi2fhgaHoB7BBgbBrDi1QNYOj3/zQD0yNDyBCxGAmDFLCw2hiIAecQexDAwMoKUUN+GrkfAgBda1IKS1pD2yFAHLKRqkGRjZJBiZcSsD2CV1n8mRMWGXh+giMPU/0dUeHjY8MoRyJbiYqHcI75CzAypEsxDP0YQDbac4eGRC+fOjWb2QRUjsHpnQLuFSKmCbI9MnD5lwD1ib241mrQYZr34wzALWP0PdH8kW11oeGb2UY+MemTUIyO1ZjfigpWOjNAmNGw4CbnpTttm/Om3Pyj3yDR5EMkI5TEOSOjq7Hw0mrQY5s+eC8YDBUCNUErab6Ol1qBNWqCoNTQeuCkE0OAgVTwC8kRCSvLwqUcsruNpYkPrDZpPK4xm9lGPDAwAjTR++fwFWejDkPMIHysTg4sED8ORQ4fgnjh06viFIeeRbGB/nRfome1btsGENgy5pBUgy8sQpyTAcOHceeQxrYVkjaIMFIhT5Geo0BIG543J/RNgwguAyerAkPCIszgXQ6wCH4OpEAeY397cwnDn1m0Q8wIQFxLuj4A6VgxIlRNs4h6Jj8ZAXSRAhBqs5iKpgTkeBEAxkZ+VDfPEAyAOBMbGB4I9ROwdK/p3tEAeWLNyJcPqFSthRe4BdE+geOT82fNAcu6gSlYgNyFlalAsNAI9sABvWwukYbDNeUAdD4qBg7g8AAMAAQYAABsclHjKEUMAAAAASUVORK5CYII=");	background-repeat:no-repeat;	background-position:center center;}.buttonWriter-icon {		display: block;	margin-left: auto;	margin-right: auto;	width:50px;	height:50px;	background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJJREFUeNpiVJZX+M8wuMABIL4AxBvvPnxwgFhNjIPQI+ieaiTGQ3CP3Hlwf8Bd/enTJ4br164x7N61m2HdmjVgPhRMAHqmkGiP/P33ieHHr+sM/4Ei/xkYwQpAkjD+fxQ+khgePgMKH6oGB5+ThYdBjkcF7qkF8+YzTJowAebWDUDPBBLlkW8/TjLcfx7D8Pc/I8MfoOgfMM0I5TPi5/8jUT0O89mYeRkMRWwYgpXiGUQ5xMExFB0RCYudBUDPJGLzCNNgyxTf/nxhOPh8J0PpiXSG/c92MWhqaTEsXbGcgY+PDySdAAz4gCHhEWQPTb7azbAX6pm8gnyY1HygZwSGjEdgYOKVHoZ7n+8yJCQlMcjIyICEQJ4IGHIeAYFZN2aAaaRYiR+SHrn07hLDy+8vGVzc3GBCDkPSIyBw7NUxcIaHJi8GYD5xGJIe+fr7K5iWhnpkyMYIIcBCqgYZfn8GKf4Aqtbsjz7fYVhxZwp9PcLJJs0gzG1K1dD8/38AYgQGVBQUqeIJajVWR24eGURgP7AIHo0RqqdtUgGoJYwtr5Lske+/njK8/XqaqsXv4y93CNr7AthEuQhsqkDMZ2RQ5VNi4GHlJj9GnnzcyPDwwyaqd6wYoJ7GBXY/3c2w/ckeuL7JFp0MRsK6wy+PjHpk1COjHhn1yGh/hOyRRhj/wLOd4DGtIdcfQQdX318cev0RarXhRjP7qEdG+yNU9ggt+iPo/NffX9DeI7Tqj/xBw4T6J6OZfbABXmA3F2mydGh6hIeVB9xnP3niBEzowJD0SLiiP5jes2s3TOjCkPOIBKc4Q5hCAMPTJ08Y1q5ZAxOeOKRGGrmB+aLVuA48DFTaVARPVncfPngwZGJEHBgT/WZdDCrAvAFaFbF7F7iZ/wGIEymq2ekFxIAecJRyYwiQD2TgZuFhWDBvHkNLUzNMuhAUGxgeYWfTZFCQXDJgSzjQ+Qq8ymDHgwAoT5Q0FcNiAgQSgZ5YgLVmZ2biY+DmMB80sQFavgFbZIPkgQ/QmFiArHawL3NCByDHN8KSE1Vav3QCD6B4IwNkddADXAoBAgwAsL5X0Vx7kOwAAAAASUVORK5CYII=");	background-repeat:no-repeat;	background-position:center center;}.book-icon {	height:20px;	width:40px;	background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAATCAYAAABhh3Y4AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2JJREFUeNqklVtM01ccxz+09EL/vaEIUok0MkFlw04dwsJmF52SYLwlRn0x9cEYHck0Pmk0w6gx2cMYmVv2sETmy7YnGC97mtDEC8m22MaISpQWKqJcSisW/kIpnn8rFZRhq7/kl3PO75zz+57f9cC7kz3dCxlpKHYI3sDnWx3Yi51x6V+/fc9A3xkxC70PmKLYybKVGyircJBfaGd1BRSVzj717ClcPOXn76ZjYtWcKphVsIs1m7ezfIWTVWVQVglGc2p2e2/AD6fa6O48IFb++cCsFDla+eqigywTqIQoTwJJm34U//gpxC8XGsSs7v/AjvLd1fo40Ewy6yDHkABPh548hIaTfv5pVaxsm7mlFq67wPqtb2bW80kRk3HQZYJGlTqY4vqNO618UOqi12cn2O8WUlnZml/LRAx6RRIEx9J36adb4NvfXew54ot7L26ZKdtF5fb5a2YsCpHxRBzTcatWhGLNZ3rWbaqmw2NX0flvAzda5jy7MNuAWq165daesKgo+e0gsanE4/oj0DWM3heAyahVLbbu4m3tFq9wUvSxfuad8YlJigoXJIyTJ0DoYHQiASxpRHrNsDIaSwAEZfRPQjiGA2yK9nJQ24P357ON4UDXvoxZhVxe08TeE/bXM7OwwIpJ0tHXP8LQ8GhCKNxpMWoIZ6rjIHpZ5qPYIGvVYcp1ESwWC5IkYTQaqaqqUrpM3esBsLKy8hK7ju2goGTWRm6OREG+BTkso3LfZ3FwFHP0OQ8/kViX+ZT1erE2m5MAyqiwwWDAZrM1ChUH5o72QlsdNYe/oXLbLHG2XkOF9xFLpgYpXhohP1eLyWRKKp8es7Ky0Ol0aLVaNBoN5Y1X8J4/3pg5J9jQozoun/bw2HeJnV9bk2C+IZaqItQ4DUJxbhJAeb3CinKFn8VUNAUitHQP4O6LELp5L54gGW/t9mXOJlzn4q2sJBDi0JIY1V/kJS2Yfv3tcJSr/TKXO0N4OrsQWQ73//NwvVnpIr8K9qRSNFYsi+qp/dFVMpVH7TID+3cXxwHaO4I0i3pv6R7Bf+dWAsB7pU2Mf778Bfzv8p8pdHTxxtr6ctuXlJYswB8Yocd3k2s8CHG3vZmeDvdLgND7fp7J8sjJ+7Beq7cwPHDPMzY66E7lH5umFwIMAN3IE4xxj9UTAAAAAElFTkSuQmCC");	background-repeat:no-repeat;	background-position:center center;}.page-icon {	height:20px;	width:40px;	background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAARCAYAAADtyJ2fAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAS1JREFUeNp8kr1qhEAUha+/+NPsm9lahmwraN4gtpIlj7Ap7Gz2EfYRYmMnpHTRIohBtNDMnXBl1DEDxytyvnvmgAr8nVf4/9yYPsUPCj6iKJqDIIC+7xe1bQtN04BpmpDn+XeSJC/M+kGgjg9VVbkBJ0rTNC7DMDjs+/7Jtu1rHMdAMAcVReFGnPROS3RdBwZBGIbw03XXt8uFwwuIJr6JGQkiDcMAdV3D8/kM1ePxnqbpXaWr0vVIlmWB67pc4zhCVVVQliV4nndiyNMuUTxib1redR2sOhJIPbcicKkkgjinadolY2/HceQgfhQhWSr2liaKkCyZeh+C8zyvzNvkFSjCInjYW0wkgOYW2iXST4Am2QLZkt1V0bxdIOvNwSzL7kVRSI0H8+tXgAEAOM2Lqs6kqyIAAAAASUVORK5CYII=");	background-repeat:no-repeat;	background-position:center center;}.gear-icon {	top:2px;	height:20px;	width:40px;	background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAzVJREFUeNqUVM1PE1EQf3y0Fq1lQwsE0O7yIbSEyjYieGsLUbwJnLwJF8SDBv4DiAcNxoB68ECwcEIO8plA+EiqUBNATJcLBjy0hNSCFFoo0ErSXedt2c12qaiTTN57M29/OzO/mZeE/iKPn7Q2wkIJ5zevu9vR/wgAENJz7zu7g2VZDuvExCR33l0syfILWVmZDljtohEgACymHBcXuVardcNKSzFSpGAURTpaHjbTAEpfUmuoqqpbZmOpsa6oqFDFAdjeXgDl5OZRNG3Or6i48fZRS7Pq4CB0P+/K1amlxYUteap2r/cHd3x8zOuXL8uc1+sVz4Lu7u5xc/POOFtHx1N3opTbBt4PMkdHRygaZZHBYEAaTTq/l6pSqURmmhbPH4aGg/7d3XoBJEleQ7OZDjQ0xPxbvi00MzvrWV//PgLHfZ1Od6/2zm3aYDTwfpeLQUNDw/XA/IiAkSojyVpSUoLYaBRFIhFk7+tnICUbfBA89bf7/f6upsYHrVBvVFx8DdssoCJgEkRlLS+/7iDS03mDxWLh16npabS4uJQPYB55a3S+eOkCUJ5dZmUF7Qdj//s0N9/BR2gymRCp1/PGKESHJRAIMInAsGxubo7CPR7QVFYm2gEwljLusSgbjftIoVAQf2p+tVpNyu9Laxh0Op0f09Iu4uiImmobnQ7p6/V6CspRJy24QFxhYUEdCwxjGR0bx/kyp26PvBepgYFBzuPZ4LWnpzdwOsuC3/rseadrbW2d9887P3NSf0KWw5GwmH51jY0gKdIOrWSHSfFA5FRpqRGlKlL5O+FwWGC5L9HoNRqNBrvVakV4zAQlCAKnj0iSJLKzs1FyckqcT6O5TGdmZlMweqPyCMtzc3JFlhcWFoIpKalEQX4+0uq0vO3k1wlye9xoY2MjaLVYCeUFJdJmZCCVSkWfSRmK3wYLAQ9V4/b2dnB19ZsNE7az83P4bm3tac8xaHn5qxkX//DwyFFZeZOenp5hYAhsCWsIoE0YBLQf9jxzXd2vglE2xig8iUiwQ4lsY2PjXfgNkEzSGVKESEXBhYdXh9+HQiHpPQzSlKgPzxWfb6vN55sk/vXF/y3AAN93vQnQXXwhAAAAAElFTkSuQmCC");	background-repeat:no-repeat;	background-position:center center;}.middleGlow {	box-shadow:inset 0px 0px 53px rgba(0,0,0,0.4);		-webkit-box-shadow:inset 0px 0px 53px rgba(0,0,0,0.4);		   -moz-box-shadow:inset 0px 0px 53px rgba(0,0,0,0.4);		    -ms-box-shadow:inset 0px 0px 53px rgba(0,0,0,0.4);		     -o-box-shadow:inset 0px 0px 53px rgba(0,0,0,0.4);		background-clip:padding-box;		-webkit-background-clip:padding-box;		   -moz-background-clip:padding-box;		    -ms-background-clip:padding-box;		     -o-background-clip:padding-box;}
+</style>
+
+</head>
+
+<body>
+<div class="top"> <span>&nbsp;</span>
+  <table class="centered nowrap" border="0" cellspacing="0" cellpadding="10">
+    <tr>
+      <td><div class="wimpy-icon"></div>
+        <span class="wimpy-text"><a href="https://www.wimpyplayer.com" target="_blank"> Wimpy Player Version 7.84 </a></span></td>
+    </tr>
+  </table>
+</div>
+<div class="mid middleGlow"> <span>&nbsp;</span>
+  <table width="60%" class="centered nowrap tableCellsCentered" border="0" cellspacing="0" cellpadding="10">
+    <tr>
+      <td><a href="wimpy.customizer.html">
+        <div class="customizer-icon"></div>
+        Customizer</a></td>
+      <td><a href="https://www.wimpyplayer.com/skinmachine/" target="_blank">
+        <div class="skinmachine-icon"></div>
+        Skin Machine </a></td>
+      <td><a href="wimpy.buttonWriter.html">
+        <div class="buttonWriter-icon"></div>
+        Button Writer </a></td>
+    </tr>
+  </table>
+</div>
+<div class="lower"> <span>&nbsp;</span>
+  <table class="centered tableCellsLeft" border="0" cellspacing="0" cellpadding="3">
+    <tr>
+      <td><a href="https://www.wimpyplayer.com/docs" target="_blank">
+        <div class="iconWrapperSmall book-icon"></div>
+        Documentation </a></td>
+      <td><a href="EXAMPLE-1.html">
+        <div class="iconWrapperSmall page-icon"></div>
+        Wimpy Example 1 </a></td>
+      <td><a href="EXAMPLE-button-1.html">
+        <div class="iconWrapperSmall page-icon"></div>
+        Button Example 1 </a></td>
+    </tr>
+    <tr>
+      <td><a href="_README.txt">
+        <div class="iconWrapperSmall page-icon"></div>
+        Read Me </a></td>
+      <td><a href="EXAMPLE-2.html">
+        <div class="iconWrapperSmall page-icon"></div>
+        Wimpy Example 2 </a></td>
+      <td><a href="EXAMPLE-button-2.html">
+        <div class="iconWrapperSmall page-icon"></div>
+        Button Example 2 </a></td>
+    </tr>
+    <tr>
+      <td><a href="wimpy_GLYPHS-MAP.html">
+        <div class="iconWrapperSmall page-icon"></div>
+        Glyph Map </a></td>
+      <td><a href="EXAMPLE-3.html">
+        <div class="iconWrapperSmall page-icon"></div>
+        Wimpy Example 3 </a></td>
+      <td><a href="EXAMPLE-button-3.html">
+        <div class="iconWrapperSmall page-icon"></div>
+        Button Example 3 </a></td>
+    </tr>
+	
+    <tr>
+      
+	  <td><a href="test">
+        <div class="iconWrapperSmall gear-icon"></div>
+        API Test Suite</a></td>
+      <td><a href="EXAMPLE-4.html">
+        <div class="iconWrapperSmall page-icon"></div>
+        Wimpy Example 4 </a></td>
+      <td><a href="EXAMPLE-button-4.html">
+        <div class="iconWrapperSmall page-icon"></div>
+        Button Example 4 </a></td>
+    </tr>
+
+	
+    <tr>
+      <td>&nbsp;</td>
+      <td><a href="EXAMPLE-5.html">
+        <div class="iconWrapperSmall page-icon"></div>
+        Wimpy Example 5 </a></td>
+      <td><a href="EXAMPLE-button-5.html">
+        <div class="iconWrapperSmall page-icon"></div>
+        Button Example 5 </a></td>
+    </tr>
+
+	<tr>
+      <td>&nbsp;</td>
+      <td><a href="EXAMPLE-6.html">
+        <div class="iconWrapperSmall page-icon"></div>
+        Wimpy Example 6 </a></td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>

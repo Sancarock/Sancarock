@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<title>Wimpy Button - Example 4</title>
+
+<!-- Wimpy Engine -->
+<!-- NOTE: This should be located in between the opening <head> and closing </head> tags. -->
+<script src="wimpy.js"></script>
+
+
+
+<!-- Wimpy Button Styles -->
+<style type="text/css">
+
+.small_button, .small_button.play {
+	background-image: url(wimpy.buttons/play_small.png);
+	background-repeat: no-repeat;
+	display:inline-block;
+	vertical-align:middle;
+	height: 19px;
+	width: 21px;
+}
+.small_button.pause {
+	background-image: url(wimpy.buttons/pause_small.png);
+}
+
+.big_button, .big_button.play {
+	background-image: url(wimpy.buttons/play.png);
+	background-repeat: no-repeat;
+	display:inline-block;
+	vertical-align:middle;
+	height: 37px;
+	width: 37px;
+}
+.big_button.pause {
+	background-image: url(wimpy.buttons/pause.png);
+}
+
+</style>
+
+
+
+
+</head>
+<body>
+
+
+
+
+<p>IMPORTANT: The player will only work properly on a live web server!</p>
+
+
+<!-- Wimpy Buttons (small) --> 
+
+<p><div class="small_button" data-wimpybutton="song1.mp3" data-loop="true"></div> Song 1 </p>
+
+
+<p><div class="small_button" data-wimpybutton="song2.mp3" data-loop="true"></div> Song 2 </p>
+
+
+<p><div class="small_button" data-wimpybutton="song3.mp3" data-loop="true"></div> Song 3 </p>
+
+
+
+
+<!-- Wimpy Buttons (big) --> 
+<p><div class="big_button" data-wimpybutton="song1.mp3?justMakingUnique1" data-loop="true"></div> Song 1 </p>
+
+
+<p><div class="big_button" data-wimpybutton="song2.mp3?justMakingUnique2" data-loop="true"></div> Song 2 </p>
+
+
+<p><div class="big_button" data-wimpybutton="song3.mp3?justMakingUnique3" data-loop="true"></div> Song 3 </p>
+
+
+
+</body>
+</html>

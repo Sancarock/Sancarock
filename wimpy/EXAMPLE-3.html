@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<title>Wimpy Player - Example 3 - establish with Javascript using the &quot;target&quot; option</title>
+
+
+<!-- Wimpy Engine -->
+<!-- NOTE: This should be located in between the opening <head> and closing </head> tags. -->
+<script src="wimpy.js"></script>
+
+<!-- Create Wimpy Player with Target.
+Recognize that we are working within the HEAD, while the "target" DIV is located 
+in the BODY. We can do this because we're using the "target" option. -->
+<script>
+var myPlayer = new wimpyPlayer({
+	target 		: "myPlayerTarget", // This is identical to the "id" in the DIV below.
+	media		: "song1.mp3|song2.mp3|song3.mp3",
+	skin 		: "wimpy.skins/vanilla.tsv",
+	startUpText : "Hello"
+});
+</script>
+
+
+
+</head>
+<body>
+
+
+
+<p>IMPORTANT: The player will only work properly on a live web server!</p>
+<p>&nbsp;</p>
+<p> This example shows how to establish a player with javascript, and leverage the &quot;target&quot; player option. -- take a look at the HTML source.</p>
+
+<!-- Wimpy Player Target -->
+<div id="myPlayerTarget"></div>
+
+
+
+
+
+</body>
+</html>

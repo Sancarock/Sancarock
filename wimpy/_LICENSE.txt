@@ -1,0 +1,67 @@
+END USER LICENSE AGREEMENT
+
+IMPORTANT -- READ CAREFULLY: This End User License Agreement (EULA) is a legal agreement between You (either an individual, single entity, or company) and Plaino, LLC. (Plaino) for the Plaino software product identified above, which includes computer software (the "Software") and may include associated media, printed materials, and online or electronic documentation (Product).
+
+YOU AGREE TO BE BOUND BY THE TERMS OF THIS EULA BY DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING THE PRODUCT, IN WHOLE OR PART. IF YOU DO NOT AGREE TO THE TERMS OF THIS EULA, DO NOT DOWNLOAD, INSTALL, COPY OR USE THE PRODUCT.
+
+IF YOU HAVE NOT PAID A LICENSE FEE FOR THE PRODUCT, THEN YOU HAVE ACQUIRED AN EVALUATION EDITION OF THE PRODUCT, WHICH IS GOVERNED BY THIS EULA, EXCEPT THAT THE WARRANTIES AND CERTAIN OTHER PROVISIONS OF THIS EULA DO NOT APPLY AS STATED BELOW. THE EVALUATION EDITION INCLUDES CRIPPLING FEATURES THAT MAY PREVENT USERS FROM UTILIZING THE PRODUCT AFTER A NUMBER OF USES OR A PERIOD OF TIME. SUCH CRIPPLING FEATURES WILL NOT BE REMOVED UNLESS A LICENSE IS PURCHASED.
+
+THE PRODUCT MAY INCLUDE PROGRAMS OWNED BY THIRD PARTIES ("THIRD PARTY PROGRAMS"). THE THIRD PARTY PROGRAMS ARE SUBJECT TO THIS EULA AND ANY SEPARATE LICENSE AGREEMENTS CONTAINED IN THE ACCOMPANYING "COPING.TXT" FILE. THE THIRD PARTY PROGRAMS ARE FURNISHED BY PLAINO "AS IS" AND WITHOUT ANY WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED.
+
+No support is offered or guaranteed in connection with the product.
+
+No refunds shall be given in connection with license fees paid for this product.
+
+ 
+
+* Software License. Subject to the terms and conditions herein, Plaino grants You a nonexclusive, non-transferable, personal license to install, run and use the Software provided as part of the Product on a single domain name designated by a unique  URL (authority) and hosted on a public or private web server that is managed and controlled solely by You. For avoidance of doubt, subdomains are considered separate web sites (e.g., each individual domain name would be a separate web site requiring additional licenses, even where hosted by the same entity).
+
+* Documentation. You may make and use a reasonable number of copies of any documentation provided or made available with the Product; provided, that such copies will only be used for internal business purposes in connection with the components of the Product and are not to be republished or redistributed (either in hard copy or electronic form) beyond Your premises.
+
+* Updates. Any software provided to You by Plaino which updates or supplements the original Product is governed by this EULA unless separate license terms or a separate EULA are provided with such updates or supplements, in which case, such separate terms or separate EULA will govern.
+
+* License Limitations. Except with respect to an Evaluation Edition, the preceding licenses apply only to the extent You have ordered and paid for the applicable licenses. The preceding sections state the entirety of Your rights with respect to the Product. Plaino reserves all rights not expressly granted to You in this EULA. Without limiting the foregoing, You will not, and You will not authorize or permit any third party to:
+
+    (a) use the Product for any purpose other than Your internal business purposes;
+
+    (b) use the Product in an attempt to, or in conjunction with, any device, program or service designed to circumvent technological measures employed to control access to, or the rights in, a content file or other work protected by the copyright laws of any jurisdiction;
+
+    (c) remove, alter or obscure any copyright notice or other proprietary rights notice on the Product;
+
+    (d) use the Product in any manner that would infringe or misappropriate the intellectual property rights of a third party;
+
+    (e) circumvent or attempt to circumvent any methods employed by Plaino to control access to the components, features or functions of the Product; or
+
+    (f) transfer the Product to a domain name other than the single domain name for which the Product was initially licensed pursuant to the license set forth in this EULA.
+
+* Ownership. The Product is valuable property of Plaino and its suppliers and is protected by copyright and other intellectual property laws and treaties. Plaino or its suppliers own all right, title and interest in and to the Product and all copyright and other intellectual property rights in the Product.
+
+* Indemnification. The Product is intended for use only with properly licensed media, content and content creation tools. It is Your responsibility to ascertain whether any copyright, patent or other licenses are necessary and to obtain any such licenses to serve and/or create, compress or download such media and content. You agree to record, play back and download only those materials for which You have the necessary patent, copyright and other permissions, licenses, and/or clearances. You agree to hold harmless, indemnify and defend Plaino, its officers, directors and employees, from and against any losses, damages, fines and expenses (including attorneys' fees and costs) arising out of or relating to any claims that You have (i) viewed, downloaded, encoded, compressed, copied or transmitted any materials (other than materials provided by Plaino) in connection with the Product in violation of another party's rights or in violation of any law, or (ii) violated any terms of this EULA.
+
+* DISCLAIMER OF WARRANTIES. YOU ACCEPT THE PRODUCT "AS IS" AND "WITH ALL FAULTS, DEFECTS AND ERRORS." NEITHER PLAINO NOR ANY OF ITS SUPPLIERS WILL HAVE ANY LIABILITY FOR ANY ERROR, OMISSION OR DEFECT IN THE PRODUCT, ANY INABILITY TO USE THE PRODUCT OR ANY LOSS OF DATA. PLAINO DISCLAIMS ANY AND ALL WARRANTIES, EXPRESS OR IMPLIED, ARISING BY LAW OR OTHERWISE, REGARDING THE PRODUCT (INCLUDING, WITHOUT LIMITATION, ANY IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE). without limiting the foregoing, Plaino does not warrant that the product will be free of bugs, faults, errors, or other defects.
+
+* Disclaimer of Certain Damages. IN NO EVENT WILL PLAINO OR ITS SUPPLIERS BE LIABLE FOR THE COST OF COVER OR FOR ANY INCIDENTAL, INDIRECT, SPECIAL, PUNITIVE, CONSEQUENTIAL OR SIMILAR DAMAGES OR LIABILITIES WHATSOEVER (INCLUDING, BUT NOT LIMITED TO LOSS OF DATA, INFORMATION, REVENUE, PROFIT OR BUSINESS) ARISING OUT OF OR RELATING TO THE USE OR INABILITY TO USE THE PRODUCT OR OTHERWISE UNDER OR IN CONNECTION WITH THIS EULA OR THE PRODUCT, WHETHER BASED ON CONTRACT, TORT (INCLUDING NEGLIGENCE), STRICT LIABILITY OR OTHER THEORY EVEN IF PLAINO HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+* Limitation of Liability. PLAINOS AND ITS SUPPLIERS AGGREGATE LIABILITY ARISING OUT OF OR RELATING TO THE USE OR INABILITY TO USE THE PRODUCT OR OTHERWISE UNDER OR IN CONNECTION WITH THIS EULA OR THE PRODUCT IS LIMITED TO THE AMOUNT ACTUALLY PAID BY YOU FOR THE PRODUCT REGARDLESS OF THE AMOUNT OF DAMAGES YOU MAY INCUR AND WHETHER BASED ON CONTRACT, TORT (INCLUDING NEGLIGENCE), STRICT LIABILITY OR OTHER THEORY. The foregoing disclaimer of warranties, disclaimer of certain damages and limitation of liability will apply to the maximum extent permitted by applicable law. The laws of some states/jurisdictions do not allow the exclusion of implied warranties or the exclusion or limitation of certain damages. To the extent that those laws apply to this EULA, the exclusions and limitations set forth above may not apply to You.
+
+* Compliance with Laws. You will only use the Product in a manner that complies with all applicable laws in the jurisdictions in which You use the Product, including, but not limited to, applicable restrictions concerning copyright and other intellectual property rights.
+
+* Export Restrictions. You acknowledge that the Product is subject to U.S. export restrictions. You agree to comply with all applicable laws and regulations that apply to the Product, including without limitation the U.S. Export Administration Regulations.
+
+* U.S. Government License Rights. All Product provided to the U.S. Government is provided with the commercial license rights and restrictions described in this EULA. By installing, copying or using the Product, the U.S. Government agrees that the Product is "commercial computer software" or "commercial computer software documentation" within the meaning of FAR Part 12.
+
+* Trademarks. This EULA does not grant You any rights in connection with any trademarks or service marks of Plaino or its suppliers.
+
+* Termination. Without prejudice to any other rights, this EULA will automatically terminate if You fail to abide by the terms and conditions contained herein. Upon termination of this EULA, You must cease use of the Product and destroy all copies of the Product and all of its component parts.
+
+* Transfer. You may not transfer Your rights under this EULA to any third party.
+
+* Governing Law; Jurisdiction. Unless expressly prohibited by local law, this EULA is governed by the laws of the State of Washington, U.S.A. without regard to any conflict of law principles to the contrary. The 1980 U.N. Convention on Contracts for the International Sale of Goods or any successor thereto does not apply. You hereby irrevocably submit to jurisdiction of the state and federal courts located in King County, Washington with respect to any proceeding under this EULA or relating to the Product. You will not prosecute any action, suit, proceeding or claim arising under or by reason of this EULA except in such courts.
+
+* Attorneys' Fees. In any action or proceeding to enforce rights under this Agreement, the prevailing party will be entitled to recover costs and reasonable attorneys' fees.
+
+* Severability. If any provision of this EULA is held by a court of competent jurisdiction to be invalid, illegal, or unenforceable, the remainder of this EULA will remain in full force and effect.
+
+* English Language. It is the express wish of the parties that this Agreement and all related documents be drawn up in English. C'est la volont expresse exig par les parties que cette convention et tous les documents y affrents, soient rdigs en anglais seulement.
+
+* Entire Agreement. This EULA sets forth the entire agreement of Plaino and You with respect to the Product and the subject matter hereof and supersedes all prior and contemporaneous understandings and agreements whether written or oral. No amendment, modification or waiver of any of the provisions of this EULA will be valid unless set forth in a written instrument signed by the party to be bound thereby.
