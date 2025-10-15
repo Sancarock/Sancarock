@@ -112,19 +112,52 @@ let lastTrack = '';
 
 const streams = [
   "https://stream.zeno.fm/0y2f0ss7kbruv",
-  // você pode adicionar backups aqui
+  "https://s02.transmissaodigital.com:6716/stream"
 ];
+
 let currentStream = 0;
+let triedStreams = 0;
+let lastTime = 0;
 
-player.src = streams[currentStream];
-
-player.addEventListener('error', () => {
-  // fallback automático se travar
-  currentStream = (currentStream + 1) % streams.length;
+// Função para tocar stream
+function playStream() {
+  triedStreams = 0;
   player.src = streams[currentStream];
-  player.play().catch(()=>{});
-});
+  player.play().catch(() => {
+    console.warn('Erro ao iniciar stream, tentando próximo...');
+    nextStream();
+  });
+}
 
+// Alterna para o próximo stream de forma segura
+function nextStream() {
+  triedStreams++;
+  if(triedStreams > streams.length){
+    console.warn('Nenhum stream disponível no momento.');
+    return;
+  }
+  currentStream = (currentStream + 1) % streams.length;
+  setTimeout(() => {
+    player.src = streams[currentStream];
+    player.play().catch(nextStream);
+  }, 1000);
+}
+
+// Fallback automático por erro
+player.addEventListener('error', nextStream);
+
+// Detecta travamento silencioso
+setInterval(() => {
+  if(player.paused) return; // se pausado, ignora
+  if(player.currentTime === lastTime){
+    console.warn('Stream travado, alternando...');
+    nextStream();
+  } else {
+    lastTime = player.currentTime;
+  }
+}, 5000); // checa a cada 5 segundos
+
+// Atualiza metadata e capa
 async function updateMetadata(){
   try{
     const res = await fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU=');
@@ -184,10 +217,14 @@ async function fetchCoverLastFm(artist, track){
   return null;
 }
 
-// Atualiza a cada 30s, para reduzir travamento no Bluetooth
+// Atualiza metadata a cada 30s
 updateMetadata();
 setInterval(updateMetadata, 30000);
+
+// Inicia a reprodução
+playStream();
 </script>
 </body>
 </html>
+
 
