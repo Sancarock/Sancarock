@@ -82,33 +82,19 @@ body {
      
     </p>
 
-    <script>
-      // Animação de troca de logo
-      const logos = ["img/logu1.png", "img/logu2.png"];
-      let index = 0;
-      const logo = document.getElementById("logo");
-      setInterval(() => {
-        index = (index + 1) % logos.length;
-        logo.style.opacity = 0;
-        setTimeout(() => {
-          logo.src = logos[index];
-          logo.style.opacity = 1;
-        }, 1000);
-      }, 5000);
-    </script>
 
     <div class="player-container">
 	<div class="equalizer">
       <span></span><span></span><span></span><span></span><span></span>
     </div>
-  <p></p>
+  
       
       <div class="track-info" id="trackTitle">Carregando música...</div>
       <div id="artistName">Aguardando artista...</div>
 	  <p></p>
-	  <p></p>
+	  
 	  <img id="albumCover" src="img/sanca.png" class="album-cover" alt="Capa do Álbum">
-	  <p></p>
+	  
 	  <style>audio::-webkit-media-controls-timeline { display:none;}</style><audio autoplay controls="controls" src="https://s02.transmissaodigital.com:6716/stream"></audio>
 	  <p></p>
 	  <div class="controls">
