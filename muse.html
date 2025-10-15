@@ -7,22 +7,59 @@
     margin: 0;
     padding: 0;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* centraliza vertical e horizontalmente */
+    height: 100vh;
     background: transparent;
+    font-family: sans-serif;
+  }
+
+  #controls {
+    margin-top: 10px;
+  }
+
+  button {
+    background: #222;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    padding: 6px 12px;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background: #555;
+  }
+
+  #volumeDisplay {
+    margin-top: 6px;
+    font-size: 14px;
+    color: #ccc;
   }
 </style>
 </head>
 <body>
   <div id="muse-player"></div>
 
-  <script type="text/javascript" src="https://hosted.muses.org/mrp.js"></script>
-  <script type="text/javascript">
+  <div id="controls">
+    <button onclick="changeVolume(-10)">−</button>
+    <button onclick="changeVolume(10)">+</button>
+    <div id="volumeDisplay">Volume: 100%</div>
+  </div>
+
+  <script src="https://hosted.muses.org/mrp.js"></script>
+  <script>
+    let volume = 100; // volume inicial
+
+    // inicia o player
     MRP.insert({
       'url': 'https://s02.transmissaodigital.com:6716/stream',
       'codec': '',
-      'volume': 100,
+      'volume': volume,
       'autoplay': true,
       'forceHTML5': true,
       'jsevents': false,
@@ -34,6 +71,14 @@
       'height': 141,
       'container': 'muse-player'
     });
+
+    // função para aumentar/diminuir o volume
+    function changeVolume(delta) {
+      volume = Math.max(0, Math.min(100, volume + delta)); // mantém entre 0 e 100
+      MRP.setVolume(volume);
+      document.getElementById('volumeDisplay').innerText = `Volume: ${volume}%`;
+    }
   </script>
 </body>
 </html>
+
