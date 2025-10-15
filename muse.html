@@ -1,14 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-<title>Player</title>
 <meta charset="UTF-8">
-        <title>Simple Free HLS Player Example</title>  
-        <!-- Include hls.js from a CDN -->
-        <script src="https://cdn.tutorialjinni.com/hls.js/1.2.1/hls.min.js"></script>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* centraliza vertical e horizontalmente */
+    background: transparent;
+  }
+</style>
+</head>
 <body>
- <div style="text-align: center;">
+  <div id="muse-player"></div>
+
   <script type="text/javascript" src="https://hosted.muses.org/mrp.js"></script>
   <script type="text/javascript">
     MRP.insert({
@@ -23,12 +31,9 @@
       'wmode': 'transparent',
       'skin': 'abrahadabra2',
       'width': 100,
-      'height': 141
+      'height': 141,
+      'container': 'muse-player'
     });
   </script>
-
-                                                      
-                                                      
-                                        
 </body>
 </html>

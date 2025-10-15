@@ -80,32 +80,29 @@ body {
 </head>
 <body>
   <div align="center">
-    <p>
-     
-    </p>
+    
 
+   <div class="player-container">
+  <div class="equalizer">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
 
-    <div class="player-container">
-	<div class="equalizer">
-      <span></span><span></span><span></span><span></span><span></span>
-    </div>
+  <img src="img/apk.png" alt="Capa do Álbum" width="100" height="100">
+  <img id="albumCover" src="img/sanca.png" class="album-cover" alt="Capa do Álbum">
   
-      <p></p>
-	  <img src="img/apk.png" alt="Capa do Álbum" name="albumCover" width="100" height="100">
-	  <p></p>
-	  <img id="albumCover" src="img/sanca.png" class="album-cover" alt="Capa do Álbum">
-	  <div class="track-info" id="trackTitle">Carregando música...</div>
-      <div id="artistName">Aguardando artista...</div>
-	  <iframe src="muse.html" frameborder="0" width=100% height=100% scrolling="no"></iframe>
-</div>
-	  
-	  <p></p>
-	  <div class="controls">
-   
+  <div class="track-info" id="trackTitle">Carregando música...</div>
+  <div id="artistName">Aguardando artista...</div>
+
+  <!-- Centraliza o iframe -->
+  <div style="display:flex; justify-content:center; margin-top:10px;">
+    <iframe src="muse.html" frameborder="0" width="200" height="150" scrolling="no" style="border:none;"></iframe>
+  </div>
+
+  <div class="controls">
     <button class="mail-button" onclick="window.close()">Fechar</button>
     <button class="play-button" onClick="history.go(0)">Atualizar</button>
   </div>
-    </div>
+</div>
 	
   </div>
 </div>
