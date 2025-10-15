@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>🎸 Rádio SancaRock</title>
+<script src="wimpy.js"></script>
+<link rel="stylesheet" href="wimpy.css">
+<style>
+  body {
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    padding-top: 80px;
+  }
+</style>
+</head>
+<body>
+
+<h2>🎧 Rádio SancaRock</h2>
+
+<!-- Aqui o player Wimpy -->
+<div id="wimpy_player"></div>
+
+<script>
+wimpy.setup({
+  target: "wimpy_player",
+  media: [
+    {
+      title: "Rádio SancaRock",
+      file: "https://stream.zeno.fm/0y2f0ss7kbruv"
+    }
+  ],
+  skin: "skins/classic", // pode mudar pra outro tema
+  autoplay: true,
+  volume: 80,
+  width: 320
+});
+</script>
+
+</body>
+</html>
