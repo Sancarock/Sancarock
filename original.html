@@ -97,7 +97,7 @@ body {
 	  <div class="track-info" id="trackTitle">Carregando música...</div>
       <div id="artistName">Aguardando artista...</div>
 	  <p></p>
-	  <style>audio::-webkit-media-controls-timeline { display:none;}</style><audio autoplay controls="controls" src="https://s02.transmissaodigital.com:6716/stream"></audio>
+	 <audio id="player" controls autoplay></audio>
 	  <p></p>
 	  <div class="controls">
    
@@ -185,8 +185,48 @@ async function fetchCoverLastFm(artist, track){
 updateMetadata();
 setInterval(updateMetadata, 30000);
 </script>
+	<script>
+async function tocarPLS(url) {
+  try {
+    const resposta = await fetch(url);
+    const texto = await resposta.text();
+
+    // Pega todas as linhas que começam com "File"
+    const linhas = texto.split('\n').filter(l => l.trim().toLowerCase().startsWith('file'));
+    const urls = linhas.map(l => l.split('=')[1].trim());
+
+    if (urls.length > 0) {
+      const player = document.getElementById('player');
+      let indice = 0;
+
+      function tocarProxima() {
+        if (indice < urls.length) {
+          player.src = urls[indice];
+          player.play().catch(() => {});
+          indice++;
+        } else {
+          indice = 0;
+          tocarProxima();
+        }
+      }
+
+      player.addEventListener('ended', tocarProxima);
+      tocarProxima();
+    } else {
+      alert('Nenhum link de áudio encontrado no arquivo listen.pls.');
+    }
+  } catch (e) {
+    console.error(e);
+    alert('Erro ao carregar a lista listen.pls.');
+  }
+}
+
+// Se estiver na mesma pasta, deixe só "listen.pls"
+tocarPLS('listen.pls');
+</script>
 </body>
 </html>
+
 
 
 
