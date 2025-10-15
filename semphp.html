@@ -71,7 +71,84 @@ body {
   </div>
 </div>
 
-<script src="js/webview.js?v=6"></script>
+<script>
+const titleEl = document.getElementById('trackTitle');
+const artistEl = document.getElementById('artistName');
+const coverEl = document.getElementById('albumCover');
+const apiKeyLastFm = 'd08d389671438f325d13d64f0c94b583';
+let lastTrack = '';
+
+function decodeHtmlEntities(str){
+  const txt = document.createElement('textarea');
+  txt.innerHTML = str;
+  return txt.value;
+}
+
+async function updateMetadata(){
+  try{
+    const res = await fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU=');
+    const buffer = await res.arrayBuffer();
+    let afterKbps = new TextDecoder('iso-8859-1').decode(buffer)
+      .split('Kbps').pop()
+      .replace(/https?:\/\/[^\s]*/g,'')
+      .replace(/<[^>]*>/g,'')
+      .trim();
+
+    if(!afterKbps || afterKbps === lastTrack) return;
+    lastTrack = afterKbps;
+
+    afterKbps = afterKbps.replace(/(\d+,)+\d+,?/g,'').trim();
+
+    let artist='', track='';
+    if(afterKbps.includes(' - ')){
+      [artist, track] = afterKbps.split(' - ').map(s=>s.trim());
+    } else { track = afterKbps; }
+
+    track = decodeHtmlEntities(track);
+    artist = decodeHtmlEntities(artist);
+
+    titleEl.textContent = track || '---';
+    artistEl.textContent = artist || '---';
+    document.title = `${artist} - ${track} | Rádio SancaRock`;
+
+    // Capa
+    if((artist + ' ' + track).toLowerCase().includes('monstros do rock')){
+      coverEl.src = 'img/monstrosdorock.png';
+    } else {
+      let cover = await fetchCoveriTunes(artist || track, track);
+      if(!cover) cover = await fetchCoverLastFm(artist || track, track);
+      coverEl.src = cover || 'img/sanca.png';
+    }
+
+  } catch(e){ console.warn(e); }
+}
+
+async function fetchCoveriTunes(artist, track){
+  try{
+    const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(artist+' '+track)}&entity=song&limit=5`);
+    const data = await res.json();
+    if(data.results?.length>0){
+      const match = data.results.find(r=>r.artistName.toLowerCase().includes(artist.toLowerCase()));
+      if(match) return match.artworkUrl100.replace("100x100","600x600");
+    }
+  } catch(e){ return null; }
+  return null;
+}
+
+async function fetchCoverLastFm(artist, track){
+  try{
+    const res = await fetch(`https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${apiKeyLastFm}&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(track)}&format=json`);
+    const data = await res.json();
+    const images = data?.track?.album?.image;
+    if(images) return images.find(img=>img.size==='extralarge')?.['#text'];
+  } catch(e){ return null; }
+  return null;
+}
+
+updateMetadata();
+setInterval(updateMetadata, 30000);
+</script>
 </body>
 </html>
+
 
