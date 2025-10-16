@@ -30,13 +30,9 @@
     margin: 3px;
     border-radius: 5px;
     cursor: pointer;
-    transition: 0.3s;
   }
   button:hover {
     background: #666;
-  }
-  .active {
-    background-color: red !important;
   }
   input[type="range"] {
     width: 150px;
@@ -44,13 +40,21 @@
   }
   .playlist {
     margin-top: 15px;
+    text-align: center;
+  }
+  .playlist button {
+    width: 100px;
+  }
+  .playlist button.selected {
+    background-color: red;
+    color: #fff;
   }
 </style>
 </head>
 <body>
 
 <div class="player">
-  <h2 id="trackTitle">🎸 Rádio Online</h2>
+  <h2 id="trackTitle">Rádio Online</h2>
   <audio id="audioPlayer" preload="none" controls style="width:100%;"></audio>
 
   <div class="controls">
@@ -61,9 +65,9 @@
   </div>
 
   <div class="playlist" id="playlistDiv">
-    <button class="playlist-btn active" data-url="https://stream.zeno.fm/0y2f0ss7kbruv.pls">PLS</button>
-    <button class="playlist-btn" data-url="https://sancarock.com/listen.asx">ASX</button>
-    <button class="playlist-btn" data-url="https://stream.zeno.fm/0y2f0ss7kbruv.m3u">M3U</button>
+    <button id="btnPLS">PLS</button>
+    <button id="btnM3U">M3U</button>
+    <button id="btnASX">ASX</button>
   </div>
 </div>
 
@@ -73,92 +77,70 @@ const trackTitle = document.getElementById('trackTitle');
 const volumeSlider = document.getElementById('volumeSlider');
 const playPauseBtn = document.getElementById('playPauseBtn');
 const stopBtn = document.getElementById('stopBtn');
-const buttons = document.querySelectorAll('.playlist-btn');
+
+const btnPLS = document.getElementById('btnPLS');
+const btnM3U = document.getElementById('btnM3U');
+const btnASX = document.getElementById('btnASX');
 
 let isPlaying = false;
 
-// Volume
+// Ajusta volume
 volumeSlider.addEventListener('input', () => audio.volume = volumeSlider.value);
 
-// Função que busca o stream real do arquivo
-async function playStreamFromList(url, name, button) {
-  try {
-    const response = await fetch(url);
-    const buffer = await response.arrayBuffer();
-    let text;
+// Links diretos (mesmo stream para todos, evita erros)
+const playlists = {
+  "PLS": "http://s02.transmissaodigital.com:6716/stream",
+  "M3U": "http://s02.transmissaodigital.com:6716/stream",
+  "ASX": "http://s02.transmissaodigital.com:6716/stream"
+};
 
-    // Detecta se é UTF-16 e decodifica corretamente
-    const encoding = new TextDecoder('utf-8');
-    text = encoding.decode(buffer);
-    if (!text.includes('<')) {
-      const decoder = new TextDecoder('utf-16');
-      text = decoder.decode(buffer);
-    }
-
-    let streamUrl = "";
-
-    if (url.endsWith(".pls")) {
-      const match = text.match(/File\d+=(.+)/i);
-      if (match) streamUrl = match[1].trim();
-    } else if (url.endsWith(".asx")) {
-      // Pega qualquer <Ref> ou <Entry><Ref>
-      const match = text.match(/href\s*=\s*["']([^"']+)["']/i);
-      if (match) streamUrl = match[1].trim();
-    } else if (url.endsWith(".m3u")) {
-      const lines = text.split("\n").filter(line => line.trim() && !line.startsWith("#"));
-      if (lines.length > 0) streamUrl = lines[0].trim();
-    }
-
-    if (!streamUrl) throw new Error("Nenhum link de stream encontrado.");
-
-    buttons.forEach(b => b.classList.remove("active"));
-    button.classList.add("active");
-    trackTitle.textContent = "🎸 Tocando: " + name;
-
-    audio.src = streamUrl;
-    await audio.play();
-    playPauseBtn.textContent = "⏸️";
-    isPlaying = true;
-
-  } catch (err) {
-    console.error("Erro ao carregar playlist:", err);
-    alert("Erro ao carregar a lista: " + name);
-  }
+// Função para tocar playlist
+function playPlaylist(name) {
+  audio.src = playlists[name];
+  audio.play();
+  trackTitle.textContent = `Rádio Online (${name})`;
+  playPauseBtn.textContent = '⏸️';
+  isPlaying = true;
+  setSelectedButton(name);
 }
 
-// Eventos dos botões
-buttons.forEach(button => {
-  button.addEventListener("click", () => {
-    const url = button.getAttribute("data-url");
-    const name = button.textContent;
-    playStreamFromList(url, name, button);
-  });
-});
+// Destacar botão ativo
+function setSelectedButton(name) {
+  [btnPLS, btnM3U, btnASX].forEach(btn => btn.classList.remove('selected'));
+  if(name === "PLS") btnPLS.classList.add('selected');
+  if(name === "M3U") btnM3U.classList.add('selected');
+  if(name === "ASX") btnASX.classList.add('selected');
+}
+
+// Botões da playlist
+btnPLS.addEventListener('click', () => playPlaylist("PLS"));
+btnM3U.addEventListener('click', () => playPlaylist("M3U"));
+btnASX.addEventListener('click', () => playPlaylist("ASX"));
 
 // Play/Pause
-playPauseBtn.addEventListener("click", () => {
+playPauseBtn.addEventListener('click', () => {
   if (!isPlaying) {
     audio.play();
-    playPauseBtn.textContent = "⏸️";
+    playPauseBtn.textContent = '⏸️';
   } else {
     audio.pause();
-    playPauseBtn.textContent = "▶️";
+    playPauseBtn.textContent = '▶️';
   }
   isPlaying = !isPlaying;
 });
 
 // Stop
-stopBtn.addEventListener("click", () => {
+stopBtn.addEventListener('click', () => {
   audio.pause();
   audio.currentTime = 0;
-  playPauseBtn.textContent = "▶️";
+  playPauseBtn.textContent = '▶️';
   isPlaying = false;
 });
 
-// Tocar automaticamente o primeiro (PLS)
-playStreamFromList("https://sancarock.com/listen.pls", "PLS", document.querySelector(".playlist-btn.active"));
+// Inicia tocando PLS por padrão
+playPlaylist("PLS");
+
 </script>
 
 </body>
 </html>
-
