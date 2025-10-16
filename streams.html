@@ -52,7 +52,7 @@
 <body>
 
 <div class="player">
-  <h2 id="trackTitle">Rádio Online</h2>
+  
   <audio id="audioPlayer" preload="none" controls style="width:100%;"></audio>
 
   <div class="controls">
@@ -111,12 +111,12 @@ async function loadPlaylist(url, name) {
 
     // Adiciona cada stream ao playlist global
     streams.forEach((streamUrl, i) => {
-      playlist.push({name: `${name} ${i+1}`, url: streamUrl});
-      const btn = document.createElement('button');
-      btn.textContent = `${name} ${i+1}`;
-      btn.addEventListener('click', () => playIndex(playlist.length - streams.length + i));
-      playlistDiv.appendChild(btn);
-    });
+  playlist.push({name: name, url: streamUrl});  // nome limpo, sem número
+  const btn = document.createElement('button');
+  btn.textContent = name; // aqui também sem `${i+1}`
+  btn.addEventListener('click', () => playIndex(playlist.length - streams.length + i));
+  playlistDiv.appendChild(btn);
+   });
 
     // Se for a primeira playlist carregada, toca o primeiro stream
     if (!isPlaying) playIndex(0);
