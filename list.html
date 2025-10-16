@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -48,10 +47,6 @@
     margin: 3px;
     font-weight: bold;
   }
-.playlist button.selected {
-  background-color: red;
-  color: #fff;
-}
 </style>
 </head>
 <body>
@@ -79,22 +74,19 @@ const playPauseBtn = document.getElementById('playPauseBtn');
 const stopBtn = document.getElementById('stopBtn');
 const volumeSlider = document.getElementById('volumeSlider');
 
-const btnPLS = document.getElementById('btnPLS');
-const btnASX = document.getElementById('btnASX');
-const btnM3U = document.getElementById('btnM3U');
-
 let isPlaying = false;
 
+// URLs das playlists
 const playlists = {
   'PLS': 'https://www.sancarock.com/listen.pls',
   'ASX': 'https://www.sancarock.com/listen.asx',
   'M3U': 'https://www.sancarock.com/listen.m3u'
 };
 
-// Volume
+// Ajusta volume
 volumeSlider.addEventListener('input', () => audio.volume = volumeSlider.value);
 
-// Tocar playlist
+// Função para tocar playlist
 function playPlaylist(url) {
   audio.src = url;
   audio.play();
@@ -102,21 +94,20 @@ function playPlaylist(url) {
   isPlaying = true;
 }
 
-// Destacar botão
-function setSelectedButton(selectedBtn) {
-  [btnPLS, btnASX, btnM3U].forEach(btn => btn.classList.remove('selected'));
-  selectedBtn.classList.add('selected');
-}
-
 // Botões da playlist
-btnPLS.addEventListener('click', () => { playPlaylist(playlists.PLS); setSelectedButton(btnPLS); });
-btnASX.addEventListener('click', () => { playPlaylist(playlists.ASX); setSelectedButton(btnASX); });
-btnM3U.addEventListener('click', () => { playPlaylist(playlists.M3U); setSelectedButton(btnM3U); });
+document.getElementById('btnPLS').addEventListener('click', () => playPlaylist(playlists.PLS));
+document.getElementById('btnASX').addEventListener('click', () => playPlaylist(playlists.ASX));
+document.getElementById('btnM3U').addEventListener('click', () => playPlaylist(playlists.M3U));
 
 // Play/Pause
 playPauseBtn.addEventListener('click', () => {
-  if (!isPlaying) { audio.play(); playPauseBtn.textContent = '⏸️'; }
-  else { audio.pause(); playPauseBtn.textContent = '▶️'; }
+  if (!isPlaying) {
+    audio.play();
+    playPauseBtn.textContent = '⏸️';
+  } else {
+    audio.pause();
+    playPauseBtn.textContent = '▶️';
+  }
   isPlaying = !isPlaying;
 });
 
