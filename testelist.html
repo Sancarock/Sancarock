@@ -21,7 +21,7 @@
     max-width: 400px;
     width: 90%;
   }
-  .controls {
+  .controls, .playlist {
     margin-top: 10px;
   }
   button {
@@ -40,28 +40,22 @@
     width: 80%;
     margin-top: 5px;
   }
-
-  /* Playlist horizontal */
-  .playlist {
-    margin-top: 15px;
-    text-align: center;
-  }
   .playlist button {
-    display: inline-block; /* lado a lado */
+    display: inline-block;
     width: auto;
-    padding: 8px 12px;
+    padding: 8px 15px;
     margin: 3px;
-    border-radius: 5px;
-    cursor: pointer;
+    font-weight: bold;
+  }
+  .playlist button.selected {
+    background-color: red;
+    color: #fff;
   }
 </style>
 </head>
 <body>
 
 <div class="player">
-  <!-- Título escondido -->
-  <h2 id="trackTitle" style="display:none;">Rádio</h2>
-  
   <audio id="audioPlayer" preload="none" controls style="width:100%;"></audio>
 
   <div class="controls">
@@ -71,109 +65,73 @@
     Volume: <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
   </div>
 
-  <div class="playlist" id="playlistDiv">
-    <!-- Botões da playlist serão adicionados aqui -->
+  <div class="playlist">
+    <button id="btnPLS">PLS</button>
+    <button id="btnASX">ASX</button>
+    <button id="btnM3U">M3U</button>
   </div>
 </div>
 
 <script>
-const audio = document.getElementById('audioPlayer');
-const trackTitle = document.getElementById('trackTitle');
-const volumeSlider = document.getElementById('volumeSlider');
-const playlistDiv = document.getElementById('playlistDiv');
-const playPauseBtn = document.getElementById('playPauseBtn');
-const stopBtn = document.getElementById('stopBtn');
+window.addEventListener('DOMContentLoaded', () => {
+  const audio = document.getElementById('audioPlayer');
+  const playPauseBtn = document.getElementById('playPauseBtn');
+  const stopBtn = document.getElementById('stopBtn');
+  const volumeSlider = document.getElementById('volumeSlider');
 
-let playlist = [];
-let currentIndex = 0;
-let isPlaying = false;
+  const btnPLS = document.getElementById('btnPLS');
+  const btnASX = document.getElementById('btnASX');
+  const btnM3U = document.getElementById('btnM3U');
 
-// Ajusta volume
-volumeSlider.addEventListener('input', () => audio.volume = volumeSlider.value);
+  let isPlaying = false;
 
-// Carrega playlist (.pls, .m3u, .asx)
-async function loadPlaylist(url, name) {
-  try {
-    const response = await fetch(url);
-    const text = await response.text();
-    let streams = [];
+  // Aqui use os links diretos de stream que funcionavam antes
+  const playlists = {
+    'PLS': 'https://www.sancarock.com/listen.pls',
+    'ASX': 'https://www.sancarock.com/listen.asx',
+    'M3U': 'https://www.sancarock.com/listen.m3u'
+  };
 
-    if (url.endsWith('.pls')) {
-      const matches = text.match(/File\d+=(.+)/gi);
-      if (matches) streams = matches.map(m => m.split('=')[1].trim());
-    } else if (url.endsWith('.asx')) {
-      const matches = [...text.matchAll(/<Ref\s+href="([^"]+)"/gi)];
-      streams = matches.map(m => m[1].trim());
-    } else if (url.endsWith('.m3u')) {
-      const lines = text.split('\n');
-      streams = lines.filter(line => line.trim() && !line.startsWith('#'));
-    } else {
-      streams = [url];
-    }
+  // Volume
+  volumeSlider.addEventListener('input', () => audio.volume = volumeSlider.value);
 
-    if (streams.length === 0) streams = [url]; // fallback
-
-    streams.forEach((streamUrl, i) => {
-      playlist.push({name: name, url: streamUrl});
-      const btn = document.createElement('button');
-      btn.textContent = name; // nome limpo
-      btn.addEventListener('click', () => playIndex(playlist.length - streams.length + i));
-      playlistDiv.appendChild(btn);
-    });
-
-    // Toca o primeiro stream se ainda não estiver tocando
-    if (!isPlaying) playIndex(0);
-
-  } catch (err) {
-    console.error(err);
-    alert('Erro ao carregar a playlist: ' + name);
-  }
-}
-
-// Toca pelo índice
-function playIndex(index) {
-  if (index < 0 || index >= playlist.length) return;
-  currentIndex = index;
-  audio.src = playlist[currentIndex].url;
-  trackTitle.textContent = playlist[currentIndex].name;
-  audio.play();
-  playPauseBtn.textContent = '⏸️';
-  isPlaying = true;
-}
-
-// Play/Pause
-playPauseBtn.addEventListener('click', () => {
-  if (!isPlaying) {
+  // Tocar playlist
+  function playPlaylist(url) {
+    audio.src = url;
     audio.play();
     playPauseBtn.textContent = '⏸️';
-  } else {
-    audio.pause();
-    playPauseBtn.textContent = '▶️';
+    isPlaying = true;
   }
-  isPlaying = !isPlaying;
+
+  // Destacar botão
+  function setSelectedButton(selectedBtn) {
+    [btnPLS, btnASX, btnM3U].forEach(btn => btn.classList.remove('selected'));
+    selectedBtn.classList.add('selected');
+  }
+
+  // Eventos dos botões
+  btnPLS.addEventListener('click', () => { playPlaylist(playlists.PLS); setSelectedButton(btnPLS); });
+  btnASX.addEventListener('click', () => { playPlaylist(playlists.ASX); setSelectedButton(btnASX); });
+  btnM3U.addEventListener('click', () => { playPlaylist(playlists.M3U); setSelectedButton(btnM3U); });
+
+  // Play/Pause
+  playPauseBtn.addEventListener('click', () => {
+    if (!isPlaying) { audio.play(); playPauseBtn.textContent = '⏸️'; }
+    else { audio.pause(); playPauseBtn.textContent = '▶️'; }
+    isPlaying = !isPlaying;
+  });
+
+  // Stop
+  stopBtn.addEventListener('click', () => {
+    audio.pause();
+    audio.currentTime = 0;
+    playPauseBtn.textContent = '▶️';
+    isPlaying = false;
+  });
 });
-
-// Stop
-stopBtn.addEventListener('click', () => {
-  audio.pause();
-  audio.currentTime = 0;
-  playPauseBtn.textContent = '▶️';
-  isPlaying = false;
-});
-
-// Auto next
-audio.addEventListener('ended', () => {
-  currentIndex = (currentIndex + 1) % playlist.length;
-  playIndex(currentIndex);
-});
-
-// --- Carrega suas playlists hospedadas ---
-loadPlaylist('https://www.sancarock.com/listen.pls', 'PLS');
-loadPlaylist('https://www.sancarock.com/listen.m3u', 'M3U');
-loadPlaylist('https://www.sancarock.com/listen.asx', 'ASX');
-
 </script>
 
 </body>
 </html>
+
 
