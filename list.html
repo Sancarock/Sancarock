@@ -18,7 +18,7 @@
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 15px #111;
-    max-width: 350px;
+    max-width: 400px;
     width: 90%;
   }
   .controls {
@@ -32,7 +32,6 @@
     margin: 3px;
     border-radius: 5px;
     cursor: pointer;
-    width: 48%;
   }
   button:hover {
     background: #666;
@@ -41,22 +40,26 @@
     width: 80%;
     margin-top: 5px;
   }
+
+  /* Playlist horizontal */
   .playlist {
     margin-top: 15px;
-    text-align: left;
+    text-align: center;
   }
   .playlist button {
-    width: 100%;
-    text-align: left;
-    padding-left: 10px;
-    margin: 2px 0;
+    display: inline-block; /* lado a lado */
+    width: auto;
+    padding: 8px 12px;
+    margin: 3px;
+    border-radius: 5px;
+    cursor: pointer;
   }
 </style>
 </head>
 <body>
 
 <div class="player">
-  <!-- Título escondido, não interfere no layout -->
+  <!-- Título escondido -->
   <h2 id="trackTitle" style="display:none;">Rádio</h2>
   
   <audio id="audioPlayer" preload="none" controls style="width:100%;"></audio>
@@ -69,7 +72,7 @@
   </div>
 
   <div class="playlist" id="playlistDiv">
-    <!-- Botões de rádio serão adicionados aqui -->
+    <!-- Botões da playlist serão adicionados aqui -->
   </div>
 </div>
 
@@ -81,14 +84,14 @@ const playlistDiv = document.getElementById('playlistDiv');
 const playPauseBtn = document.getElementById('playPauseBtn');
 const stopBtn = document.getElementById('stopBtn');
 
-let playlist = []; // array de objetos {name, url}
+let playlist = [];
 let currentIndex = 0;
 let isPlaying = false;
 
 // Ajusta volume
 volumeSlider.addEventListener('input', () => audio.volume = volumeSlider.value);
 
-// Função para carregar playlist (.pls, .m3u, .asx)
+// Carrega playlist (.pls, .m3u, .asx)
 async function loadPlaylist(url, name) {
   try {
     const response = await fetch(url);
@@ -108,7 +111,7 @@ async function loadPlaylist(url, name) {
       streams = [url];
     }
 
-    if (streams.length === 0) streams = [url]; // fallback se nenhum stream encontrado
+    if (streams.length === 0) streams = [url]; // fallback
 
     streams.forEach((streamUrl, i) => {
       playlist.push({name: name, url: streamUrl});
@@ -118,7 +121,7 @@ async function loadPlaylist(url, name) {
       playlistDiv.appendChild(btn);
     });
 
-    // Se primeira vez, toca o primeiro stream
+    // Toca o primeiro stream se ainda não estiver tocando
     if (!isPlaying) playIndex(0);
 
   } catch (err) {
@@ -132,7 +135,7 @@ function playIndex(index) {
   if (index < 0 || index >= playlist.length) return;
   currentIndex = index;
   audio.src = playlist[currentIndex].url;
-  trackTitle.textContent = playlist[currentIndex].name; // invisível
+  trackTitle.textContent = playlist[currentIndex].name;
   audio.play();
   playPauseBtn.textContent = '⏸️';
   isPlaying = true;
@@ -158,13 +161,13 @@ stopBtn.addEventListener('click', () => {
   isPlaying = false;
 });
 
-// Auto next quando termina
+// Auto next
 audio.addEventListener('ended', () => {
   currentIndex = (currentIndex + 1) % playlist.length;
   playIndex(currentIndex);
 });
 
-// --- Carregamento das playlists hospedadas no seu domínio ---
+// --- Carrega suas playlists hospedadas ---
 loadPlaylist('https://www.sancarock.com/listen.pls', 'PLS');
 loadPlaylist('https://www.sancarock.com/listen.m3u', 'M3U');
 loadPlaylist('https://www.sancarock.com/listen.asx', 'ASX');
@@ -173,3 +176,4 @@ loadPlaylist('https://www.sancarock.com/listen.asx', 'ASX');
 
 </body>
 </html>
+
