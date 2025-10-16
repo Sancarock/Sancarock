@@ -87,15 +87,15 @@ const stopBtn = document.getElementById('stopBtn');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
 
-let playlist = []; // array de objetos {name, url}
+let playlist = []; // {name, url}
 let currentIndex = 0;
 let isPlaying = false;
 let activeBtn = null;
+let started = false; // garante toque manual no Android
 
-// Ajusta volume
 volumeSlider.addEventListener('input', () => audio.volume = volumeSlider.value);
 
-// Função para carregar uma playlist online (.pls, .asx, .m3u)
+// Função para carregar playlist
 async function loadPlaylist(url, name) {
   try {
     const response = await fetch(url);
@@ -105,7 +105,8 @@ async function loadPlaylist(url, name) {
     if (url.endsWith('.pls')) {
       const matches = text.match(/File\d+=(.+)/gi);
       if (matches) streams = matches.map(m => m.split('=')[1].trim());
-    } else if (url.endsWith('.asx')) {
+    } 
+    else if (url.endsWith('.asx')) {
       const matches = [...text.matchAll(/<ref[^>]*href\s*=\s*["']([^"']+)["']/gi)];
       if (matches.length > 0) {
         streams = matches.map(m => m[1].trim());
@@ -113,51 +114,63 @@ async function loadPlaylist(url, name) {
         const lines = text.split('\n');
         streams = lines.filter(line => line.trim() && !line.startsWith('#'));
       }
-    } else if (url.endsWith('.m3u')) {
+    } 
+    else if (url.endsWith('.m3u')) {
       const lines = text.split('\n');
       streams = lines.filter(line => line.trim() && !line.startsWith('#'));
-    } else {
+    } 
+    else {
       streams = [url];
     }
 
-    // Adiciona cada stream ao playlist global
+    // adiciona botões
     streams.forEach((streamUrl, i) => {
-      playlist.push({ name: name, url: streamUrl });
+      const index = playlist.length;
+      playlist.push({ name, url: streamUrl });
       const btn = document.createElement('button');
       btn.textContent = name;
       btn.addEventListener('click', () => {
-        playIndex(playlist.length - streams.length + i);
+        playIndex(index);
         setActiveButton(btn);
       });
       playlistDiv.appendChild(btn);
     });
-
   } catch (err) {
     console.error(err);
-    alert('Erro ao carregar a playlist: ' + name);
+    alert('Erro ao carregar playlist: ' + name);
   }
 }
 
-// Define botão ativo com cor diferente
+// Define o botão ativo
 function setActiveButton(btn) {
   if (activeBtn) activeBtn.style.background = '#444';
   btn.style.background = 'red';
   activeBtn = btn;
 }
 
-// Função para tocar stream pelo índice
+// Função principal de tocar
 function playIndex(index) {
   if (index < 0 || index >= playlist.length) return;
   currentIndex = index;
   audio.src = playlist[currentIndex].url;
   trackTitle.textContent = playlist[currentIndex].name;
-  audio.play().catch(() => {}); // evita erro em Android antes do toque
-  playPauseBtn.textContent = '⏸️';
-  isPlaying = true;
+
+  // Android exige play após interação
+  const playAudio = () => {
+    audio.play().then(() => {
+      playPauseBtn.textContent = '⏸️';
+      isPlaying = true;
+    }).catch(err => {
+      console.warn('Esperando interação do usuário:', err);
+    });
+  };
+
+  if (started) playAudio();
 }
 
 // Play/Pause
 playPauseBtn.addEventListener('click', () => {
+  started = true;
   if (!isPlaying) {
     audio.play();
     playPauseBtn.textContent = '⏸️';
@@ -176,29 +189,29 @@ stopBtn.addEventListener('click', () => {
   isPlaying = false;
 });
 
-// Próximo / Anterior
+// Navegação
 nextBtn.addEventListener('click', () => playIndex((currentIndex + 1) % playlist.length));
 prevBtn.addEventListener('click', () => playIndex((currentIndex - 1 + playlist.length) % playlist.length));
-
-// Auto next quando termina
 audio.addEventListener('ended', () => nextBtn.click());
 
-// --- Carrega as playlists ---
+// Carregar listas
 loadPlaylist('https://sancarock.com/listen.pls', 'PLS');
 loadPlaylist('https://sancarock.com/listen.asx', 'ASX');
 loadPlaylist('https://sancarock.com/listen.m3u', 'M3U');
 
-// --- Libera reprodução no Android após toque ---
-document.addEventListener('click', function startOnce() {
-  if (!isPlaying && playlist.length > 0) {
-    playIndex(0); // toca o primeiro stream disponível
+// Garante início manual (Android)
+document.addEventListener('click', () => {
+  if (!started && playlist.length > 0) {
+    started = true;
+    playIndex(0);
   }
-  document.removeEventListener('click', startOnce);
-});
+}, { once: true });
 </script>
+
 
 </body>
 </html>
+
 
 
 
