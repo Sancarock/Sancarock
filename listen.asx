@@ -1,4 +1,6 @@
 <ASX version="3.0">
-  <ENTRY><REF href="http://s02.transmissaodigital.com:6716/stream" /></ENTRY>
-  <ENTRY><REF href="https://stream.zeno.fm/0y2f0ss7kbruv" /></ENTRY>
+  <ENTRY>
+    <REF href="http://s02.transmissaodigital.com:6716/stream" />
+    <TITLE>Sanca Rock</TITLE>
+  </ENTRY>
 </ASX>
