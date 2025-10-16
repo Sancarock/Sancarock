@@ -81,47 +81,80 @@
 const audio = document.getElementById('audioPlayer');
 const trackTitle = document.getElementById('trackTitle');
 const volumeSlider = document.getElementById('volumeSlider');
+const playlistDiv = document.getElementById('playlistDiv');
 const playPauseBtn = document.getElementById('playPauseBtn');
 const stopBtn = document.getElementById('stopBtn');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
 
-const btnPLS = document.getElementById('btnPLS');
-const btnM3U = document.getElementById('btnM3U');
-const btnASX = document.getElementById('btnASX');
-
+let playlist = []; // array de objetos {name, url}
+let currentIndex = 0;
 let isPlaying = false;
+let activeBtn = null;
 
 // Ajusta volume
 volumeSlider.addEventListener('input', () => audio.volume = volumeSlider.value);
 
-// Links diretos (mesmo stream para todos, evita erros)
-const playlists = {
-  "PLS": "http://s02.transmissaodigital.com:6716/stream",
-  "M3U": "http://s02.transmissaodigital.com:6716/stream",
-  "ASX": "http://s02.transmissaodigital.com:6716/stream"
-};
+// Função para carregar uma playlist online (.pls, .asx, .m3u)
+async function loadPlaylist(url, name) {
+  try {
+    const response = await fetch(url);
+    const text = await response.text();
+    let streams = [];
 
-// Função para tocar playlist
-function playPlaylist(name) {
-  audio.src = playlists[name];
-  audio.play();
-  trackTitle.textContent = `Rádio Online (${name})`;
+    if (url.endsWith('.pls')) {
+      const matches = text.match(/File\d+=(.+)/gi);
+      if (matches) streams = matches.map(m => m.split('=')[1].trim());
+    } else if (url.endsWith('.asx')) {
+      const matches = [...text.matchAll(/<ref[^>]*href\s*=\s*["']([^"']+)["']/gi)];
+      if (matches.length > 0) {
+        streams = matches.map(m => m[1].trim());
+      } else {
+        const lines = text.split('\n');
+        streams = lines.filter(line => line.trim() && !line.startsWith('#'));
+      }
+    } else if (url.endsWith('.m3u')) {
+      const lines = text.split('\n');
+      streams = lines.filter(line => line.trim() && !line.startsWith('#'));
+    } else {
+      streams = [url];
+    }
+
+    // Adiciona cada stream ao playlist global
+    streams.forEach((streamUrl, i) => {
+      playlist.push({ name: name, url: streamUrl });
+      const btn = document.createElement('button');
+      btn.textContent = name;
+      btn.addEventListener('click', () => {
+        playIndex(playlist.length - streams.length + i);
+        setActiveButton(btn);
+      });
+      playlistDiv.appendChild(btn);
+    });
+
+  } catch (err) {
+    console.error(err);
+    alert('Erro ao carregar a playlist: ' + name);
+  }
+}
+
+// Define botão ativo com cor diferente
+function setActiveButton(btn) {
+  if (activeBtn) activeBtn.style.background = '#444';
+  btn.style.background = 'red';
+  activeBtn = btn;
+}
+
+// Função para tocar stream pelo índice
+function playIndex(index) {
+  if (index < 0 || index >= playlist.length) return;
+  currentIndex = index;
+  audio.src = playlist[currentIndex].url;
+  trackTitle.textContent = playlist[currentIndex].name;
+  audio.play().catch(() => {}); // evita erro em Android antes do toque
   playPauseBtn.textContent = '⏸️';
   isPlaying = true;
-  setSelectedButton(name);
 }
-
-// Destacar botão ativo
-function setSelectedButton(name) {
-  [btnPLS, btnM3U, btnASX].forEach(btn => btn.classList.remove('selected'));
-  if(name === "PLS") btnPLS.classList.add('selected');
-  if(name === "M3U") btnM3U.classList.add('selected');
-  if(name === "ASX") btnASX.classList.add('selected');
-}
-
-// Botões da playlist
-btnPLS.addEventListener('click', () => playPlaylist("PLS"));
-btnM3U.addEventListener('click', () => playPlaylist("M3U"));
-btnASX.addEventListener('click', () => playPlaylist("ASX"));
 
 // Play/Pause
 playPauseBtn.addEventListener('click', () => {
@@ -143,12 +176,29 @@ stopBtn.addEventListener('click', () => {
   isPlaying = false;
 });
 
-// Inicia tocando PLS por padrão
-playPlaylist("PLS");
+// Próximo / Anterior
+nextBtn.addEventListener('click', () => playIndex((currentIndex + 1) % playlist.length));
+prevBtn.addEventListener('click', () => playIndex((currentIndex - 1 + playlist.length) % playlist.length));
 
+// Auto next quando termina
+audio.addEventListener('ended', () => nextBtn.click());
+
+// --- Carrega as playlists ---
+loadPlaylist('https://sancarock.com/listen.pls', 'PLS');
+loadPlaylist('https://sancarock.com/listen.asx', 'ASX');
+loadPlaylist('https://sancarock.com/listen.m3u', 'M3U');
+
+// --- Libera reprodução no Android após toque ---
+document.addEventListener('click', function startOnce() {
+  if (!isPlaying && playlist.length > 0) {
+    playIndex(0); // toca o primeiro stream disponível
+  }
+  document.removeEventListener('click', startOnce);
+});
 </script>
 
 </body>
 </html>
+
 
 
