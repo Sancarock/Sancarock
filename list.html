@@ -48,6 +48,11 @@
     margin: 3px;
     font-weight: bold;
   }
+/* Botão selecionado */
+.playlist button.selected {
+  background-color: red;
+  color: #fff;
+}
 </style>
 </head>
 <body>
@@ -75,6 +80,10 @@ const playPauseBtn = document.getElementById('playPauseBtn');
 const stopBtn = document.getElementById('stopBtn');
 const volumeSlider = document.getElementById('volumeSlider');
 
+const btnPLS = document.getElementById('btnPLS');
+const btnASX = document.getElementById('btnASX');
+const btnM3U = document.getElementById('btnM3U');
+
 let isPlaying = false;
 
 // URLs das playlists
@@ -95,10 +104,25 @@ function playPlaylist(url) {
   isPlaying = true;
 }
 
-// Botões da playlist
-document.getElementById('btnPLS').addEventListener('click', () => playPlaylist(playlists.PLS));
-document.getElementById('btnASX').addEventListener('click', () => playPlaylist(playlists.ASX));
-document.getElementById('btnM3U').addEventListener('click', () => playPlaylist(playlists.M3U));
+// Função para marcar botão selecionado
+function setSelectedButton(selectedBtn) {
+  [btnPLS, btnASX, btnM3U].forEach(btn => btn.classList.remove('selected'));
+  selectedBtn.classList.add('selected');
+}
+
+// Eventos dos botões da playlist
+btnPLS.addEventListener('click', () => {
+  playPlaylist(playlists.PLS);
+  setSelectedButton(btnPLS);
+});
+btnASX.addEventListener('click', () => {
+  playPlaylist(playlists.ASX);
+  setSelectedButton(btnASX);
+});
+btnM3U.addEventListener('click', () => {
+  playPlaylist(playlists.M3U);
+  setSelectedButton(btnM3U);
+});
 
 // Play/Pause
 playPauseBtn.addEventListener('click', () => {
@@ -119,7 +143,6 @@ stopBtn.addEventListener('click', () => {
   playPauseBtn.textContent = '▶️';
   isPlaying = false;
 });
-
 </script>
 
 </body>
