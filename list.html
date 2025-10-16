@@ -48,7 +48,6 @@
     margin: 3px;
     font-weight: bold;
   }
-/* Botão selecionado */
 .playlist button.selected {
   background-color: red;
   color: #fff;
@@ -75,72 +74,60 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+const audio = document.getElementById('audioPlayer');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const stopBtn = document.getElementById('stopBtn');
+const volumeSlider = document.getElementById('volumeSlider');
 
-  const audio = document.getElementById('audioPlayer');
-  const playPauseBtn = document.getElementById('playPauseBtn');
-  const stopBtn = document.getElementById('stopBtn');
-  const volumeSlider = document.getElementById('volumeSlider');
+const btnPLS = document.getElementById('btnPLS');
+const btnASX = document.getElementById('btnASX');
+const btnM3U = document.getElementById('btnM3U');
 
-  const btnPLS = document.getElementById('btnPLS');
-  const btnASX = document.getElementById('btnASX');
-  const btnM3U = document.getElementById('btnM3U');
+let isPlaying = false;
 
-  let isPlaying = false;
+const playlists = {
+  'PLS': 'https://www.sancarock.com/listen.pls',
+  'ASX': 'https://www.sancarock.com/listen.asx',
+  'M3U': 'https://www.sancarock.com/listen.m3u'
+};
 
-  const playlists = {
-    'PLS': 'https://www.sancarock.com/listen.pls',
-    'ASX': 'https://www.sancarock.com/listen.asx',
-    'M3U': 'https://www.sancarock.com/listen.m3u'
-  };
+// Volume
+volumeSlider.addEventListener('input', () => audio.volume = volumeSlider.value);
 
-  // Volume
-  volumeSlider.addEventListener('input', () => audio.volume = volumeSlider.value);
+// Tocar playlist
+function playPlaylist(url) {
+  audio.src = url;
+  audio.play();
+  playPauseBtn.textContent = '⏸️';
+  isPlaying = true;
+}
 
-  function playPlaylist(url) {
-    audio.src = url;
-    audio.play();
-    playPauseBtn.textContent = '⏸️';
-    isPlaying = true;
-  }
+// Destacar botão
+function setSelectedButton(selectedBtn) {
+  [btnPLS, btnASX, btnM3U].forEach(btn => btn.classList.remove('selected'));
+  selectedBtn.classList.add('selected');
+}
 
-  function setSelectedButton(selectedBtn) {
-    [btnPLS, btnASX, btnM3U].forEach(btn => btn.classList.remove('selected'));
-    selectedBtn.classList.add('selected');
-  }
+// Botões da playlist
+btnPLS.addEventListener('click', () => { playPlaylist(playlists.PLS); setSelectedButton(btnPLS); });
+btnASX.addEventListener('click', () => { playPlaylist(playlists.ASX); setSelectedButton(btnASX); });
+btnM3U.addEventListener('click', () => { playPlaylist(playlists.M3U); setSelectedButton(btnM3U); });
 
-  btnPLS.addEventListener('click', () => {
-    playPlaylist(playlists.PLS);
-    setSelectedButton(btnPLS);
-  });
-  btnASX.addEventListener('click', () => {
-    playPlaylist(playlists.ASX);
-    setSelectedButton(btnASX);
-  });
-  btnM3U.addEventListener('click', () => {
-    playPlaylist(playlists.M3U);
-    setSelectedButton(btnM3U);
-  });
-
-  playPauseBtn.addEventListener('click', () => {
-    if (!isPlaying) {
-      audio.play();
-      playPauseBtn.textContent = '⏸️';
-    } else {
-      audio.pause();
-      playPauseBtn.textContent = '▶️';
-    }
-    isPlaying = !isPlaying;
-  });
-
-  stopBtn.addEventListener('click', () => {
-    audio.pause();
-    audio.currentTime = 0;
-    playPauseBtn.textContent = '▶️';
-    isPlaying = false;
-  });
-
+// Play/Pause
+playPauseBtn.addEventListener('click', () => {
+  if (!isPlaying) { audio.play(); playPauseBtn.textContent = '⏸️'; }
+  else { audio.pause(); playPauseBtn.textContent = '▶️'; }
+  isPlaying = !isPlaying;
 });
+
+// Stop
+stopBtn.addEventListener('click', () => {
+  audio.pause();
+  audio.currentTime = 0;
+  playPauseBtn.textContent = '▶️';
+  isPlaying = false;
+});
+
 </script>
 
 </body>
