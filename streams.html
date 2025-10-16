@@ -77,21 +77,32 @@ const buttons = document.querySelectorAll('.playlist-btn');
 
 let isPlaying = false;
 
-// Ajusta volume
+// Volume
 volumeSlider.addEventListener('input', () => audio.volume = volumeSlider.value);
 
-// Função para buscar e tocar o stream real dentro do .pls / .asx / .m3u
+// Função que busca o stream real do arquivo
 async function playStreamFromList(url, name, button) {
   try {
     const response = await fetch(url);
-    const text = await response.text();
+    const buffer = await response.arrayBuffer();
+    let text;
+
+    // Detecta se é UTF-16 e decodifica corretamente
+    const encoding = new TextDecoder('utf-8');
+    text = encoding.decode(buffer);
+    if (!text.includes('<')) {
+      const decoder = new TextDecoder('utf-16');
+      text = decoder.decode(buffer);
+    }
+
     let streamUrl = "";
 
     if (url.endsWith(".pls")) {
       const match = text.match(/File\d+=(.+)/i);
       if (match) streamUrl = match[1].trim();
     } else if (url.endsWith(".asx")) {
-      const match = text.match(/href="([^"]+)"/i);
+      // Pega qualquer <Ref> ou <Entry><Ref>
+      const match = text.match(/href\s*=\s*["']([^"']+)["']/i);
       if (match) streamUrl = match[1].trim();
     } else if (url.endsWith(".m3u")) {
       const lines = text.split("\n").filter(line => line.trim() && !line.startsWith("#"));
@@ -100,12 +111,10 @@ async function playStreamFromList(url, name, button) {
 
     if (!streamUrl) throw new Error("Nenhum link de stream encontrado.");
 
-    // Atualiza interface
     buttons.forEach(b => b.classList.remove("active"));
     button.classList.add("active");
     trackTitle.textContent = "🎸 Tocando: " + name;
 
-    // Reproduz
     audio.src = streamUrl;
     await audio.play();
     playPauseBtn.textContent = "⏸️";
@@ -117,7 +126,7 @@ async function playStreamFromList(url, name, button) {
   }
 }
 
-// Evento nos botões de playlist
+// Eventos dos botões
 buttons.forEach(button => {
   button.addEventListener("click", () => {
     const url = button.getAttribute("data-url");
