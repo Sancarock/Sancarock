@@ -61,9 +61,9 @@
   </div>
 
   <div class="playlist" id="playlistDiv">
-    <button class="playlist-btn active" data-stream="https://sancarock.com/listen.pls">PLS</button>
-    <button class="playlist-btn" data-stream="https://sancarock.com/listen.asx">ASX</button>
-    <button class="playlist-btn" data-stream="https://sancarock.com/listen.m3u">M3U</button>
+    <button class="playlist-btn active" data-url="https://sancarock.com/listen.pls">PLS</button>
+    <button class="playlist-btn" data-url="https://sancarock.com/listen.asx">ASX</button>
+    <button class="playlist-btn" data-url="https://sancarock.com/listen.m3u">M3U</button>
   </div>
 </div>
 
@@ -77,45 +77,78 @@ const buttons = document.querySelectorAll('.playlist-btn');
 
 let isPlaying = false;
 
-// Volume
+// Ajusta volume
 volumeSlider.addEventListener('input', () => audio.volume = volumeSlider.value);
 
-// Tocar stream selecionado
-buttons.forEach(button => {
-  button.addEventListener('click', function() {
-    buttons.forEach(b => b.classList.remove('active'));
-    this.classList.add('active');
-    const stream = this.getAttribute('data-stream');
-    trackTitle.textContent = "🎸 Tocando: " + this.textContent;
-    audio.src = stream;
-    audio.play().catch(err => console.log('Erro ao tocar:', err));
-    playPauseBtn.textContent = '⏸️';
+// Função para buscar e tocar o stream real dentro do .pls / .asx / .m3u
+async function playStreamFromList(url, name, button) {
+  try {
+    const response = await fetch(url);
+    const text = await response.text();
+    let streamUrl = "";
+
+    if (url.endsWith(".pls")) {
+      const match = text.match(/File\d+=(.+)/i);
+      if (match) streamUrl = match[1].trim();
+    } else if (url.endsWith(".asx")) {
+      const match = text.match(/href="([^"]+)"/i);
+      if (match) streamUrl = match[1].trim();
+    } else if (url.endsWith(".m3u")) {
+      const lines = text.split("\n").filter(line => line.trim() && !line.startsWith("#"));
+      if (lines.length > 0) streamUrl = lines[0].trim();
+    }
+
+    if (!streamUrl) throw new Error("Nenhum link de stream encontrado.");
+
+    // Atualiza interface
+    buttons.forEach(b => b.classList.remove("active"));
+    button.classList.add("active");
+    trackTitle.textContent = "🎸 Tocando: " + name;
+
+    // Reproduz
+    audio.src = streamUrl;
+    await audio.play();
+    playPauseBtn.textContent = "⏸️";
     isPlaying = true;
+
+  } catch (err) {
+    console.error("Erro ao carregar playlist:", err);
+    alert("Erro ao carregar a lista: " + name);
+  }
+}
+
+// Evento nos botões de playlist
+buttons.forEach(button => {
+  button.addEventListener("click", () => {
+    const url = button.getAttribute("data-url");
+    const name = button.textContent;
+    playStreamFromList(url, name, button);
   });
 });
 
-// Play / Pause
-playPauseBtn.addEventListener('click', () => {
+// Play/Pause
+playPauseBtn.addEventListener("click", () => {
   if (!isPlaying) {
     audio.play();
-    playPauseBtn.textContent = '⏸️';
+    playPauseBtn.textContent = "⏸️";
   } else {
     audio.pause();
-    playPauseBtn.textContent = '▶️';
+    playPauseBtn.textContent = "▶️";
   }
   isPlaying = !isPlaying;
 });
 
 // Stop
-stopBtn.addEventListener('click', () => {
+stopBtn.addEventListener("click", () => {
   audio.pause();
   audio.currentTime = 0;
-  playPauseBtn.textContent = '▶️';
+  playPauseBtn.textContent = "▶️";
   isPlaying = false;
 });
+
+// Tocar automaticamente o primeiro (PLS)
+playStreamFromList("https://sancarock.com/listen.pls", "PLS", document.querySelector(".playlist-btn.active"));
 </script>
 
 </body>
 </html>
-
-
