@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Mini Winamp Player Avançado</title>
+<style>
+  body {
+    background-color: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding-top: 50px;
+  }
+  .player {
+    display: inline-block;
+    background: #222;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #111;
+    width: 350px;
+  }
+  .controls {
+    margin-top: 10px;
+  }
+  button {
+    background: #444;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    margin: 3px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  button:hover {
+    background: #666;
+  }
+  input[type="range"] {
+    width: 150px;
+    vertical-align: middle;
+  }
+  .playlist {
+    margin-top: 15px;
+    text-align: left;
+  }
+  .playlist button {
+    width: 100%;
+    text-align: left;
+    padding-left: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="player">
+  <h2 id="trackTitle">Rádio Online</h2>
+  <audio id="audioPlayer" preload="none" controls style="width:100%;"></audio>
+
+  <div class="controls">
+    <button id="prevBtn">⏮️</button>
+    <button id="playPauseBtn">▶️</button>
+    <button id="stopBtn">⏹️</button>
+    <button id="nextBtn">⏭️</button>
+    <br>
+    Volume: <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
+  </div>
+
+  <div class="playlist" id="playlistDiv">
+    <!-- Botões de rádio serão adicionados aqui -->
+  </div>
+</div>
+
+<script>
+const audio = document.getElementById('audioPlayer');
+const trackTitle = document.getElementById('trackTitle');
+const volumeSlider = document.getElementById('volumeSlider');
+const playlistDiv = document.getElementById('playlistDiv');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const stopBtn = document.getElementById('stopBtn');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+let playlist = []; // array de objetos {name, url}
+let currentIndex = 0;
+let isPlaying = false;
+
+// Ajusta volume
+volumeSlider.addEventListener('input', () => audio.volume = volumeSlider.value);
+
+// Função para carregar uma playlist online (.pls, .asx, .m3u)
+async function loadPlaylist(url, name) {
+  try {
+    const response = await fetch(url);
+    const text = await response.text();
+    let streams = [];
+
+    if (url.endsWith('.pls')) {
+      // PLS: pega todas as linhas FileN=
+      const matches = text.match(/File\d+=(.+)/gi);
+      if (matches) streams = matches.map(m => m.split('=')[1].trim());
+    } else if (url.endsWith('.asx')) {
+      // ASX: pega todos Ref href=""
+      const matches = [...text.matchAll(/<Ref\s+href="([^"]+)"/gi)];
+      streams = matches.map(m => m[1].trim());
+    } else if (url.endsWith('.m3u')) {
+      // M3U: pega todas as linhas não comentadas
+      const lines = text.split('\n');
+      streams = lines.filter(line => line.trim() && !line.startsWith('#'));
+    } else {
+      streams = [url];
+    }
+
+    // Adiciona cada stream ao playlist global
+    streams.forEach((streamUrl, i) => {
+      playlist.push({name: `${name} ${i+1}`, url: streamUrl});
+      const btn = document.createElement('button');
+      btn.textContent = `${name} ${i+1}`;
+      btn.addEventListener('click', () => playIndex(playlist.length - streams.length + i));
+      playlistDiv.appendChild(btn);
+    });
+
+    // Se for a primeira playlist carregada, toca o primeiro stream
+    if (!isPlaying) playIndex(0);
+
+  } catch (err) {
+    console.error(err);
+    alert('Erro ao carregar a playlist: ' + name);
+  }
+}
+
+// Função para tocar stream pelo índice
+function playIndex(index) {
+  if (index < 0 || index >= playlist.length) return;
+  currentIndex = index;
+  audio.src = playlist[currentIndex].url;
+  trackTitle.textContent = playlist[currentIndex].name;
+  audio.play();
+  playPauseBtn.textContent = '⏸️';
+  isPlaying = true;
+}
+
+// Play/Pause
+playPauseBtn.addEventListener('click', () => {
+  if (!isPlaying) {
+    audio.play();
+    playPauseBtn.textContent = '⏸️';
+  } else {
+    audio.pause();
+    playPauseBtn.textContent = '▶️';
+  }
+  isPlaying = !isPlaying;
+});
+
+// Stop
+stopBtn.addEventListener('click', () => {
+  audio.pause();
+  audio.currentTime = 0;
+  playPauseBtn.textContent = '▶️';
+  isPlaying = false;
+});
+
+// Próximo / Anterior
+nextBtn.addEventListener('click', () => playIndex((currentIndex + 1) % playlist.length));
+prevBtn.addEventListener('click', () => playIndex((currentIndex - 1 + playlist.length) % playlist.length));
+
+// Auto next quando termina
+audio.addEventListener('ended', () => nextBtn.click());
+
+// --- Exemplo de carregamento de playlists ---
+loadPlaylist('https://www.radios.com.br/play/playlist/116139/listen-radio.pls', 'Rádio 1');
+loadPlaylist('https://www.radios.com.br/play/playlist/116139/listen-radio.asx', 'Rádio 2');
+loadPlaylist('https://www.radios.com.br/play/playlist/116139/listen-radio.m3u', 'Rádio 3');
+
+</script>
+
+</body>
+</html>
