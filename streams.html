@@ -87,6 +87,7 @@
   <div id="playlistSelector">
     <button id="btnPLS">PLS</button>
     <button id="btnM3U">M3U</button>
+    <button id="btnASX">ASX</button>
     
   </div>
 
@@ -186,6 +187,9 @@ document.getElementById('btnPLS').addEventListener('click', () =>
 document.getElementById('btnM3U').addEventListener('click', () => 
   loadAndDisplayPlaylist('https://stream.zeno.fm/0y2f0ss7kbruv.m3u', 'M3U')
 );
+document.getElementById('btnASX').addEventListener('click', () => 
+  loadAndDisplayPlaylist('https://www.radios.com.br/play/playlist/116139/listen-radio.asx', 'ASX')
+);
 
 
 // Play/Pause (útil se o usuário quiser pausar depois)
@@ -222,3 +226,4 @@ stopBtn.addEventListener('click', () => {
 
 </body>
 </html>
+
