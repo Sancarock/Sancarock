@@ -2,23 +2,25 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mini Winamp Player Avançado</title>
 <style>
   body {
-    background: transparent; /* sem fundo */
+    background: transparent;
     color: #fff;
     font-family: Arial, sans-serif;
     text-align: center;
-    padding-top: 50px;
+    padding-top: 20px;
+    margin: 0;
   }
 
   .player {
     display: inline-block;
-    background: transparent; /* removido fundo da caixa */
-    padding: 20px;
+    background: transparent;
+    padding: 15px;
     border-radius: 10px;
-    box-shadow: none; /* remove sombra */
-    width: 350px;
+    width: 95%;
+    max-width: 350px;
   }
 
   .controls {
@@ -33,35 +35,47 @@
     margin: 3px;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 14px;
   }
 
   button:hover {
     background: #666;
   }
 
+  button.active {
+    background: red;
+  }
+
   input[type="range"] {
-    width: 150px;
+    width: 120px;
     vertical-align: middle;
   }
 
   .playlist {
     margin-top: 15px;
     text-align: left;
+    max-height: 200px;
+    overflow-y: auto;
   }
 
   .playlist button {
-    width: 25%;
+    width: 100%;
     text-align: left;
     padding-left: 10px;
+    margin: 2px 0;
+    box-sizing: border-box;
+  }
+
+  #playlistSelector {
+    margin-bottom: 10px;
   }
 </style>
-
 </head>
 <body>
 
 <div class="player">
-  <h2 id="trackTitle">Rádio Sanca Rock</h2>
-  <audio id="audioPlayer" preload="none" controls style="width:100%;"></audio>
+  <h3 id="trackTitle">Rádio Sanca Rock</h3>
+  <audio id="audioPlayer" preload="none"></audio>
 
   <div class="controls">
     <button id="playPauseBtn">▶️</button>
@@ -70,11 +84,13 @@
     Volume: <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
   </div>
 
-  <div class="playlist" id="playlistDiv">
-    <button id="btnPLS">PLS</button>
-    <button id="btnM3U">M3U</button>
-    <button id="btnASX">ASX</button>
+  <div id="playlistSelector">
+    <button id="btnPLS">Carregar PLS</button>
+    <button id="btnM3U">Carregar M3U</button>
+    <button id="btnASX">Carregar ASX</button>
   </div>
+
+  <div class="playlist" id="playlistDiv"></div>
 </div>
 
 <script>
@@ -84,101 +100,117 @@ const volumeSlider = document.getElementById('volumeSlider');
 const playlistDiv = document.getElementById('playlistDiv');
 const playPauseBtn = document.getElementById('playPauseBtn');
 const stopBtn = document.getElementById('stopBtn');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
 
-let playlist = []; // {name, url}
-let currentIndex = 0;
-let isPlaying = false;
+let playlist = [];
 let activeBtn = null;
-let started = false; // garante toque manual no Android
+let isPlaying = false;
 
-volumeSlider.addEventListener('input', () => audio.volume = volumeSlider.value);
+// Volume
+volumeSlider.addEventListener('input', () => {
+  audio.volume = volumeSlider.value;
+});
 
-// Função para carregar playlist
-async function loadPlaylist(url, name) {
+// Função para carregar e exibir playlist
+async function loadAndDisplayPlaylist(url, label) {
+  playlistDiv.innerHTML = '<p>Carregando...</p>';
+  playlist = [];
+
   try {
-    const response = await fetch(url);
+    const response = await fetch(url.trim());
     const text = await response.text();
     let streams = [];
 
     if (url.endsWith('.pls')) {
       const matches = text.match(/File\d+=(.+)/gi);
       if (matches) streams = matches.map(m => m.split('=')[1].trim());
-    } 
-    else if (url.endsWith('.asx')) {
+    } else if (url.endsWith('.asx')) {
       const matches = [...text.matchAll(/<ref[^>]*href\s*=\s*["']([^"']+)["']/gi)];
       if (matches.length > 0) {
         streams = matches.map(m => m[1].trim());
       } else {
         const lines = text.split('\n');
-        streams = lines.filter(line => line.trim() && !line.startsWith('#'));
+        streams = lines.filter(line => line.trim() && !line.startsWith('#') && line.includes('http'));
       }
-    } 
-    else if (url.endsWith('.m3u')) {
+    } else if (url.endsWith('.m3u')) {
       const lines = text.split('\n');
-      streams = lines.filter(line => line.trim() && !line.startsWith('#'));
-    } 
-    else {
+      streams = lines.filter(line => line.trim() && !line.startsWith('#') && line.includes('http'));
+    } else {
       streams = [url];
     }
 
-    // adiciona botões
+    playlistDiv.innerHTML = '';
+    if (streams.length === 0) {
+      playlistDiv.innerHTML = '<p>Nenhum stream encontrado.</p>';
+      return;
+    }
+
     streams.forEach((streamUrl, i) => {
-      const index = playlist.length;
-      playlist.push({ name, url: streamUrl });
+      const name = `${label} ${i + 1}`;
       const btn = document.createElement('button');
       btn.textContent = name;
+      btn.dataset.url = streamUrl;
       btn.addEventListener('click', () => {
-        playIndex(index);
-        setActiveButton(btn);
+        // Atualiza UI
+        if (activeBtn) activeBtn.classList.remove('active');
+        btn.classList.add('active');
+        activeBtn = btn;
+        trackTitle.textContent = name;
+
+        // Define a fonte
+        audio.src = streamUrl;
+
+        // Toca IMEDIATAMENTE (dentro do clique!)
+        audio.play()
+          .then(() => {
+            playPauseBtn.textContent = '⏸️';
+            isPlaying = true;
+          })
+          .catch(err => {
+            console.warn('Falha ao tocar. Tente novamente.', err);
+            alert('Toque novamente neste botão para iniciar o áudio.');
+          });
       });
       playlistDiv.appendChild(btn);
     });
+
   } catch (err) {
-    console.error(err);
-    alert('Erro ao carregar playlist: ' + name);
+    console.error('Erro ao carregar playlist:', err);
+    playlistDiv.innerHTML = `<p>Erro ao carregar ${label}.</p>`;
   }
 }
 
-// Define o botão ativo
-function setActiveButton(btn) {
-  if (activeBtn) activeBtn.style.background = '#444';
-  btn.style.background = 'red';
-  activeBtn = btn;
-}
+// Botões para carregar playlists
+document.getElementById('btnPLS').addEventListener('click', () => 
+  loadAndDisplayPlaylist('https://sancarock.com/listen.pls', 'PLS')
+);
+document.getElementById('btnM3U').addEventListener('click', () => 
+  loadAndDisplayPlaylist('https://sancarock.com/listen.m3u', 'M3U')
+);
+document.getElementById('btnASX').addEventListener('click', () => 
+  loadAndDisplayPlaylist('https://sancarock.com/listen.asx', 'ASX')
+);
 
-// Função principal de tocar
-function playIndex(index) {
-  if (index < 0 || index >= playlist.length) return;
-  currentIndex = index;
-  audio.src = playlist[currentIndex].url;
-  trackTitle.textContent = playlist[currentIndex].name;
-
-  // Android exige play após interação
-  const playAudio = () => {
-    audio.play().then(() => {
-      playPauseBtn.textContent = '⏸️';
-      isPlaying = true;
-    }).catch(err => {
-      console.warn('Esperando interação do usuário:', err);
-    });
-  };
-
-  if (started) playAudio();
-}
-
-// Play/Pause
+// Play/Pause (útil se o usuário quiser pausar depois)
 playPauseBtn.addEventListener('click', () => {
-  started = true;
-  if (!isPlaying) {
-    audio.play();
-    playPauseBtn.textContent = '⏸️';
-  } else {
+  if (isPlaying) {
     audio.pause();
     playPauseBtn.textContent = '▶️';
+    isPlaying = false;
+  } else {
+    // Só tenta tocar se já houver uma fonte definida
+    if (audio.src) {
+      audio.play()
+        .then(() => {
+          playPauseBtn.textContent = '⏸️';
+          isPlaying = true;
+        })
+        .catch(err => {
+          alert('Selecione um stream primeiro.');
+        });
+    } else {
+      alert('Selecione um stream da playlist.');
+    }
   }
-  isPlaying = !isPlaying;
 });
 
 // Stop
@@ -188,29 +220,11 @@ stopBtn.addEventListener('click', () => {
   playPauseBtn.textContent = '▶️';
   isPlaying = false;
 });
-
-// Navegação
-nextBtn.addEventListener('click', () => playIndex((currentIndex + 1) % playlist.length));
-prevBtn.addEventListener('click', () => playIndex((currentIndex - 1 + playlist.length) % playlist.length));
-audio.addEventListener('ended', () => nextBtn.click());
-
-// Carregar listas
-loadPlaylist('https://sancarock.com/listen.pls', 'PLS');
-loadPlaylist('https://sancarock.com/listen.asx', 'ASX');
-loadPlaylist('https://sancarock.com/listen.m3u', 'M3U');
-
-// Garante início manual (Android)
-document.addEventListener('click', () => {
-  if (!started && playlist.length > 0) {
-    started = true;
-    playIndex(0);
-  }
-}, { once: true });
 </script>
-
 
 </body>
 </html>
+
 
 
 
