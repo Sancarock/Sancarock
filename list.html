@@ -56,16 +56,14 @@
 <body>
 
 <div class="player">
-  <!-- Título escondido para não quebrar layout -->
+  <!-- Título escondido, não interfere no layout -->
   <h2 id="trackTitle" style="display:none;">Rádio</h2>
   
   <audio id="audioPlayer" preload="none" controls style="width:100%;"></audio>
 
   <div class="controls">
-    <button id="prevBtn">⏮️ Anterior</button>
     <button id="playPauseBtn">▶️ Play</button>
     <button id="stopBtn">⏹️ Stop</button>
-    <button id="nextBtn">⏭️ Próximo</button>
     <br>
     Volume: <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
   </div>
@@ -74,6 +72,7 @@
     <!-- Botões de rádio serão adicionados aqui -->
   </div>
 </div>
+
 <script>
 const audio = document.getElementById('audioPlayer');
 const trackTitle = document.getElementById('trackTitle');
@@ -81,8 +80,6 @@ const volumeSlider = document.getElementById('volumeSlider');
 const playlistDiv = document.getElementById('playlistDiv');
 const playPauseBtn = document.getElementById('playPauseBtn');
 const stopBtn = document.getElementById('stopBtn');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
 
 let playlist = []; // array de objetos {name, url}
 let currentIndex = 0;
@@ -91,7 +88,7 @@ let isPlaying = false;
 // Ajusta volume
 volumeSlider.addEventListener('input', () => audio.volume = volumeSlider.value);
 
-// Função para carregar playlist online/local (.pls, .m3u, .asx)
+// Função para carregar playlist (.pls, .m3u, .asx)
 async function loadPlaylist(url, name) {
   try {
     const response = await fetch(url);
@@ -116,7 +113,7 @@ async function loadPlaylist(url, name) {
     streams.forEach((streamUrl, i) => {
       playlist.push({name: name, url: streamUrl});
       const btn = document.createElement('button');
-      btn.textContent = name; // nome limpo, sem números
+      btn.textContent = name; // nome limpo
       btn.addEventListener('click', () => playIndex(playlist.length - streams.length + i));
       playlistDiv.appendChild(btn);
     });
@@ -135,7 +132,7 @@ function playIndex(index) {
   if (index < 0 || index >= playlist.length) return;
   currentIndex = index;
   audio.src = playlist[currentIndex].url;
-  trackTitle.textContent = playlist[currentIndex].name; // invisível, mas mantém lógica
+  trackTitle.textContent = playlist[currentIndex].name; // invisível
   audio.play();
   playPauseBtn.textContent = '⏸️';
   isPlaying = true;
@@ -161,17 +158,16 @@ stopBtn.addEventListener('click', () => {
   isPlaying = false;
 });
 
-// Próximo / Anterior
-nextBtn.addEventListener('click', () => playIndex((currentIndex + 1) % playlist.length));
-prevBtn.addEventListener('click', () => playIndex((currentIndex - 1 + playlist.length) % playlist.length));
-
-// Auto next
-audio.addEventListener('ended', () => nextBtn.click());
+// Auto next quando termina
+audio.addEventListener('ended', () => {
+  currentIndex = (currentIndex + 1) % playlist.length;
+  playIndex(currentIndex);
+});
 
 // --- Carregamento das playlists hospedadas no seu domínio ---
-loadPlaylist('https://sancarock.com/listen.pls', 'Lista PLS');
-loadPlaylist('https://sancarock.com/listen.asx', 'Lista ASX');
-loadPlaylist('https://sancarock.com/listen.m3u', 'Lista M3U');
+loadPlaylist('https://meusite.com.br/playlists/listen-radio.pls', 'Rock FM');
+loadPlaylist('https://meusite.com.br/playlists/listen-radio.m3u', 'Metal Hits');
+loadPlaylist('https://meusite.com.br/playlists/listen-radio.asx', 'Clássicos do Rock');
 
 </script>
 
