@@ -99,9 +99,15 @@ async function loadPlaylist(url, name) {
       const matches = text.match(/File\d+=(.+)/gi);
       if (matches) streams = matches.map(m => m.split('=')[1].trim());
     } else if (url.endsWith('.asx')) {
-      // ASX: pega todos Ref href=""
-      const matches = [...text.matchAll(/<Ref\s+href="([^"]+)"/gi)];
-      streams = matches.map(m => m[1].trim());
+      // ASX: tenta encontrar <Ref href=""> ou trata como link direto
+      const matches = [...text.matchAll(/<ref[^>]*href\s*=\s*["']([^"']+)["']/gi)];
+      if (matches.length > 0) {
+        streams = matches.map(m => m[1].trim());
+      } else {
+        // Se não tiver XML, trata como lista simples
+        const lines = text.split('\n');
+        streams = lines.filter(line => line.trim() && !line.startsWith('#'));
+      }
     } else if (url.endsWith('.m3u')) {
       // M3U: pega todas as linhas não comentadas
       const lines = text.split('\n');
@@ -112,12 +118,12 @@ async function loadPlaylist(url, name) {
 
     // Adiciona cada stream ao playlist global
     streams.forEach((streamUrl, i) => {
-  playlist.push({name: name, url: streamUrl});  // nome limpo, sem número
-  const btn = document.createElement('button');
-  btn.textContent = name; // aqui também sem `${i+1}`
-  btn.addEventListener('click', () => playIndex(playlist.length - streams.length + i));
-  playlistDiv.appendChild(btn);
-   });
+      playlist.push({name: name, url: streamUrl});  // nome limpo
+      const btn = document.createElement('button');
+      btn.textContent = name; // sem número
+      btn.addEventListener('click', () => playIndex(playlist.length - streams.length + i));
+      playlistDiv.appendChild(btn);
+    });
 
     // Se for a primeira playlist carregada, toca o primeiro stream
     if (!isPlaying) playIndex(0);
@@ -166,15 +172,10 @@ prevBtn.addEventListener('click', () => playIndex((currentIndex - 1 + playlist.l
 // Auto next quando termina
 audio.addEventListener('ended', () => nextBtn.click());
 
-// --- Exemplo de carregamento de playlists ---
+// --- Carregamento das playlists ---
 loadPlaylist('https://sancarock.com/listen.pls', 'Lista PLS');
 loadPlaylist('https://sancarock.com/listen.asx', 'Lista ASX');
 loadPlaylist('https://sancarock.com/listen.m3u', 'Lista M3U');
-
 </script>
-
 </body>
 </html>
-
-
-
