@@ -4,7 +4,7 @@ const feeds = [
 'https://g1.globo.com/rss/g1/economia/',
 'https://www.tenhomaisdiscosqueamigos.com/feed/',
 'https://whiplash.net/feeds/news.xml',
-'https://rss.app/feeds/VtONXXopcl0fK1zQ.xml'
+'https://agenciabrasil.ebc.com.br/rss/ultimasnoticias/feed.xml'
  
  ];
 
@@ -105,4 +105,5 @@ function mostrarMensagem(index, todasNoticias) {
 }
 
 carregarNoticias();
+
 
