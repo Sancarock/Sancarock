@@ -87,8 +87,6 @@
   <div id="playlistSelector">
     <button id="btnPLS">PLS</button>
     <button id="btnM3U">M3U</button>
-    
-    
   </div>
 
   <div class="playlist" id="playlistDiv"></div>
@@ -109,6 +107,12 @@ let isPlaying = false;
 // Volume
 volumeSlider.addEventListener('input', () => {
   audio.volume = volumeSlider.value;
+});
+
+// Atualiza ícone automaticamente quando termina
+audio.addEventListener('ended', () => {
+  playPauseBtn.textContent = '▶️';
+  isPlaying = false;
 });
 
 // Função para carregar e exibir playlist
@@ -151,25 +155,18 @@ async function loadAndDisplayPlaylist(url, label) {
       btn.textContent = name;
       btn.dataset.url = streamUrl;
       btn.addEventListener('click', () => {
-        // Atualiza UI
         if (activeBtn) activeBtn.classList.remove('active');
         btn.classList.add('active');
         activeBtn = btn;
         trackTitle.textContent = name;
 
-        // Define a fonte
         audio.src = streamUrl;
-
-        // Toca IMEDIATAMENTE (dentro do clique!)
         audio.play()
           .then(() => {
             playPauseBtn.textContent = '⏸️';
             isPlaying = true;
           })
-          .catch(err => {
-            console.warn('Falha ao tocar. Tente novamente.', err);
-            alert('Toque novamente neste botão para iniciar o áudio.');
-          });
+          .catch(() => alert('Não foi possível reproduzir o áudio.'));
       });
       playlistDiv.appendChild(btn);
     });
@@ -180,38 +177,30 @@ async function loadAndDisplayPlaylist(url, label) {
   }
 }
 
-// Botões para carregar playlists
+// Carregar listas
 document.getElementById('btnPLS').addEventListener('click', () => 
   loadAndDisplayPlaylist('https://stream.zeno.fm/0y2f0ss7kbruv.pls', 'PLS')
 );
 document.getElementById('btnM3U').addEventListener('click', () => 
   loadAndDisplayPlaylist('https://stream.zeno.fm/0y2f0ss7kbruv.m3u', 'M3U')
 );
-document.getElementById('btnASX').addEventListener('click', () => 
-  loadAndDisplayPlaylist('https://www.radios.com.br/play/playlist/116139/listen-radio.asx', 'ASX')
-);
 
-
-// Play/Pause (útil se o usuário quiser pausar depois)
+// Play/Pause
 playPauseBtn.addEventListener('click', () => {
-  if (isPlaying) {
+  if (!audio.src) {
+    alert('Selecione um stream primeiro.');
+    return;
+  }
+
+  if (audio.paused) {
+    audio.play().then(() => {
+      playPauseBtn.textContent = '⏸️';
+      isPlaying = true;
+    });
+  } else {
     audio.pause();
     playPauseBtn.textContent = '▶️';
     isPlaying = false;
-  } else {
-    // Só tenta tocar se já houver uma fonte definida
-    if (audio.src) {
-      audio.play()
-        .then(() => {
-          playPauseBtn.textContent = '⏸️';
-          isPlaying = true;
-        })
-        .catch(err => {
-          alert('Selecione um stream primeiro.');
-        });
-    } else {
-      alert('Selecione um stream da playlist.');
-    }
   }
 });
 
@@ -226,9 +215,3 @@ stopBtn.addEventListener('click', () => {
 
 </body>
 </html>
-
-
-
-
-
-
