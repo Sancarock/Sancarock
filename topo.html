@@ -83,14 +83,16 @@ audio { display: none; }
 .marquee {
   width: 100%;
   overflow: hidden;
-  white-space: nowrap;
+  white-space: normal; /* deixa o texto quebrar linha se necessário */
   text-align: center;
   font-size: 0.8em;
+  margin-top: 5px;
 }
+
 .marquee span {
   display: inline-block;
-  padding-left: 100%;
-  animation: marqueeAnim 15s linear infinite;
+  padding: 0;
+  animation: none; /* remove animação */
 }
 @keyframes marqueeAnim {
   0% { transform: translateX(0); }
@@ -233,7 +235,7 @@ let indice = 0;
 setInterval(()=>{
   noticiasEl.textContent = noticiasArray[indice];
   indice = (indice + 1) % noticiasArray.length;
-}, 5000);
+}, 10000); // 10 segundos
 </script>
 </body>
 </html>
