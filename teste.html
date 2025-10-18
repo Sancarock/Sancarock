@@ -361,5 +361,63 @@ function CopyToClipboard(id){
     }
 }
 </script>
+<script>
+// ======= DETECTOR DE CONEXÃO AUTOMÁTICO =======
+
+// cria uma mensagem visual simples quando cair a internet
+const aviso = document.createElement('div');
+aviso.id = 'offlineAviso';
+aviso.textContent = 'Sem conexão... tentando reconectar 🔄';
+aviso.style.position = 'fixed';
+aviso.style.top = '20px';
+aviso.style.left = '50%';
+aviso.style.transform = 'translateX(-50%)';
+aviso.style.background = 'rgba(255,69,0,0.9)';
+aviso.style.color = 'white';
+aviso.style.padding = '10px 20px';
+aviso.style.borderRadius = '10px';
+aviso.style.boxShadow = '0 0 10px rgba(0,0,0,0.5)';
+aviso.style.fontFamily = 'Arial, sans-serif';
+aviso.style.display = 'none';
+aviso.style.zIndex = '9999';
+document.body.appendChild(aviso);
+
+// quando a internet cair
+window.addEventListener('offline', () => {
+  aviso.style.display = 'block';
+  console.warn('Conexão perdida 😕');
+});
+
+// quando voltar, testa e recarrega automaticamente
+window.addEventListener('online', async () => {
+  aviso.textContent = 'Conexão restaurada! Recarregando...';
+  const ok = await testarConexao();
+  if (ok) location.reload();
+});
+
+// verificação real (evita falso positivo de "online")
+async function testarConexao() {
+  try {
+    const ctrl = new AbortController();
+    setTimeout(() => ctrl.abort(), 4000);
+    await fetch('https://www.google.com/favicon.ico', { method: 'HEAD', signal: ctrl.signal });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// também faz checagens periódicas (a cada 15s)
+setInterval(async () => {
+  if (!navigator.onLine) {
+    aviso.style.display = 'block';
+    aviso.textContent = 'Sem conexão... tentando reconectar 🔄';
+  } else {
+    const ok = await testarConexao();
+    if (ok) aviso.style.display = 'none';
+  }
+}, 15000);
+</script>
+
 </body>
 </html>
