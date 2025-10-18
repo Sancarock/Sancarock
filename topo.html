@@ -3,31 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Rádio Sancarock - Dados Móveis</title>
-<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=wGaSA0Ntlk2LiTtW2c1jKAnsRRyMccJSwGsiBiQo3-69J19TM1i_6x1kDMSoLzKB" charset="UTF-8"></script><style>
+<title>Rádio SancaRock - App Player</title>
+<style>
 body, html {
   margin: 0;
   padding: 0;
   background: transparent !important;
+  font-family: Arial, sans-serif;
 }
 
 #playerContainer {
   display: flex;
+  flex-wrap: wrap;          
   align-items: center;
-  gap: 50px;
+  justify-content: center;
+  gap: 10px;                
   background: transparent !important;
-  padding: 2px;
+  padding: 5px;
   margin: 0;
-  border-radius: 0;
+  border-radius: 5px;
   color: #fff;
-  font-family: Arial, sans-serif;
-  font-size: 12px;
-  box-shadow: 0 0 20px rgba(255,0,0,0.4);
+  font-size: 1em;
+  box-shadow: 0 0 15px rgba(255,0,0,0.4);
+  width: 100%;              
+  max-width: 480px;         
+  box-sizing: border-box;
 }
+
 .album-cover {
-  width: 80px;
-  height: 80px;
+  width: 20%;              
+  min-width: 60px;
+  max-width: 100px;
   border-radius: 5px;
 }
 
@@ -35,60 +41,69 @@ body, html {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-width: 120px;
+  min-width: 100px;
+  text-align: center;
+  flex: 1;                 
+  font-size: 0.9em;
 }
+
+.player-button {
+  padding: 10px 12px;
+  font-size: 1em;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  background-color: #800000;
+  color: #fff;
+}
+.player-button:hover { background-color: #444; }
 
 .equalizer {
   display: flex;
   align-items: flex-end;
   gap: 2px;
 }
-
 .equalizer span {
   width: 4px;
   height: 12px;
   background-color: yellow;
   animation: bounce 0.6s infinite ease-in-out;
 }
-
 @keyframes bounce {
   0%,100% { height: 12px; }
   50% { height: 24px; }
 }
 
-.player-button {
-  background-color: #800000;
-  border: none;
-  color: #fff;
-  padding: 5px 7px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
+#volumeDisplay {
+  min-width: 25px;
+  text-align: center;
+  font-size: 0.9em;
 }
 
-.player-button:hover { background-color: #444; }
+audio { display: none; }
 
-#volumeDisplay { min-width: 30px; text-align: center; }
+.marquee {
+  width: 100%;
+  overflow: hidden;
+  text-align: center;
+  font-size: 0.8em;
+  margin-top: 5px;
+}
 
-audio {
+/* Mensagem de reconexão */
+#offlineAviso {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,69,0,0.9);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  font-family: Arial, sans-serif;
   display: none;
-}
-
-#noticias {
-  font-family: 'Arial Black', sans-serif; /* Fonte */
-  font-size: 20px;                        /* Tamanho */
-  color: #ffcc00;                          /* Cor */
-  text-align: center;                      /* Centralizado */
-  transition: opacity 0.5s;                /* Fade */
-}
-
-#noticias a {
-  color: #ffcc00;
-  text-decoration: none;
-}
-
-#noticias a:hover {
-  text-decoration: underline;
+  z-index: 9999;
 }
 </style>
 </head>
@@ -103,7 +118,7 @@ audio {
   </div>
 
   <button id="playPause" class="player-button">&#9654;</button>
-  <button id="atualizar" class="player-button" type="button" onClick="history.go(0)">↻</button>
+  <button id="atualizar" class="player-button" type="button">↻</button>
   <button id="volMinus" class="player-button">-</button>
   <span id="volumeDisplay">50%</span>
   <button id="volPlus" class="player-button">+</button>
@@ -112,46 +127,78 @@ audio {
     <span></span><span></span><span></span><span></span><span></span>
   </div>
   <div class="marquee">
-    <span id="noticias"></span>
-
-<script>
-// Frases com e sem link
-const frases = [
-  { texto: "Rádio Sanca Rock" },
-  { texto: "Aqui Toca de Tudo, Tudo que é Rock" },
-  { texto: "VJ Suplementos, a melhor loja de suplementos de são carlos", link: "https://www.instagram.com/vjsuplementos_saocarlos/" } // exemplo com link
-];
-
-let indice = 0;
-const span = document.getElementById("noticias");
-
-function trocarFrase() {
-  span.style.opacity = 0; // some
-  setTimeout(() => {
-    const item = frases[indice];
-    if (item.link) {
-      span.innerHTML = `<a href="${item.link}" target="_blank">${item.texto}</a>`;
-    } else {
-      span.textContent = item.texto;
-    }
-    span.style.opacity = 1; // aparece
-    indice = (indice + 1) % frases.length;
-  }, 1000);
-}
-
-// Inicializa
-trocarFrase();
-setInterval(trocarFrase, 10000); // troca a cada 10s
-</script>
+    <span id="noticias">Carregando notícias...</span>
   </div>
 </div>
 
 <audio id="radioPlayer" src="https://s02.transmissaodigital.com:6716/stream;" preload="none"></audio>
 
-<script src="js/topao.js?v=6"></script>
-<rssapp-ticker id="2Fr1w9xx2gCoMK0G"></rssapp-ticker><script src="https://widget.rss.app/v1/ticker.js" type="text/javascript" async></script>
+<div id="offlineAviso">Sem conexão... tentando reconectar 🔄</div>
 
+<script>
+// ======= PLAYER BÁSICO =======
+const player = document.getElementById('radioPlayer');
+const playBtn = document.getElementById('playPause');
+const volDisplay = document.getElementById('volumeDisplay');
+let volume = 0.5;
+player.volume = volume;
+volDisplay.textContent = Math.round(volume*100) + '%';
 
+playBtn.addEventListener('click', () => {
+  if(player.paused) player.play();
+  else player.pause();
+});
 
+document.getElementById('volPlus').addEventListener('click', ()=>{
+  volume = Math.min(1, volume+0.1);
+  player.volume = volume;
+  volDisplay.textContent = Math.round(volume*100) + '%';
+});
+document.getElementById('volMinus').addEventListener('click', ()=>{
+  volume = Math.max(0, volume-0.1);
+  player.volume = volume;
+  volDisplay.textContent = Math.round(volume*100) + '%';
+});
+
+document.getElementById('atualizar').addEventListener('click', ()=>{
+  location.reload();
+});
+
+// ======= RECONEXÃO AUTOMÁTICA =======
+const aviso = document.getElementById('offlineAviso');
+
+window.addEventListener('offline', () => { aviso.style.display = 'block'; });
+window.addEventListener('online', async () => {
+  aviso.textContent = 'Conexão restaurada! Recarregando...';
+  const ok = await testarConexao();
+  if(ok) location.reload();
+});
+
+async function testarConexao(){
+  try{
+    const ctrl = new AbortController();
+    setTimeout(()=>ctrl.abort(), 4000);
+    await fetch('https://www.google.com/favicon.ico',{method:'HEAD',signal:ctrl.signal});
+    return true;
+  }catch{return false;}
+}
+
+setInterval(async ()=>{
+  if(!navigator.onLine){
+    aviso.style.display = 'block';
+    aviso.textContent = 'Sem conexão... tentando reconectar 🔄';
+  }else{
+    const ok = await testarConexao();
+    if(ok) aviso.style.display = 'none';
+  }
+},15000);
+
+// ======= Fallback para stream travando =======
+player.addEventListener('error', ()=>{
+  console.warn('Stream travou, tentando reconectar...');
+  player.load();
+  player.play().catch(()=>{});
+});
+</script>
 </body>
 </html>
