@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: transparent;
+    font-family: sans-serif;
+  }
+
+  #controls {
+    margin-top: 10px;
+  }
+
+  button {
+    background: #222;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    padding: 6px 12px;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background: #555;
+  }
+
+  #volumeDisplay {
+    margin-top: 6px;
+    font-size: 14px;
+    color: #ccc;
+  }
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head>
+<body>
+ <!-- CÓDIGO DO PLAYER DE RÁDIO GERADO POR FERRAMENTA PREMIUM - INÍCIO -->
+<div id="radio_player_1760753879411" class="r-player-wrapper">
+    <div class="rpc-container"><div class="rpc-art-wrapper"><img src="img/vinil.png" alt="Capa" width="258" height="258" class="rpc-album-art">
+      <div class="rpc-vinyl-effect"></div></div><div class="rpc-details-wrapper"><div class="rpc-info"><h2 class="rpc-song-title" title="Carregando...">Carregando...</h2><p class="rpc-artist-name">Aguarde</p></div><div class="rpc-wave-visualizer"><span></span><span></span><span></span><span></span><span></span></div><div class="rpc-controls"><button class="rpc-play-pause-btn" aria-label="Tocar/Pausar"><i class="fas fa-play"></i></button><div class="rpc-volume-area"><button class="rpc-mute-btn" aria-label="Mudo"><i class="fas fa-volume-high"></i></button><input type="range" class="rpc-volume-slider" min="0" max="1" step="0.05" value="0.75" aria-label="Volume"></div></div></div></div>
+</div>
+<style>
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
+
+#radio_player_1760753879411 { --primary-color: #3b82f6; font-family: 'Poppins', sans-serif; box-sizing: border-box; width: 100%; display: flex; justify-content: center; align-items: center; }
+#radio_player_1760753879411 *, #radio_player_1760753879411 *::before, #radio_player_1760753879411 *::after { box-sizing: border-box; margin: 0; padding: 0; }
+#radio_player_1760753879411 .rpc-container { display: flex; position: relative; overflow: hidden; transition: all 0.4s ease; max-width: 100%; }
+#radio_player_1760753879411 .rpc-art-wrapper { position: relative; flex-shrink: 0; }
+#radio_player_1760753879411 .rpc-album-art { display: block; width: 100%; height: 100%; object-fit: cover; transition: all 0.5s ease; }
+#radio_player_1760753879411 .rpc-details-wrapper { display: flex; flex-direction: column; justify-content: center; padding: 20px; text-align: center; }
+#radio_player_1760753879411 .rpc-info { min-width: 0; }
+#radio_player_1760753879411 .rpc-song-title { font-size: 1.2em; font-weight: 700; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#radio_player_1760753879411 .rpc-artist-name { font-size: 0.9em; color: #64748b; margin-bottom: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+#radio_player_1760753879411 .rpc-controls { display: flex; align-items: center; justify-content: center; gap: 20px; margin: 15px 0; }
+#radio_player_1760753879411 .rpc-play-pause-btn { position: relative; background-color: var(--primary-color); color: white; border: none; width: 55px; height: 55px; border-radius: 50%; font-size: 1.4em; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.1); flex-shrink: 0; }
+#radio_player_1760753879411 .rpc-play-pause-btn::after { content: ''; position: absolute; top: -5px; left: -5px; width: calc(100% + 10px); height: calc(100% + 10px); border: 3px solid transparent; border-top-color: var(--primary-color); border-radius: 50%; opacity: 0; transition: opacity 0.2s ease; animation: rpc-spin 0.8s linear infinite; }
+#radio_player_1760753879411 .rpc-play-pause-btn.loading::after { opacity: 1; }
+#radio_player_1760753879411 .rpc-play-pause-btn:hover { transform: scale(1.08); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
+#radio_player_1760753879411 .rpc-volume-area { display: flex; align-items: center; gap: 10px; }
+#radio_player_1760753879411 .rpc-mute-btn { background: none; border: none; cursor: pointer; font-size: 1.2em; color: #475569; }
+#radio_player_1760753879411 .rpc-volume-slider { -webkit-appearance: none; appearance: none; width: 100px; height: 5px; background: #e2e8f0; border-radius: 5px; cursor: pointer; }
+#radio_player_1760753879411 .rpc-volume-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 16px; height: 16px; background: var(--primary-color); border-radius: 50%; transition: background-color 0.2s; }
+#radio_player_1760753879411 .rpc-vinyl-effect, #radio_player_1760753879411 .rpc-wave-visualizer { display: none; }
+@keyframes rpc-spin { to { transform: rotate(360deg); } }
+@keyframes rpc-wave { 0%,100% { transform: scaleY(0.2); } 50% { transform: scaleY(1); } }#radio_player_1760753879411 .rpc-container { width: 250px; height: 250px; border-radius: 50%; box-shadow: 0 10px 30px rgba(0,0,0,0.2); } #radio_player_1760753879411 .rpc-art-wrapper, #radio_player_1760753879411 .rpc-album-art { width: 100%; height: 100%; border-radius: 50%; } #radio_player_1760753879411 .rpc-album-art { filter: brightness(0.6); } #radio_player_1760753879411 .rpc-details-wrapper { position: absolute; top:0;left:0;width:100%;height:100%; background:transparent; color: #f1f5f9; } #radio_player_1760753879411 .rpc-song-title, #radio_player_1760753879411 .rpc-artist-name { display: none; } #radio_player_1760753879411 .rpc-volume-area { display: none; } #radio_player_1760753879411 .rpc-play-pause-btn { width: 70px; height: 70px; font-size: 2em; background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); }
+
+#radio_player_1760753879411 .rpc-container { background-color: transparent !important; box-shadow: none !important; }
+
+#radio_player_1760753879411 .rpc-song-title, #radio_player_1760753879411 .rpc-artist-name, #radio_player_1760753879411 .rpc-container, #radio_player_1760753879411 .rpc-container .rpc-mute-btn { color: #1e293b !important; }
+#radio_player_1760753879411 .rpc-play-pause-btn { background-color: #f73b3b !important; }
+#radio_player_1760753879411 { --primary-color: #f73b3b !important; }
+</style>
+<script type="text/javascript">
+(function() {
+    
+    const wrapper = document.getElementById('radio_player_1760753879411');
+    const container = wrapper.querySelector('.rpc-container');
+    const audio = new Audio();
+    audio.preload = 'none';
+    const station = { streamUrl: "https://player.transmissaodigital.com/proxy/6716", azuracastApiUrl: "img/vinil.png", serverUrl: "https://player.transmissaodigital.com", mountpoint: "/proxy/6716", type: "shoutcast", defaultLogo: "img/vinil.png" };
+    const playPauseBtn = container.querySelector('.rpc-play-pause-btn');
+    const volumeSlider = container.querySelector('.rpc-volume-slider');
+    const muteBtn = container.querySelector('.rpc-mute-btn');
+    const songTitleEl = container.querySelector('.rpc-song-title');
+    const artistNameEl = container.querySelector('.rpc-artist-name');
+    const albumArtEl = container.querySelector('.rpc-album-art');
+    const artWrapper = container.querySelector('.rpc-art-wrapper');
+    let isPlaying = false;
+    let metadataInterval;
+    const togglePlayPause = () => { if (isPlaying) { audio.pause(); } else { if (audio.src !== station.streamUrl) { audio.src = station.streamUrl + '?t=' + new Date().getTime(); } audio.load(); audio.play().catch(e => console.error("Erro ao iniciar áudio:", e)); } };
+    audio.onplaying = () => { isPlaying = true; updatePlayPauseUI(); };
+    audio.onpause = () => { isPlaying = false; updatePlayPauseUI(); };
+    audio.onwaiting = () => { if(playPauseBtn) playPauseBtn.classList.add('loading'); };
+    audio.oncanplay = () => { if(isPlaying && playPauseBtn) playPauseBtn.classList.remove('loading'); };
+    const updatePlayPauseUI = () => { const icon = playPauseBtn ? playPauseBtn.querySelector('i') : null; const overlayIcon = container.querySelector('.rpc-play-overlay i'); if (isPlaying) { if(icon) icon.className = 'fas fa-pause'; if(overlayIcon) overlayIcon.className = 'fas fa-pause'; container.classList.add('playing'); } else { if(icon) icon.className = 'fas fa-play'; if(overlayIcon) overlayIcon.className = 'fas fa-play'; container.classList.remove('playing'); if(playPauseBtn) playPauseBtn.classList.remove('loading'); } };
+    const setVolume = (val) => { audio.volume = val; audio.muted = val == 0; updateMuteUI(); };
+    const toggleMute = () => { audio.muted = !audio.muted; if (!audio.muted && audio.volume === 0) { audio.volume = 0.5; if(volumeSlider) volumeSlider.value = 0.5; } updateMuteUI(); };
+    const updateMuteUI = () => { if (!muteBtn) return; const icon = muteBtn.querySelector('i'); if (audio.muted || audio.volume === 0) { icon.className = 'fas fa-volume-xmark'; } else if (audio.volume < 0.5) { icon.className = 'fas fa-volume-low'; } else { icon.className = 'fas fa-volume-high'; } };
+    const fetchArtworkFromItunes = async (artist, title) => { try { const response = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(artist)}+${encodeURIComponent(title)}&entity=song&limit=1`); const data = await response.json(); if (data.results.length > 0 && data.results[0].artworkUrl100) { return data.results[0].artworkUrl100.replace('100x100', '600x600'); } } catch (error) { console.error("Erro no iTunes:", error); } return station.defaultLogo; };
+    const fetchMetadata = async () => {
+        if (station.azuracastApiUrl) {
+            try {
+                const response = await fetch(station.azuracastApiUrl + '?t=' + new Date().getTime());
+                if (!response.ok) throw new Error('Falha na API AzuraCast');
+                const data = await response.json(); const song = data.now_playing.song;
+                let artworkUrl = song.art;
+                if (!artworkUrl || artworkUrl.includes('default_album_art')) { artworkUrl = await fetchArtworkFromItunes(song.artist, song.title); }
+                updateUI({ artist: song.artist, title: song.title, artworkUrl }); return;
+            } catch (error) { console.error('Erro na API AzuraCast, tentando fallback:', error); }
+        }
+        let metadataUrl; const proxyUrl = 'https://api.allorigins.win/get?url=';
+        if (station.type === 'shoutcast') { metadataUrl = station.serverUrl + '/stats?json=1&sid=1'; } else { metadataUrl = station.serverUrl + '/status-json.xsl'; }
+        try {
+            const response = await fetch(proxyUrl + encodeURIComponent(metadataUrl));
+            if (!response.ok) throw new Error('Falha na rede do proxy');
+            const data = await response.json(); const contents = JSON.parse(data.contents); let fullTitle;
+            if (station.type === 'shoutcast' && contents.songtitle) { fullTitle = contents.songtitle; }
+            else if (station.type === 'icecast' && contents.icestats?.source) { const source = Array.isArray(contents.icestats.source) ? contents.icestats.source.find(s => s.listenurl.endsWith(station.mountpoint)) || contents.icestats.source[0] : contents.icestats.source; if (source) { fullTitle = source.title || source.server_name; } }
+            let artist = 'Streaming de Áudio'; let title = fullTitle || 'Rádio Online';
+            if (fullTitle && fullTitle.includes(' - ')) { [artist, title] = fullTitle.split(' - ').map(s => s.trim()); }
+            const artworkUrl = await fetchArtworkFromItunes(artist, title); updateUI({ artist, title, artworkUrl });
+        } catch (error) { console.error('Erro no fallback:', error); updateUI({ artist: 'Rádio Online', title: 'Streaming de Áudio', artworkUrl: station.defaultLogo }); }
+    };
+    const updateUI = ({ artist, title, artworkUrl }) => { if (songTitleEl.textContent !== title) { songTitleEl.textContent = title; songTitleEl.title = title; artistNameEl.textContent = artist; albumArtEl.src = artworkUrl || station.defaultLogo; if (7 === 6) { container.style.backgroundImage = `url('${artworkUrl || station.defaultLogo}')`; } } };
+    if(playPauseBtn) playPauseBtn.addEventListener('click', togglePlayPause);
+    if(artWrapper && 7 === 15) artWrapper.addEventListener('click', togglePlayPause);
+    if(volumeSlider) volumeSlider.addEventListener('input', (e) => setVolume(e.target.value));
+    if(muteBtn) muteBtn.addEventListener('click', toggleMute);
+    if(volumeSlider) audio.volume = volumeSlider.value;
+    updateMuteUI(); fetchMetadata(); metadataInterval = setInterval(fetchMetadata, 12000);
+})();
+</script>
+<!-- CÓDIGO DO PLAYER DE RÁDIO GERADO POR FERRAMENTA PREMIUM - FIM -->
+</body>
+</html>
+
