@@ -96,16 +96,27 @@ body {
 	  <img id="albumCover" src="img/sanca.png" class="album-cover" alt="Capa do Álbum">
 	  <div class="track-info" id="trackTitle">Carregando música...</div>
       <div id="artistName">Aguardando artista...</div>
-	  <p></p>
-	<audio controls autoplay>
-  <source src="https://stream.zeno.fm/0y2f0ss7kbruv" type="audio/mpeg">
-  Seu navegador não suporta o player de áudio.
-</audio>
-	  <p></p>
+	  <div style="display:flex; justify-content:center; margin-top:10px;">
+   <iframe 
+    src="topo.html" 
+    frameborder="0" 
+    width="400" 
+    height="250" 
+    scrolling="no" 
+    style="border:none;" 
+    loading="lazy">
+  </iframe>
+  </div>
+  
 	  <div class="controls">
    
-    <button class="mail-button" onClick="window.location.href='mailto:sancanight@gmail.com?subject=Contato&body=Olá!'">Contato</button>
+    <button class="mail-button" onClick="window.close()">Fechar</button>
     <button class="play-button" onClick="history.go(0)">Atualizar</button>
+	
+
+  
+</div>
+
   </div>
     </div>
 	
@@ -188,7 +199,7 @@ async function fetchCoverLastFm(artist, track){
 updateMetadata();
 setInterval(updateMetadata, 30000);
 </script>
-	
 </body>
+
 </html>
 
