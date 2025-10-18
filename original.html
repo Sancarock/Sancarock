@@ -191,8 +191,16 @@ async function fetchCoverLastFm(artist, track){
     const res = await fetch(`https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${apiKeyLastFm}&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(track)}&format=json`);
     const data = await res.json();
     const images = data?.track?.album?.image;
-    if(images) return images.find(img=>img.size==='extralarge')?.['#text'];
-  } catch(e){ return null; }
+    if(Array.isArray(images)){
+      const url = images.find(img => img.size === 'extralarge')?.['#text'];
+      if(url){
+        // usa o proxy CORS
+        return `https://images.weserv.nl/?url=${encodeURIComponent(url)}&w=300&h=300&fit=cover`;
+      }
+    }
+  } catch(e){
+    console.warn('Erro Last.fm:', e);
+  }
   return null;
 }
 
