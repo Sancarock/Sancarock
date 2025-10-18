@@ -1,6 +1,6 @@
 function abrir_radio_popup() {
     window.open(
-        "botao", 
+        "player", 
         "", 
         "width=550,height=850,toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=no,resizable=no"
     );
@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
 });
+
 
 
 
