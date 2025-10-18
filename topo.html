@@ -136,7 +136,7 @@ audio { display: none; }
   </div>
 
   <div class="marquee">
-    <span id="noticias">Carregando notícias...</span>
+    <span id="noticias">Carregando Notícias...</span>
   </div>
 
 </div>
@@ -155,9 +155,20 @@ player.volume = volume;
 volDisplay.textContent = Math.round(volume*100) + '%';
 
 playBtn.addEventListener('click', () => {
-  if(player.paused) player.play();
-  else player.pause();
+  if(player.paused){
+    player.play();
+    playBtn.innerHTML = '&#10074;&#10074;'; // Pause
+  } else {
+    player.pause();
+    playBtn.innerHTML = '&#9654;'; // Play
+  }
 });
+
+// Atualiza o botão automaticamente se o áudio terminar
+player.addEventListener('ended', () => {
+  playBtn.innerHTML = '&#9654;';
+});
+
 
 document.getElementById('volPlus').addEventListener('click', ()=>{
   volume = Math.min(1, volume+0.1);
@@ -213,10 +224,10 @@ player.addEventListener('error', ()=>{
 // ======= MARQUEE DYNAMIC =======
 const noticiasEl = document.getElementById('noticias');
 let noticiasArray = [
-  'Carregando notícias...',
-  'Programa especial às 20h!',
-  'Novo álbum lançado: Banda X',
-  'Promoção: Envie seu recado por WhatsApp'
+  'Carregando Notícias...',
+  'Programa Monstros do Rock Especial Status Quo, Sábado às 20h!',
+  'Rádio Sanca Rock - São Carlos - SP',
+  'Anuncie Conosco, Temos Ótimos Planos de Divulgação'
 ];
 let indice = 0;
 setInterval(()=>{
