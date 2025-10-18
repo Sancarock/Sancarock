@@ -14,10 +14,9 @@ body, html {
 
 #playerContainer {
   display: flex;
-  flex-wrap: wrap;          
+  flex-direction: column;      /* Coloca itens em coluna */
   align-items: center;
-  justify-content: center;
-  gap: 10px;                
+  gap: 8px;                    
   background: transparent !important;
   padding: 5px;
   margin: 0;
@@ -30,21 +29,20 @@ body, html {
   box-sizing: border-box;
 }
 
-.album-cover {
-  width: 20%;              
-  min-width: 60px;
-  max-width: 100px;
-  border-radius: 5px;
-}
-
 .track-info {
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  min-width: 100px;
   text-align: center;
-  flex: 1;                 
   font-size: 0.9em;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  flex-wrap: wrap;       /* para caber em telas pequenas */
 }
 
 .player-button {
@@ -85,9 +83,18 @@ audio { display: none; }
 .marquee {
   width: 100%;
   overflow: hidden;
+  white-space: nowrap;
   text-align: center;
   font-size: 0.8em;
-  margin-top: 5px;
+}
+.marquee span {
+  display: inline-block;
+  padding-left: 100%;
+  animation: marqueeAnim 15s linear infinite;
+}
+@keyframes marqueeAnim {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
 }
 
 /* Mensagem de reconexão */
@@ -110,25 +117,28 @@ audio { display: none; }
 <body>
 
 <div id="playerContainer">
- 
 
   <div class="track-info">
     <p id="trackTitle">Rádio Sanca Rock</p>
     <p id="artistName"></p>
   </div>
 
-  <button id="playPause" class="player-button">&#9654;</button>
-  <button id="atualizar" class="player-button" type="button">↻</button>
-  <button id="volMinus" class="player-button">-</button>
-  <span id="volumeDisplay">50%</span>
-  <button id="volPlus" class="player-button">+</button>
+  <div class="controls">
+    <button id="playPause" class="player-button">&#9654;</button>
+    <button id="atualizar" class="player-button">↻</button>
+    <button id="volMinus" class="player-button">-</button>
+    <span id="volumeDisplay">50%</span>
+    <button id="volPlus" class="player-button">+</button>
+  </div>
 
   <div class="equalizer" id="equalizer" style="display: none;">
     <span></span><span></span><span></span><span></span><span></span>
   </div>
+
   <div class="marquee">
     <span id="noticias">Carregando notícias...</span>
   </div>
+
 </div>
 
 <audio id="radioPlayer" src="https://s02.transmissaodigital.com:6716/stream;" preload="none"></audio>
@@ -199,6 +209,21 @@ player.addEventListener('error', ()=>{
   player.load();
   player.play().catch(()=>{});
 });
+
+// ======= MARQUEE DYNAMIC =======
+const noticiasEl = document.getElementById('noticias');
+let noticiasArray = [
+  'Carregando notícias...',
+  'Programa especial às 20h!',
+  'Novo álbum lançado: Banda X',
+  'Promoção: Envie seu recado por WhatsApp'
+];
+let indice = 0;
+setInterval(()=>{
+  noticiasEl.textContent = noticiasArray[indice];
+  indice = (indice + 1) % noticiasArray.length;
+}, 5000);
 </script>
 </body>
 </html>
+
