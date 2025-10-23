@@ -17,15 +17,15 @@ body {
   padding: 20px;
 }
 .player-container {
-  background: url("img/apk.png") no-repeat center center fixed;
-  backdrop-filter: blur(10px);
+  background: transparent; /* Remove a imagem de fundo */
+  backdrop-filter: blur(10px); /* opcional: mantém o efeito de vidro se quiser */
   border-radius: 25px;
   padding: 25px;
   width: 90%;
   max-width: 460px;
   text-align: center;
-  box-shadow: 0 0 30px rgba(0,0,0,0.7);
-  border:1px solid rgba(255,69,0,0.3);
+  box-shadow: none; /* remove sombra, pois sombras não são transparentes */
+  border: 1px solid rgba(255,69,0,0.3); /* mantém a borda translúcida se desejar */
 }
 
 .album-cover {
@@ -191,4 +191,3 @@ setInterval(updateMetadata, 30000);
 </body>
 
 </html>
-
