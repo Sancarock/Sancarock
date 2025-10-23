@@ -8,7 +8,7 @@
 body {
   margin: 0;
   font-family: 'Bebas Neue', Arial, sans-serif;
-  background: transparent;
+  background: radial-gradient(circle at center, #ff4500, #800080, #000);
   color: #fff;
   display: flex;
   justify-content: center;
@@ -16,7 +16,18 @@ body {
   min-height: 100vh;
   padding: 20px;
 }
-
+.player-container {
+  background: url("img/fundoradio.png") no-repeat center center fixed;
+  background-size: cover;
+  backdrop-filter: blur(10px);
+  border-radius: 25px;
+  padding: 25px;
+  width: 90%;
+  max-width: 460px;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(0,0,0,0.7);
+  border:1px solid rgba(255,69,0,0.3);
+}
 .album-cover {
   width: 50%;
   max-width: 150px;
@@ -74,7 +85,7 @@ body {
     </p>
 
 
-    
+    <div class="player-container">
 	<div class="equalizer">
       <span></span><span></span><span></span><span></span><span></span>
     </div>
@@ -89,7 +100,7 @@ body {
   
   </div>
   
-	  
+	 
 
   </div>
     </div>
