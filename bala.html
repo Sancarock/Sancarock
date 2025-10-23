@@ -64,7 +64,7 @@ body {
 }
 .equalizer span {
   width: 10px;
-  background: linear-gradient(180deg,#ff4500,#ff1493,#da70d6);
+  transparent;
   border-radius: 3px;
   animation: bounce 1.2s infinite ease-in-out;
 }
@@ -79,16 +79,13 @@ body {
 </style>
 </head>
 <body>
-  <div align="center" style="background:transparent" >
+  <div align="center" style="background: url('apk.png') no-repeat center center; background-size: cover;">
     <p>
      
   <div class="equalizer">
       <span></span><span></span><span></span><span></span><span></span>
     </div>
   
-      <p></p>
-	  
-	  <p></p>
 	  <img id="albumCover" src="img/sanca.png" class="album-cover" alt="Capa do Álbum">
 	  <div class="track-info" id="trackTitle">Carregando música...</div>
       <div id="artistName">Aguardando artista...</div>
