@@ -2,25 +2,126 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Rádio SancaRock</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"><style type="text/css">
-<!--
-body {
-	background-image: url(img/apk.png);
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Rádio Sancarock - Dados Móveis</title>
+<style>
+body, html {
+  margin: 0;
+  padding: 0;
+  background: black;
 }
-.style1 {color: #CCCC00}
--->
-</style></head>
-<body style="margin:0; background:transparent; text-align:center; color:white; font-family:Arial,sans-serif;">
- <iframe 
-    src="topo.html" 
-    frameborder="0" 
-    width="400" 
-    height="250" 
-    scrolling="no" 
-    style="border:none;" 
-    loading="lazy">
-  </iframe>
+
+#playerContainer {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  background: transparent !important;
+  padding: 2px;
+  margin: 0;
+  border-radius: 0;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  box-shadow: 0 0 20px rgba(255,0,0,0.4);
+}
+.album-cover {
+  width: 80px;
+  height: 80px;
+  border-radius: 5px;
+}
+
+.track-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 120px;
+}
+
+.equalizer {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.equalizer span {
+  width: 4px;
+  height: 12px;
+  background-color: yellow;
+  animation: bounce 0.6s infinite ease-in-out;
+}
+
+@keyframes bounce {
+  0%,100% { height: 12px; }
+  50% { height: 24px; }
+}
+
+.player-button {
+  background-color: #800000;
+  border: none;
+  color: #fff;
+  padding: 5px 7px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.player-button:hover { background-color: #444; }
+
+#volumeDisplay { min-width: 30px; text-align: center; }
+
+audio {
+  display: none;
+}
+
+#noticias {
+  font-family: 'Arial Black', sans-serif; /* Fonte */
+  font-size: 20px;                        /* Tamanho */
+  color: #ffcc00;                          /* Cor */
+  text-align: center;                      /* Centralizado */
+  transition: opacity 0.5s;                /* Fade */
+}
+
+#noticias a {
+  color: #ffcc00;
+  text-decoration: none;
+}
+
+#noticias a:hover {
+  text-decoration: none;
+}
+</style>
+</head>
+<body>
+
+<div id="playerContainer">
+  <img id="albumCover" src="img/tocar.png" alt="Capa do Álbum" class="album-cover">
+
+  <div class="track-info">
+    <p id="trackTitle">Rádio Sanca Rock</p>
+    <p id="artistName"></p>
+  </div>
+
+  <button id="playPause" class="player-button">&#9654;</button>
+  <button id="atualizar" class="player-button" type="button" onClick="history.go(0)">↻</button>
+  <button id="volMinus" class="player-button">-</button>
+  <span id="volumeDisplay">50%</span>
+  <button id="volPlus" class="player-button">+</button>
+
+  <div class="equalizer" id="equalizer" style="display: none;">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="marquee">
+    <span id="noticias">Carregando notícias...</span>
+  </div>
+</div>
+
+<audio id="radioPlayer" src="https://s02.transmissaodigital.com:6716/stream;" preload="none"></audio>
+
+<script src="js/topao.js?v=6"></script>
+<script src="js/controlador.js?v=10"></script>
+
+
 
 </body>
 </html>
