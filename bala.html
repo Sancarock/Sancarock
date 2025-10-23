@@ -9,13 +9,13 @@
 body, html {
   margin: 0;
   padding: 0;
-  background: black;
+  background: transparent;
 }
 
 #playerContainer {
   display: flex;
   align-items: center;
-  gap: 50px;
+  gap: 10px;
   background: transparent !important;
   padding: 2px;
   margin: 0;
@@ -68,30 +68,15 @@ body, html {
 
 .player-button:hover { background-color: #444; }
 
-#volumeDisplay { min-width: 30px; text-align: center; }
+#volumeDisplay { min-width: 30px; text-align: center;background-color: transparent; }
 
 audio {
   display: none;
 }
 
-#noticias {
-  font-family: 'Arial Black', sans-serif; /* Fonte */
-  font-size: 20px;                        /* Tamanho */
-  color: #ffcc00;                          /* Cor */
-  text-align: center;                      /* Centralizado */
-  transition: opacity 0.5s;                /* Fade */
-}
 
-#noticias a {
-  color: #ffcc00;
-  text-decoration: none;
-}
-
-#noticias a:hover {
-  text-decoration: none;
-}
 </style>
-</head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head>
 <body>
 
 <div id="playerContainer">
@@ -102,18 +87,16 @@ audio {
     <p id="artistName"></p>
   </div>
 
-  <button id="playPause" class="player-button">&#9654;</button>
-  <button id="atualizar" class="player-button" type="button" onClick="history.go(0)">↻</button>
-  <button id="volMinus" class="player-button">-</button>
-  <span id="volumeDisplay">50%</span>
-  <button id="volPlus" class="player-button">+</button>
+ 
+  
+ 
+  <span id="volumeDisplay"></span>
+  
 
   <div class="equalizer" id="equalizer" style="display: none;">
     <span></span><span></span><span></span><span></span><span></span>
   </div>
-  <div class="marquee">
-    <span id="noticias">Carregando notícias...</span>
-  </div>
+  
 </div>
 
 <audio id="radioPlayer" src="https://s02.transmissaodigital.com:6716/stream;" preload="none"></audio>
