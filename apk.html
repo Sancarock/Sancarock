@@ -41,14 +41,24 @@
 </style>
 </head>
 <body><iframe 
-  src="bala.html" 
-  frameborder="0" 
-  width="350" 
-  height="106" 
+  id="playerFrame"
+  src="bala.html"
+  frameborder="0"
+  width="350"
+  height="106"
   scrolling="no"
   allowtransparency="true"
   style="background: transparent;">
 </iframe>
+
+<script>
+  // Atualiza o iframe a cada 20 segundos (20.000 ms)
+  setInterval(function() {
+    const iframe = document.getElementById('playerFrame');
+    // Força o recarregamento mantendo o mesmo endereço
+    iframe.src = iframe.src;
+  }, 20000);
+</script>
   
 </body>
 </html>
