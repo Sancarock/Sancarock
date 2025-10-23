@@ -2,229 +2,96 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rádio SancaRock - App Player</title>
-<style>
-body, html {
-  margin: 0;
-  padding: 0;
-  background: transparent !important;
-  font-family: Arial, sans-serif;
-}
-
-#playerContainer {
-  display: flex;
-  flex-direction: column;      /* Coloca itens em coluna */
-  align-items: center;
-  gap: 8px;                    
-  background: transparent !important;
-  padding: 5px;
-  margin: 0;
-  border-radius: 5px;
-  color: #fff;
-  font-size: 1em;
-  box-shadow: 0 0 15px rgba(255,0,0,0.4);
-  width: 100%;              
-  max-width: 480px;         
-  box-sizing: border-box;
-}
-
-.track-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 0.9em;
-}
-
-.controls {
-  display: flex;
-  justify-content: center;
-  gap: 5px;
-  flex-wrap: wrap;       /* para caber em telas pequenas */
-}
-
-.player-button {
-  padding: 10px 12px;
-  font-size: 1em;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
-  background-color: #800000;
-  color: #fff;
-}
-.player-button:hover { background-color: #444; }
-
-.equalizer {
-  display: flex;
-  align-items: flex-end;
-  gap: 2px;
-}
-.equalizer span {
-  width: 4px;
-  height: 12px;
-  background-color: yellow;
-  animation: bounce 0.6s infinite ease-in-out;
-}
-@keyframes bounce {
-  0%,100% { height: 12px; }
-  50% { height: 24px; }
-}
-
-#volumeDisplay {
-  min-width: 25px;
-  text-align: center;
-  font-size: 0.9em;
-}
-
-audio { display: none; }
-
-.marquee {
-  width: 100%;
-  overflow: hidden;
-  white-space: normal;
-  text-align: center;
-  font-size: 0.8em;
-  margin-top: 5px;
-  color: yellow; /* cor do texto */
-}
-
-.marquee span {
-  display: inline-block;
-  padding: 0;
-  animation: none; /* remove animação */
-}
-@keyframes marqueeAnim {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-100%); }
-}
-
-/* Mensagem de reconexão */
-#offlineAviso {
-  position: fixed;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(255,69,0,0.9);
-  color: white;
-  padding: 8px 16px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
-  font-family: Arial, sans-serif;
-  display: none;
-  z-index: 9999;
-}
-</style>
+<title>Rádio SancaRock</title>
 </head>
-<body>
+<body style="margin:0; background:transparent; text-align:center; color:white; font-family:Arial,sans-serif;">
 
-<div id="playerContainer">
-
-  <div class="track-info">
-    <p id="trackTitle">Rádio Sanca Rock</p>
-    <p id="artistName"></p>
-  </div>
-
-  
-  <div class="equalizer" id="equalizer" style="display: none;">
-    <span></span><span></span><span></span><span></span><span></span>
-  </div>
-
-  
-
-</div>
-
+  <img id="albumCover" src="img/sanca.png" alt="Capa do Álbum" style="width:200px;height:200px;object-fit:cover;margin:10px 0;">
+  <div id="trackTitle">Carregando música...</div>
+  <div id="artistName">Aguardando artista...</div>
 
 <script>
-// ======= PLAYER BÁSICO =======
-const player = document.getElementById('radioPlayer');
-const playBtn = document.getElementById('playPause');
-const volDisplay = document.getElementById('volumeDisplay');
-let volume = 0.5;
-player.volume = volume;
-volDisplay.textContent = Math.round(volume*100) + '%';
+const titleEl = document.getElementById('trackTitle');
+const artistEl = document.getElementById('artistName');
+const coverEl = document.getElementById('albumCover');
+const apiKeyLastFm = 'd08d389671438f325d13d64f0c94b583';
+let lastTrack = '';
 
-playBtn.addEventListener('click', () => {
-  if(player.paused){
-    player.play();
-    playBtn.innerHTML = '&#10074;&#10074;'; // Pause
-  } else {
-    player.pause();
-    playBtn.innerHTML = '&#9654;'; // Play
-  }
-});
-
-// Atualiza o botão automaticamente se o áudio terminar
-player.addEventListener('ended', () => {
-  playBtn.innerHTML = '&#9654;';
-});
-
-
-document.getElementById('volPlus').addEventListener('click', ()=>{
-  volume = Math.min(1, volume+0.1);
-  player.volume = volume;
-  volDisplay.textContent = Math.round(volume*100) + '%';
-});
-document.getElementById('volMinus').addEventListener('click', ()=>{
-  volume = Math.max(0, volume-0.1);
-  player.volume = volume;
-  volDisplay.textContent = Math.round(volume*100) + '%';
-});
-
-document.getElementById('atualizar').addEventListener('click', ()=>{
-  location.reload();
-});
-
-// ======= RECONEXÃO AUTOMÁTICA =======
-const aviso = document.getElementById('offlineAviso');
-
-window.addEventListener('offline', () => { aviso.style.display = 'block'; });
-window.addEventListener('online', async () => {
-  aviso.textContent = 'Conexão restaurada! Recarregando...';
-  const ok = await testarConexao();
-  if(ok) location.reload();
-});
-
-async function testarConexao(){
-  try{
-    const ctrl = new AbortController();
-    setTimeout(()=>ctrl.abort(), 4000);
-    await fetch('https://www.google.com/favicon.ico',{method:'HEAD',signal:ctrl.signal});
-    return true;
-  }catch{return false;}
+function decodeHtmlEntities(str){
+  const txt = document.createElement('textarea');
+  txt.innerHTML = str;
+  return txt.value;
 }
 
-setInterval(async ()=>{
-  if(!navigator.onLine){
-    aviso.style.display = 'block';
-    aviso.textContent = 'Sem conexão... tentando reconectar 🔄';
-  }else{
-    const ok = await testarConexao();
-    if(ok) aviso.style.display = 'none';
-  }
-},15000);
+async function updateMetadata(){
+  try{
+    const res = await fetch('https://transmissaodigital.com/api/VG1wamVFNW5QVDA9KzU=');
+    const buffer = await res.arrayBuffer();
+    let afterKbps = new TextDecoder('iso-8859-1').decode(buffer)
+      .split('Kbps').pop()
+      .replace(/https?:\/\/[^\s]*/g,'')
+      .replace(/<[^>]*>/g,'')
+      .trim();
 
-// ======= Fallback para stream travando =======
-player.addEventListener('error', ()=>{
-  console.warn('Stream travou, tentando reconectar...');
-  player.load();
-  player.play().catch(()=>{});
-});
+    if(!afterKbps || afterKbps === lastTrack) return;
+    lastTrack = afterKbps;
 
-// ======= MARQUEE DYNAMIC =======
-const noticiasEl = document.getElementById('noticias');
-let noticiasArray = [
-  'Programa Monstros do Rock Status Quo, Sábado às 20h!',
-  'Rádio Sanca Rock - São Carlos - SP',
-  'Anuncie Conosco, Temos Ótimos Planos de Divulgação'
-];
-let indice = 0;
-setInterval(()=>{
-  noticiasEl.textContent = noticiasArray[indice];
-  indice = (indice + 1) % noticiasArray.length;
-}, 10000); // 10 segundos
+    afterKbps = afterKbps.replace(/(\d+,)+\d+,?/g,'').trim();
+
+    let artist='', track='';
+    if(afterKbps.includes(' - ')){
+      [artist, track] = afterKbps.split(' - ').map(s=>s.trim());
+    } else { track = afterKbps; }
+
+    track = decodeHtmlEntities(track);
+    artist = decodeHtmlEntities(artist);
+
+    titleEl.textContent = track || '---';
+    artistEl.textContent = artist || '---';
+    document.title = `${artist} - ${track}`;
+
+    // Capa
+    if((artist + ' ' + track).toLowerCase().includes('monstros do rock')){
+      coverEl.src = 'img/monstrosdorock.png';
+    } else {
+      let cover = await fetchCoveriTunes(artist || track, track);
+      if(!cover) cover = await fetchCoverLastFm(artist || track, track);
+      coverEl.src = cover || 'img/sanca.png';
+    }
+
+  } catch(e){ console.warn(e); }
+}
+
+async function fetchCoveriTunes(artist, track){
+  try{
+    const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(artist+' '+track)}&entity=song&limit=5`);
+    const data = await res.json();
+    if(data.results?.length>0){
+      const match = data.results.find(r=>r.artistName.toLowerCase().includes(artist.toLowerCase()));
+      if(match) return match.artworkUrl100.replace("100x100","600x600");
+    }
+  } catch(e){ return null; }
+  return null;
+}
+
+async function fetchCoverLastFm(artist, track){
+  try{
+    const res = await fetch(`https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${apiKeyLastFm}&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(track)}&format=json`);
+    const data = await res.json();
+    const images = data?.track?.album?.image;
+    if(Array.isArray(images)){
+      const url = images.find(img => img.size === 'extralarge')?.['#text'];
+      if(url){
+        return `https://images.weserv.nl/?url=${encodeURIComponent(url)}&w=300&h=300&fit=cover`;
+      }
+    }
+  } catch(e){ console.warn(e); }
+  return null;
+}
+
+updateMetadata();
+setInterval(updateMetadata, 30000);
 </script>
+
 </body>
 </html>
-
