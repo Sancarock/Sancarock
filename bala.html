@@ -102,12 +102,18 @@ audio {
     <p id="artistName"></p>
   </div>
 
-  
+  <button id="playPause" class="player-button">&#9654;</button>
+  <button id="atualizar" class="player-button" type="button" onClick="history.go(0)">↻</button>
+  <button id="volMinus" class="player-button">-</button>
+  <span id="volumeDisplay">50%</span>
+  <button id="volPlus" class="player-button">+</button>
 
   <div class="equalizer" id="equalizer" style="display: none;">
     <span></span><span></span><span></span><span></span><span></span>
   </div>
-  
+  <div class="marquee">
+    <span id="noticias">Carregando notícias...</span>
+  </div>
 </div>
 
 <audio id="radioPlayer" src="https://s02.transmissaodigital.com:6716/stream;" preload="none"></audio>
