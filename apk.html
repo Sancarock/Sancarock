@@ -24,23 +24,24 @@
 <script>
 const apiKey = "d08d389671438f325d13d64f0c94b583";
 const urlMusica = "http://s02.transmissaodigital.com:6716/currentsong?sid=1";
+const proxy = location.protocol === "https:" ? "" : "https://api.allorigins.win/raw?url="; 
 let ultimaMusica = "";
 
 async function buscarImagem(artista, faixa) {
   try {
-    // 1️⃣ Busca imagem do álbum
-    const urlTrack = `https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${apiKey}&artist=${encodeURIComponent(artista)}&track=${encodeURIComponent(faixa)}&format=json`;
+    // Tenta buscar capa do álbum
+    const urlTrack = `${proxy}https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${apiKey}&artist=${encodeURIComponent(artista)}&track=${encodeURIComponent(faixa)}&format=json`;
     const dadosTrack = await fetch(urlTrack).then(r => r.json());
     const albumImg = dadosTrack?.track?.album?.image?.pop()?.['#text'];
     if (albumImg) return albumImg;
 
-    // 2️⃣ Se não tiver álbum, busca imagem do artista
-    const urlArtist = `https://ws.audioscrobbler.com/2.0/?method=artist.getInfo&api_key=${apiKey}&artist=${encodeURIComponent(artista)}&format=json`;
+    // Se não tiver álbum, busca imagem do artista
+    const urlArtist = `${proxy}https://ws.audioscrobbler.com/2.0/?method=artist.getInfo&api_key=${apiKey}&artist=${encodeURIComponent(artista)}&format=json`;
     const dadosArtist = await fetch(urlArtist).then(r => r.json());
     const artistImg = dadosArtist?.artist?.image?.pop()?.['#text'];
     if (artistImg) return artistImg;
 
-    // 3️⃣ Se nada encontrado, imagem padrão
+    // Se nada encontrado, retorna padrão
     return "img/padrao.png";
   } catch (e) {
     console.error("Erro ao buscar imagem:", e);
@@ -50,18 +51,24 @@ async function buscarImagem(artista, faixa) {
 
 async function atualizarCapa() {
   try {
-    const res = await fetch(urlMusica + "&_=" + Date.now()); // cache bust
-    const musicaAtual = await res.text();
-    const textoLimpo = musicaAtual.trim();
+    const res = await fetch(urlMusica + "&_=" + Date.now());
+    const musicaAtual = (await res.text()).trim();
 
-    if (textoLimpo && textoLimpo !== ultimaMusica) {
-      ultimaMusica = textoLimpo;
-      console.log("Nova música:", textoLimpo);
+    if (!musicaAtual || musicaAtual === ultimaMusica) return;
 
-      const [artista, faixa] = textoLimpo.split(" - ").map(t => t.trim());
-      const imagem = await buscarImagem(artista, faixa);
-      document.getElementById("albumArt").src = imagem;
-    }
+    ultimaMusica = musicaAtual;
+    console.log("Nova música:", musicaAtual);
+
+    // Regex para separar artista e faixa (funciona mesmo com hífens na música)
+    const match = musicaAtual.match(/^(.+?)\s*-\s*(.+)$/);
+    if (!match) return;
+
+    const artista = match[1].trim();
+    const faixa = match[2].trim();
+
+    const imagem = await buscarImagem(artista, faixa);
+    document.getElementById("albumArt").src = imagem;
+
   } catch (e) {
     console.error("Erro ao atualizar capa:", e);
   }
