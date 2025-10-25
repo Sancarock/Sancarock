@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Capa do Álbum</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #albumArt {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* mantém proporção e preenche o espaço */
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    transition: opacity 0.4s ease;
+  }
+</style>
+</head>
+<body>
+
+  <img src="img/sanca.png" alt="Capa do álbum" id="albumArt">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    let ultimaMusica = "";
+
+    function atualizarCapa() {
+      $.getJSON('https://transmissaodigital.com/api-json/NjcxNisw', function(data) {
+        const musicaAtual = data.musica_atual || "";
+        const capa = data.capa_musica || "img/padrao.png";
+
+        if (musicaAtual !== ultimaMusica) {
+          ultimaMusica = musicaAtual;
+          const img = document.getElementById("albumArt");
+          img.style.opacity = 0;
+          setTimeout(() => {
+            img.src = capa;
+            img.style.opacity = 1;
+          }, 300);
+        }
+      });
+    }
+
+    setInterval(atualizarCapa, 10000);
+    atualizarCapa();
+  </script>
+
+</body>
+</html>
