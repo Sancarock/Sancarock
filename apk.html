@@ -2,39 +2,33 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Capa do Álbum</title>
 <style>
-  body {
+  html, body {
     margin: 0;
     padding: 0;
+    width: 100%;
+    height: 100%;
     background: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
   }
 
   #albumArt {
-    width: 40vw;               /* responsivo — ocupa 40% da largura da tela */
-    max-width: 150px;          /* limite máximo */
-    max-height: 150px;         /* limite máximo */
-    height: auto;              /* mantém proporção */
+    width: 100%;
+    height: auto;
+    max-width: 150px;
+    max-height: 150px;
     border-radius: 15px;
     box-shadow: 0 0 20px rgba(0,0,0,0.4);
     transition: all 0.3s ease;
-  }
-
-  @media (max-width: 480px) {
-    #albumArt {
-      width: 60vw; /* um pouco maior em telas pequenas */
-    }
   }
 </style>
 </head>
 <body>
 
-  <img src="img/sanca.png" alt="Capa do álbum" name="albumArt" width="150" height="150" id="albumArt">
+  <img src="img/sanca.png" alt="Capa do álbum" id="albumArt">
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
@@ -53,10 +47,10 @@
       });
     }
 
-    // Atualiza a cada 10 segundos
     setInterval(atualizarCapa, 10000);
     atualizarCapa();
   </script>
 
 </body>
 </html>
+
