@@ -19,10 +19,10 @@
 </head>
 <body>
 
-<img id="albumArt" src="img/sanca.png" alt="Capa do álbum" width="150">
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
+<div align="center"><img src="img/sanca.png" alt="Capa do álbum" name="albumArt" width="150" id="albumArt">
+  
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
 let ultimaMusica = "";
 
 function atualizarCapa() {
@@ -41,10 +41,8 @@ function atualizarCapa() {
 // Atualiza a cada 10 segundos
 setInterval(atualizarCapa, 10000);
 atualizarCapa();
-</script>
-
+  </script>
+  
+</div>
 </body>
 </html>
-
-
-
