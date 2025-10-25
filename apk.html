@@ -2,53 +2,75 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<title>Capa do Álbum</title>
 <style>
   body {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  height: 100vh;
-  background: transparent;
-}
-
-  #controls {
-    margin-top: 10px;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-
-  button {
-    background: #222;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 18px;
-    padding: 6px 12px;
-    margin: 0 5px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-
-  button:hover {
-    background: #555;
-  }
-
-  #volumeDisplay {
-    margin-top: 6px;
-    font-size: 14px;
-    color: #ccc;
+  #albumArt {
+    width: 300px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
   }
 </style>
 </head>
 <body>
-<iframe 
-  id="playerFrame"
-  src="bala.html"
-  frameborder="0"
-  width="340"
-  height="90"
-  scrolling="no"
-  allowtransparency="true"
-  style="background: url('img/apk.png') no-repeat center center; background-size: cover; border: none;"> </iframe>
+
+<img id="albumArt" src="img/padrao.png" alt="Capa do álbum">
+
+<script>
+const apiKey = "d08d389671438f325d13d64f0c94b583";
+const urlMusica = "http://s02.transmissaodigital.com:6716/currentsong?sid=1";
+let ultimaMusica = "";
+
+async function buscarImagem(artista, faixa) {
+  try {
+    // 1️⃣ Busca imagem do álbum
+    const urlTrack = `https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${apiKey}&artist=${encodeURIComponent(artista)}&track=${encodeURIComponent(faixa)}&format=json`;
+    const dadosTrack = await fetch(urlTrack).then(r => r.json());
+    const albumImg = dadosTrack?.track?.album?.image?.pop()?.['#text'];
+    if (albumImg) return albumImg;
+
+    // 2️⃣ Se não tiver álbum, busca imagem do artista
+    const urlArtist = `https://ws.audioscrobbler.com/2.0/?method=artist.getInfo&api_key=${apiKey}&artist=${encodeURIComponent(artista)}&format=json`;
+    const dadosArtist = await fetch(urlArtist).then(r => r.json());
+    const artistImg = dadosArtist?.artist?.image?.pop()?.['#text'];
+    if (artistImg) return artistImg;
+
+    // 3️⃣ Se nada encontrado, imagem padrão
+    return "img/padrao.png";
+  } catch (e) {
+    console.error("Erro ao buscar imagem:", e);
+    return "img/padrao.png";
+  }
+}
+
+async function atualizarCapa() {
+  try {
+    const res = await fetch(urlMusica + "&_=" + Date.now()); // cache bust
+    const musicaAtual = await res.text();
+    const textoLimpo = musicaAtual.trim();
+
+    if (textoLimpo && textoLimpo !== ultimaMusica) {
+      ultimaMusica = textoLimpo;
+      console.log("Nova música:", textoLimpo);
+
+      const [artista, faixa] = textoLimpo.split(" - ").map(t => t.trim());
+      const imagem = await buscarImagem(artista, faixa);
+      document.getElementById("albumArt").src = imagem;
+    }
+  } catch (e) {
+    console.error("Erro ao atualizar capa:", e);
+  }
+}
+
+// Atualiza a cada 10 segundos
+setInterval(atualizarCapa, 10000);
+atualizarCapa();
+</script>
+
 </body>
 </html>
