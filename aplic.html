@@ -104,11 +104,21 @@ setInterval(updateMetadata, 30000);
 
 <script>
 document.getElementById("albumCover").addEventListener("click", function() {
-    const link = "https://play.google.com/store/apps/details?id=io.kodular.sancanight.SancaRock";
-    const text = encodeURIComponent("Confira essa Rádio: " + link);
+    const link = "https://seulink.com"; // Link que você quer compartilhar
+    const text = encodeURIComponent("Confira este link: " + link);
 
-    // URL universal do WhatsApp
-    const whatsappURL = "https://wa.me/?text=" + text;
+    // Detecta se é dispositivo móvel
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    let whatsappURL;
+
+    if(isMobile){
+        // Tenta abrir o app nativo no celular
+        whatsappURL = "https://wa.me/?text=" + text;
+    } else {
+        // Desktop abre WhatsApp Web
+        whatsappURL = "https://web.whatsapp.com/send?text=" + text;
+    }
 
     // Redireciona na mesma aba
     window.location.href = whatsappURL;
