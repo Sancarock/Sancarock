@@ -104,15 +104,23 @@ setInterval(updateMetadata, 30000);
 
 <script>
 document.getElementById("albumCover").addEventListener("click", function() {
-    // Link que você quer compartilhar
     const link = "https://play.google.com/store/apps/details?id=io.kodular.sancanight.SancaRock";
-    const text = encodeURIComponent("Confira o App da Rádio Sancarock: " + link);
+    const text = encodeURIComponent("Confira o App da Rádio Sancarock:  " + link);
+    
+    // Detecta se é dispositivo móvel
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    
+    let whatsappURL = "";
+    if(isMobile){
+        // Tenta abrir app nativo no celular
+        whatsappURL = "whatsapp://send?text=" + text;
+    } else {
+        // Desktop abre WhatsApp Web
+        whatsappURL = "https://web.whatsapp.com/send?text=" + text;
+    }
 
-    // URL universal do WhatsApp
-    const whatsappURL = "https://wa.me/?text=" + text;
-
-    // Abre o WhatsApp
-    window.open(whatsappURL, "_blank");
+    // Redireciona para o link correto
+    window.location.href = whatsappURL;
 });
 </script>
 
