@@ -29,9 +29,7 @@ body {
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head>
 <body>
 
-<a href="https://api.whatsapp.com/send?text=Confira%20nosso APP%20 Rádio Sancarock :%20https://play.google.com/store/apps/details?id=io.kodular.sancanight.SancaRock" target="_blank">
-    <img src="img/sanca.png" alt="Capa do Álbum" name="albumCover" class="album-cover" id="albumCover" style="cursor:pointer;">
-</a>
+<img src="img/sanca.png" alt="Capa do Álbum" name="albumCover" class="album-cover" id="albumCover" style="cursor:pointer;">
 
 <script>
 const coverEl = document.getElementById('albumCover');
@@ -102,6 +100,20 @@ async function fetchCoverLastFm(artist, track){
 
 updateMetadata();
 setInterval(updateMetadata, 30000);
+</script>
+
+<script>
+document.getElementById("albumCover").addEventListener("click", function() {
+    // Link que você quer compartilhar
+    const link = "https://play.google.com/store/apps/details?id=io.kodular.sancanight.SancaRock";
+    const text = encodeURIComponent("Confira o App da Rádio Sancarock: " + link);
+
+    // URL universal do WhatsApp
+    const whatsappURL = "https://wa.me/?text=" + text;
+
+    // Abre o WhatsApp
+    window.open(whatsappURL, "_blank");
+});
 </script>
 
 </body>
