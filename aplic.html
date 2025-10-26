@@ -15,10 +15,10 @@ body {
 }
 
 .album-cover {
-  width: 92vw;           /* ocupa 92% da largura da tela */
+  width: 92vw;           /* ocupa 80% da largura da tela */
   max-width: 150px;      /* limite máximo */
   border-radius: 16px;
-  border: 6px solid #003300;
+  border: 4px solid #003300;
   box-shadow: 0 0 20px rgba(0,0,0,0.8);
   object-fit: cover;
   opacity: 0.97;
@@ -29,7 +29,9 @@ body {
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head>
 <body>
 
-<img id="albumCover" src="img/sanca.png" class="album-cover" alt="Capa do Álbum">
+<a href="https://api.whatsapp.com/send?text=Confira%20nosso APP%20 Rádio Sancarock :%20https://play.google.com/store/apps/details?id=io.kodular.sancanight.SancaRock" target="_blank">
+    <img src="img/sanca.png" alt="Capa do Álbum" name="albumCover" class="album-cover" id="albumCover" style="cursor:pointer;">
+</a>
 
 <script>
 const coverEl = document.getElementById('albumCover');
@@ -104,6 +106,3 @@ setInterval(updateMetadata, 30000);
 
 </body>
 </html>
-
-
-
