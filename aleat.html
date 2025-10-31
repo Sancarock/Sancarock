@@ -147,8 +147,6 @@ function updateTitleRepeatedly() {
         cleanTitle = cleanTitle.replace(/\s*\(.*?\)\s*/g, '');
         // Remove tudo entre colchetes
         cleanTitle = cleanTitle.replace(/\s*\[.*?\]\s*/g, '');
-        // Remove trecho após travessão " - "
-        cleanTitle = cleanTitle.replace(/\s*-\s*.*$/g, '');
         // Remove emojis e caracteres especiais
         cleanTitle = cleanTitle.replace(/[\u{1F300}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '');
         // Remove espaços extras no início/fim
@@ -196,6 +194,7 @@ function toggleFullscreen() {
 
 </body>
 </html>
+
 
 
 
