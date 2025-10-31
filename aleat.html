@@ -60,122 +60,115 @@
 </head>
 <body>
 
-<h2>🎧 Minha Seleção de Vídeos</h2>
-<div id="videoTitle">Carregando título...</div>
-
-<div class="video-container">
-  <div id="player"></div>
+<div id="videoTitle" style="text-align:center; color:#ff4444; font-weight:bold; margin-bottom:10px;">
+  Carregando título...
 </div>
 
-<div class="controls">
-  <button id="prevBtn">⏮️ Anterior</button>
-  <button id="nextBtn">⏭️ Próximo</button>
-</div>
-
-<div id="videoTitle">Carregando título...</div>
-<div id="container" class="video-container" style="position: relative; width:100%; max-width:560px; aspect-ratio:16/9; margin:auto;">
-  <div id="player"></div>
+<div id="container">
+    <div id="player"></div>
 </div>
 
 <div class="controls" style="text-align:center; margin-top:10px;">
-  <button onclick="nextVideo()">⏭️ Próximo</button>
-  <button onclick="toggleFullscreen()">⛶ Tela Cheia</button>
+    <button onclick="nextVideo()">Próximo ▶</button>
+    <button onclick="playRandomVideo()">🔄 Aleatório</button>
+    <button onclick="window.open('https://www.youtube.com/@RádioSancaRock', '_blank')">Nosso Canal</button>
 </div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
+
 <script>
-  let player;
-  const PLAYLIST_ID = 'PLYXfLV3z1Kzysf0c-wpY6qDuKyj5KHGno';
-  const titleEl = document.getElementById('videoTitle');
+let player;
+const PLAYLIST_ID = 'PLYXfLV3z1Kzysf0c-wpY6qDuKyj5KHGno';
+const titleEl = document.getElementById('videoTitle');
 
-  function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-      width: '100%',
-      height: '100%',
-      playerVars: {
-        listType: 'playlist',
-        list: PLAYLIST_ID,
-        rel: 0,
-        modestbranding: 1,
-        autoplay: 1,
-        mute: 0,
-        controls: 1
-      },
-      events: {
-        onReady: onPlayerReady,
-        onStateChange: onPlayerStateChange
-      }
-    });
-  }
-
-  function onPlayerReady(event) {
-    // Toca vídeo aleatório no início
-    setTimeout(() => {
-      const playlist = player.getPlaylist();
-      if (playlist && playlist.length > 0) {
-        const randomIndex = Math.floor(Math.random() * playlist.length);
-        player.playVideoAt(randomIndex);
-      } else {
-        setTimeout(() => { player.playVideo(); }, 1000);
-      }
-    }, 800);
-
-    updateTitleRepeatedly();
-  }
-
-  function onPlayerStateChange(event) {
-    if(event.data === YT.PlayerState.PLAYING){
-      updateTitleRepeatedly();
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('player', {
+    width: '100%',
+    height: '100%',
+    playerVars: {
+      listType: 'playlist',
+      list: PLAYLIST_ID,
+      rel: 0,
+      modestbranding: 1,
+      autoplay: 1,
+      mute: 0,
+      controls: 1
+    },
+    events: {
+      onReady: onPlayerReady,
+      onStateChange: onPlayerStateChange
     }
-  }
+  });
+}
 
-  function updateTitleRepeatedly() {
-    let attempts = 0;
-    const interval = setInterval(() => {
-      if(player){
-        const videoData = player.getVideoData();
-        if(videoData && videoData.title){
-          titleEl.textContent = videoData.title;
-          clearInterval(interval);
-        } else if(attempts++ > 20){
-          titleEl.textContent = "Título não disponível";
-          clearInterval(interval);
-        }
-      }
-    }, 300);
-  }
-
-  function playRandomVideo() {
+function onPlayerReady(event) {
+  // toca vídeo aleatório no início
+  setTimeout(() => {
     const playlist = player.getPlaylist();
-    if(playlist && playlist.length > 0){
+    if (playlist && playlist.length > 0) {
       const randomIndex = Math.floor(Math.random() * playlist.length);
       player.playVideoAt(randomIndex);
     } else {
-      setTimeout(playRandomVideo, 500);
+      setTimeout(() => { player.playVideo(); }, 1000);
     }
-  }
+  }, 800);
 
-  function nextVideo() {
-    if(player) player.nextVideo();
+  updateTitleRepeatedly();
+}
+
+function onPlayerStateChange(event) {
+  if(event.data === YT.PlayerState.PLAYING){
     updateTitleRepeatedly();
   }
+}
 
-  function toggleFullscreen() {
-    const container = document.getElementById('container');
-    if(!document.fullscreenElement){
-      if(container.requestFullscreen) container.requestFullscreen();
-      else if(container.webkitRequestFullscreen) container.webkitRequestFullscreen();
-      else alert("Gire seu celular para paisagem!");
-    } else {
-      if(document.exitFullscreen) document.exitFullscreen();
-      else if(document.webkitExitFullscreen) document.webkitExitFullscreen();
+function updateTitleRepeatedly() {
+  let attempts = 0;
+  const interval = setInterval(() => {
+    if(player){
+      const videoData = player.getVideoData();
+      if(videoData && videoData.title){
+        titleEl.textContent = videoData.title;
+        clearInterval(interval);
+      } else if(attempts++ > 20){
+        titleEl.textContent = "Título não disponível";
+        clearInterval(interval);
+      }
     }
+  }, 300);
+}
+
+function playRandomVideo() {
+  const playlist = player.getPlaylist();
+  if(playlist && playlist.length > 0){
+    const randomIndex = Math.floor(Math.random() * playlist.length);
+    player.playVideoAt(randomIndex);
+    updateTitleRepeatedly();
+  } else {
+    setTimeout(playRandomVideo, 500);
   }
-  document.getElementById('nextBtn').addEventListener('click', nextVideo);
-  document.getElementById('prevBtn').addEventListener('click', prevVideo);
+}
+
+function nextVideo() {
+  if(player) player.nextVideo();
+  updateTitleRepeatedly();
+}
+
+function toggleFullscreen() {
+  const container = document.getElementById('container');
+  if(!document.fullscreenElement){
+    if(container.requestFullscreen) container.requestFullscreen();
+    else if(container.webkitRequestFullscreen) container.webkitRequestFullscreen();
+    else alert("Gire seu celular para paisagem!");
+  } else {
+    if(document.exitFullscreen) document.exitFullscreen();
+    else if(document.webkitExitFullscreen) document.webkitExitFullscreen();
+  }
+}
 </script>
 
 </body>
 </html>
+
 
 
