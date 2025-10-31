@@ -39,19 +39,24 @@
 }
 
   .controls {
-    margin-top: 10px;
-  }
+  display: flex;
+  flex-wrap: wrap;       /* permite quebrar linha em telas pequenas */
+  justify-content: center;
+  gap: 8px;              /* espaço entre os botões */
+  margin-top: 10px;
+}
 
   button {
-    background: #c00;
-    color: #fff;
-    border: none;
-    padding: 10px 18px;
-    margin: 0 5px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 15px;
-  }
+    flex: 1 1 120px;       /* largura mínima 120px, cresce se houver espaço */
+  max-width: 200px;      /* largura máxima para não ficar gigante */
+  background: #c00;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;       /* ajusta melhor no celular */
+}
 
   button:hover {
     background: #f33;
@@ -169,6 +174,7 @@ function toggleFullscreen() {
 
 </body>
 </html>
+
 
 
 
