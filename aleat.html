@@ -47,15 +47,22 @@
 }
 
   button {
-    flex: 1 1 120px;       /* largura mínima 120px, cresce se houver espaço */
-  max-width: 200px;      /* largura máxima para não ficar gigante */
   background: #c00;
   color: #fff;
   border: none;
-  padding: 10px;
+  padding: 8px 14px; /* menor padding */
   border-radius: 8px;
   cursor: pointer;
-  font-size: 14px;       /* ajusta melhor no celular */
+  font-size: 14px;
+}
+
+/* Ajuste específico para telas pequenas (mobile) */
+@media (max-width: 480px) {
+  .controls button {
+    padding: 6px 10px;  /* botões menores no celular */
+    font-size: 12px;    /* fonte menor */
+    flex: 1 1 100px;    /* largura mínima menor para caber melhor */
+  }
 }
 
   button:hover {
@@ -174,6 +181,7 @@ function toggleFullscreen() {
 
 </body>
 </html>
+
 
 
 
