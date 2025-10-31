@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>🎸 Player YouTube Personalizado</title>
+<style>
+  body {
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+
+  #videoTitle {
+    font-size: 20px;
+    margin-top: 20px;
+    font-weight: bold;
+    color: #ff4444;
+  }
+
+  .video-container {
+    position: relative;
+    width: 100%;
+    max-width: 560px;
+    margin: 30px auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .controls {
+    margin-top: 10px;
+  }
+
+  button {
+    background: #c00;
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    margin: 0 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+  }
+
+  button:hover {
+    background: #f33;
+  }
+</style>
+</head>
+<body>
+
+<h2>🎧 Minha Seleção de Vídeos</h2>
+<div id="videoTitle">Carregando título...</div>
+
+<div class="video-container">
+  <div id="player"></div>
+</div>
+
+<div class="controls">
+  <button id="prevBtn">⏮️ Anterior</button>
+  <button id="nextBtn">⏭️ Próximo</button>
+</div>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+  // Defina aqui a ordem dos vídeos (IDs do YouTube)
+  const videos = [
+    "P9uvpr_gm64", // exemplo 1
+    "Yw_sJifUYgM", // exemplo 2
+    "n1e0AAjXscE"  // exemplo 3
+  ];
+
+  let player;
+  let current = 0;
+  const titleEl = document.getElementById('videoTitle');
+
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      videoId: videos[current],
+      playerVars: {
+        autoplay: 0,
+        controls: 1,
+        rel: 0,
+        modestbranding: 1
+      },
+      events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+      }
+    });
+  }
+
+  function onPlayerReady() {
+    updateTitle();
+  }
+
+  function onPlayerStateChange(event) {
+    if (event.data === YT.PlayerState.ENDED) {
+      nextVideo();
+    }
+  }
+
+  function updateTitle() {
+    const videoData = player.getVideoData();
+    titleEl.textContent = videoData.title || "Título não disponível";
+  }
+
+  function nextVideo() {
+    current = (current + 1) % videos.length;
+    player.loadVideoById(videos[current]);
+    setTimeout(updateTitle, 1000);
+  }
+
+  function prevVideo() {
+    current = (current - 1 + videos.length) % videos.length;
+    player.loadVideoById(videos[current]);
+    setTimeout(updateTitle, 1000);
+  }
+
+  document.getElementById('nextBtn').addEventListener('click', nextVideo);
+  document.getElementById('prevBtn').addEventListener('click', prevVideo);
+</script>
+
+</body>
+</html>
