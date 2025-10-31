@@ -25,18 +25,18 @@
     align-items: center;
     margin: 30px auto;
     width: 100%;
-    max-width: 560px;
+    max-width: 800px;  /* antes era 560px */
     aspect-ratio: 16 / 9;
     background: #111;
     border-radius: 10px;
     overflow: hidden;
-  }
+}
 
-  iframe {
+ iframe {
     width: 100%;
     height: 100%;
     border: none;
-  }
+}
 
   .controls {
     margin-top: 10px;
@@ -64,7 +64,7 @@
   Carregando título...
 </div>
 
-<div id="container">
+<div id="container" class="video-container">
     <div id="player"></div>
 </div>
 
@@ -169,6 +169,7 @@ function toggleFullscreen() {
 
 </body>
 </html>
+
 
 
 
