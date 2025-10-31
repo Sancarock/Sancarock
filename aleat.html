@@ -72,56 +72,59 @@
   <button id="nextBtn">⏭️ Próximo</button>
 </div>
 
+<div id="videoTitle">Carregando título...</div>
+<div id="container" class="video-container" style="position: relative; width:100%; max-width:560px; aspect-ratio:16/9; margin:auto;">
+  <div id="player"></div>
+</div>
+
+<div class="controls" style="text-align:center; margin-top:10px;">
+  <button onclick="nextVideo()">⏭️ Próximo</button>
+  <button onclick="toggleFullscreen()">⛶ Tela Cheia</button>
+</div>
+
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
-  const videos = [
-    "o1tj2zJ2Wvg", // Guns N’ Roses ‑ November Rain
-  "kXYiU_JCYtU", // Linkin Park ‑ In The End
-  "RBumgq5yVrA", // Nirvana ‑ Smells Like Teen Spirit
-  "fJ9rUzIMcZQ", // Queen ‑ Bohemian Rhapsody
-  "6Ejga4kJUts", // Bon Jovi ‑ It’s My Life
-  "Ckom3gf57Yw", // Metallica ‑ Nothing Else Matters
-  "CE4N2xEyFME", // AC/DC ‑ Thunderstruck
-  "5J0‑7G1vb8E".replace(/‑/g, "_"), // (Exemplo: você pode trocar “‑” por “_”) Red Hot Chili Peppers ‑ Californication  
-  "vH8s8SRdN6Y", // The Cranberries ‑ Zombie
-  "dmglQsmjj3U", // Imagine Dragons ‑ Believer
-  "ktvTqknDobU", // Imagine Dragons ‑ Radioactive
-  "m1I4vEUTwNw", // 4 Non Blondes ‑ What’s Up
-  "OXX‑1D8UvEE".replace(/‑/g, "_"), // (Exemplo) Audioslave ‑ Like a Stone  
-  "tAGnKpE4NCI", // Linkin Park ‑ Numb
-  "oD6g1H9aJt8", // (Exemplo) Scorpions ‑ Wind of Change  
-  "v2AC41dglnM", // The White Stripes ‑ Seven Nation Army  
-  "3YxaaGgTQYM", // System Of A Down ‑ Chop Suey!  
-  "6YQi8mb_bY0", // (Exemplo) Evanescence ‑ Bring Me To Life  
-  "QK8mJJJvaes", // Bon Jovi ‑ Livin’ On A Prayer  
-  "pXRviuL6vMY", // (Exemplo) The Offspring ‑ The Kids Aren’t Alright  
-  "GkRUc9kO7xo", // (Exemplo) Foo Fighters ‑ The Pretender  
-  "R‑KfL4bIFWw".replace(/‑/g, "_") // (Exemplo) Pearl Jam ‑ Alive  
-  ];
-
   let player;
-  let current = 0;
+  const PLAYLIST_ID = 'PLYXfLV3z1Kzysf0c-wpY6qDuKyj5KHGno';
   const titleEl = document.getElementById('videoTitle');
 
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-      videoId: videos[current],
-      playerVars: { autoplay: 0, controls: 1, rel: 0, modestbranding: 1 },
+      width: '100%',
+      height: '100%',
+      playerVars: {
+        listType: 'playlist',
+        list: PLAYLIST_ID,
+        rel: 0,
+        modestbranding: 1,
+        autoplay: 1,
+        mute: 0,
+        controls: 1
+      },
       events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
+        onReady: onPlayerReady,
+        onStateChange: onPlayerStateChange
       }
     });
   }
 
-  function onPlayerReady() {
+  function onPlayerReady(event) {
+    // Toca vídeo aleatório no início
+    setTimeout(() => {
+      const playlist = player.getPlaylist();
+      if (playlist && playlist.length > 0) {
+        const randomIndex = Math.floor(Math.random() * playlist.length);
+        player.playVideoAt(randomIndex);
+      } else {
+        setTimeout(() => { player.playVideo(); }, 1000);
+      }
+    }, 800);
+
     updateTitleRepeatedly();
   }
 
   function onPlayerStateChange(event) {
-    if (event.data === YT.PlayerState.ENDED) {
-      nextVideo();
-    } else if (event.data === YT.PlayerState.PLAYING) {
+    if(event.data === YT.PlayerState.PLAYING){
       updateTitleRepeatedly();
     }
   }
@@ -129,33 +132,50 @@
   function updateTitleRepeatedly() {
     let attempts = 0;
     const interval = setInterval(() => {
-      const videoData = player.getVideoData();
-      if (videoData && videoData.title) {
-        titleEl.textContent = videoData.title;
-        clearInterval(interval);
-      } else if (attempts++ > 20) {
-        clearInterval(interval);
-        titleEl.textContent = "Título não disponível";
+      if(player){
+        const videoData = player.getVideoData();
+        if(videoData && videoData.title){
+          titleEl.textContent = videoData.title;
+          clearInterval(interval);
+        } else if(attempts++ > 20){
+          titleEl.textContent = "Título não disponível";
+          clearInterval(interval);
+        }
       }
     }, 300);
   }
 
+  function playRandomVideo() {
+    const playlist = player.getPlaylist();
+    if(playlist && playlist.length > 0){
+      const randomIndex = Math.floor(Math.random() * playlist.length);
+      player.playVideoAt(randomIndex);
+    } else {
+      setTimeout(playRandomVideo, 500);
+    }
+  }
+
   function nextVideo() {
-    current = (current + 1) % videos.length;
-    player.loadVideoById(videos[current]);
+    if(player) player.nextVideo();
     updateTitleRepeatedly();
   }
 
-  function prevVideo() {
-    current = (current - 1 + videos.length) % videos.length;
-    player.loadVideoById(videos[current]);
-    updateTitleRepeatedly();
+  function toggleFullscreen() {
+    const container = document.getElementById('container');
+    if(!document.fullscreenElement){
+      if(container.requestFullscreen) container.requestFullscreen();
+      else if(container.webkitRequestFullscreen) container.webkitRequestFullscreen();
+      else alert("Gire seu celular para paisagem!");
+    } else {
+      if(document.exitFullscreen) document.exitFullscreen();
+      else if(document.webkitExitFullscreen) document.webkitExitFullscreen();
+    }
   }
-
   document.getElementById('nextBtn').addEventListener('click', nextVideo);
   document.getElementById('prevBtn').addEventListener('click', prevVideo);
 </script>
 
 </body>
 </html>
+
 
