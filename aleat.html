@@ -141,8 +141,19 @@ function updateTitleRepeatedly() {
     if(player){
       const videoData = player.getVideoData();
       if(videoData && videoData.title){
-        // Remove tudo que estiver entre parênteses
-        let cleanTitle = videoData.title.replace(/\s*\(.*?\)\s*/g, '');
+        let cleanTitle = videoData.title;
+
+        // Remove tudo entre parênteses
+        cleanTitle = cleanTitle.replace(/\s*\(.*?\)\s*/g, '');
+        // Remove tudo entre colchetes
+        cleanTitle = cleanTitle.replace(/\s*\[.*?\]\s*/g, '');
+        // Remove trecho após travessão " - "
+        cleanTitle = cleanTitle.replace(/\s*-\s*.*$/g, '');
+        // Remove emojis e caracteres especiais
+        cleanTitle = cleanTitle.replace(/[\u{1F300}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '');
+        // Remove espaços extras no início/fim
+        cleanTitle = cleanTitle.trim();
+
         titleEl.textContent = cleanTitle;
         clearInterval(interval);
       } else if(attempts++ > 20){
@@ -152,6 +163,7 @@ function updateTitleRepeatedly() {
     }
   }, 300);
 }
+
 
 function playRandomVideo() {
   const playlist = player.getPlaylist();
@@ -184,6 +196,7 @@ function toggleFullscreen() {
 
 </body>
 </html>
+
 
 
 
