@@ -1,3 +1,4 @@
+
 // Elementos
 const radioPlayer = document.getElementById('radioPlayer');
 const playPauseBtn = document.getElementById('playPause');
@@ -116,7 +117,6 @@ async function fetchMetadata() {
       [artist, track] = currentTrack.split(" - ", 2).map(p => p.trim());
       artistName.innerText = artist;
     } else {
-      // Fallback: usa o título completo como música, artista genérico
       track = currentTrack;
       artist = "Rádio Sanca Rock";
       artistName.innerText = artist;
@@ -133,9 +133,18 @@ async function fetchMetadata() {
       return;
     }
 
-    // Busca capa
+    // Busca capa com verificação
     const coverUrl = await getCoverUrl(artist, track);
-    albumCover.src = coverUrl || "img/sanca.png";
+    if (coverUrl) {
+      try {
+        const test = await fetch(coverUrl, { method: 'HEAD' });
+        albumCover.src = test.ok ? coverUrl : "img/sanca.png";
+      } catch {
+        albumCover.src = "img/sanca.png";
+      }
+    } else {
+      albumCover.src = "img/sanca.png";
+    }
 
   } catch (err) {
     console.error("Erro em fetchMetadata:", err);
@@ -154,9 +163,8 @@ window.onload = function() {
   radioPlayer.play().then(() => {
     fetchMetadata();
     equalizer.style.display = 'flex';
-    playPauseBtn.innerHTML = '&#10074;&#10074;'; // Pausa
+    playPauseBtn.innerHTML = '&#10074;&#10074;';
   }).catch(() => {
-    // Autoplay bloqueado — ainda busca metadados
     fetchMetadata();
   });
 };
