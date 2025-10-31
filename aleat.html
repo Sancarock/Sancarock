@@ -18,16 +18,21 @@
     color: #ff4444;
   }
 
+  /* Centraliza e mantém o vídeo responsivo */
   .video-container {
-    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px auto;
     width: 100%;
     max-width: 560px;
-    margin: 30px auto;
     aspect-ratio: 16 / 9;
+    background: #111;
+    border-radius: 10px;
+    overflow: hidden;
   }
 
   iframe {
-    position: absolute;
     width: 100%;
     height: 100%;
     border: none;
@@ -70,9 +75,9 @@
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
   const videos = [
-    "P9uvpr_gm64", // exemplo 1
-    "Yw_sJifUYgM", // exemplo 2
-    "n1e0AAjXscE"  // exemplo 3
+    "dQw4w9WgXcQ",
+    "kXYiU_JCYtU",
+    "tAGnKpE4NCI"
   ];
 
   let player;
@@ -91,7 +96,7 @@
   }
 
   function onPlayerReady() {
-    updateTitleRepeatedly(); // garante que o título apareça mesmo se demorar
+    updateTitleRepeatedly();
   }
 
   function onPlayerStateChange(event) {
