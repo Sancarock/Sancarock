@@ -69,7 +69,6 @@
 
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
-  // Defina aqui a ordem dos vídeos (IDs do YouTube)
   const videos = [
     "P9uvpr_gm64", // exemplo 1
     "Yw_sJifUYgM", // exemplo 2
@@ -83,12 +82,7 @@
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
       videoId: videos[current],
-      playerVars: {
-        autoplay: 0,
-        controls: 1,
-        rel: 0,
-        modestbranding: 1
-      },
+      playerVars: { autoplay: 0, controls: 1, rel: 0, modestbranding: 1 },
       events: {
         'onReady': onPlayerReady,
         'onStateChange': onPlayerStateChange
@@ -97,30 +91,41 @@
   }
 
   function onPlayerReady() {
-    updateTitle();
+    updateTitleRepeatedly(); // garante que o título apareça mesmo se demorar
   }
 
   function onPlayerStateChange(event) {
     if (event.data === YT.PlayerState.ENDED) {
       nextVideo();
+    } else if (event.data === YT.PlayerState.PLAYING) {
+      updateTitleRepeatedly();
     }
   }
 
-  function updateTitle() {
-    const videoData = player.getVideoData();
-    titleEl.textContent = videoData.title || "Título não disponível";
+  function updateTitleRepeatedly() {
+    let attempts = 0;
+    const interval = setInterval(() => {
+      const videoData = player.getVideoData();
+      if (videoData && videoData.title) {
+        titleEl.textContent = videoData.title;
+        clearInterval(interval);
+      } else if (attempts++ > 20) {
+        clearInterval(interval);
+        titleEl.textContent = "Título não disponível";
+      }
+    }, 300);
   }
 
   function nextVideo() {
     current = (current + 1) % videos.length;
     player.loadVideoById(videos[current]);
-    setTimeout(updateTitle, 1000);
+    updateTitleRepeatedly();
   }
 
   function prevVideo() {
     current = (current - 1 + videos.length) % videos.length;
     player.loadVideoById(videos[current]);
-    setTimeout(updateTitle, 1000);
+    updateTitleRepeatedly();
   }
 
   document.getElementById('nextBtn').addEventListener('click', nextVideo);
