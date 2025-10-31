@@ -140,7 +140,9 @@ function updateTitleRepeatedly() {
     if(player){
       const videoData = player.getVideoData();
       if(videoData && videoData.title){
-        titleEl.textContent = videoData.title;
+        // Remove tudo que estiver entre parênteses
+        let cleanTitle = videoData.title.replace(/\s*\(.*?\)\s*/g, '');
+        titleEl.textContent = cleanTitle;
         clearInterval(interval);
       } else if(attempts++ > 20){
         titleEl.textContent = "Título não disponível";
@@ -181,6 +183,7 @@ function toggleFullscreen() {
 
 </body>
 </html>
+
 
 
 
