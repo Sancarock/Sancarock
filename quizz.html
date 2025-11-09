@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rádio SancaRock</title>
+<style>
+body {
+  margin: 0;
+  font-family: 'Bebas Neue', Arial, sans-serif;
+  background: radial-gradient(circle at center, #ff4500, #800080, #000);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+ h1 {
+            text-align: center;
+            color: #ffffff;
+            text-shadow: 0 0 10px #ff0000;
+        }
+
+        #quiz-container {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+            padding: 20px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 0 20px #ff0000;
+        }
+
+        #question {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+
+        #options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        button {
+            background: #222;
+            color: white;
+            border: 1px solid #ff0000;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background: #ff0000;
+            transform: scale(1.05);
+        }
+
+        #result, #percentage {
+            text-align: center;
+            margin-top: 20px;
+            white-space: pre-line;
+        }
+
+        #restart-btn {
+            display: none;
+            margin-top: 20px;
+            background: #ff0000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: white;
+            font-size: 1rem;
+        }
+
+        #restart-btn:hover {
+            background: #cc0000;
+        }
+</style>
+</head>
+<body>
+  <div align="center">
+ <p><img src="img/logu1.png" alt="Logo" name="logo" width="218" height="90" border="0" id="logo" style="transition: opacity 1s ease-in-out;">
+</a></p>
+ <p>
+   
+   <script>
+  // Lista de imagens que vão alternar
+  const logos = ["img/logu1.png", "img/logu2.png"];
+  let index = 0;
+  const logo = document.getElementById("logo");
+
+  setInterval(() => {
+    index = (index + 1) % logos.length;
+
+    // Fade out
+    logo.style.opacity = 0;
+
+    setTimeout(() => {
+      logo.src = logos[index];
+      // Fade in
+      logo.style.opacity = 1;
+    }, 1000); // tempo do fade
+  }, 5000); // troca a cada 10 segundos
+      </script>
+ <h1>🎸 Sanca Rock Quiz 🤘</h1>
+
+    <div id="quiz-container">
+        <div id="question">Carregando pergunta...</div>
+        <div id="options"></div>
+        <div id="result"></div>
+        <div id="percentage"></div>
+        <button id="restart-btn" onclick="restartQuiz()">Reiniciar Quiz</button>
+    </div>
+
+   <div id="quiz">
+    <h2 id="progress"></h2>
+    <h3 id="theme"></h3>
+    <p id="question"></p>
+    <div id="options"></div>
+
+    <p id="result"></p>
+    <p id="percentage"></p>
+
+    <button id="restart-btn" onclick="restartQuiz()" style="display:none;">🔁 Jogar Novamente</button>
+  </div>
+<div id="progress"></div>
+<div id="question"></div>
+<div id="options"></div>
+  <!-- Sons -->
+  <audio id="sound-correct" src="sounds/correct.mp3" preload="auto"></audio>
+  <audio id="sound-wrong" src="sounds/wrong.mp3" preload="auto"></audio>
+
+  <script src="js/sancaquizz.js"></script>
+</body>
