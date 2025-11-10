@@ -632,6 +632,26 @@ let round = 1; // 🆕 contador de rodadas
 const soundCorrect = document.getElementById("sound-correct");
 const soundWrong = document.getElementById("sound-wrong");
 
+// === Controle de som ===
+let soundEnabled = true;
+const toggleSound = document.getElementById('toggleSound');
+
+toggleSound.addEventListener('click', () => {
+  soundEnabled = !soundEnabled;
+  toggleSound.textContent = soundEnabled ? "🔊 Som" : "🔇 Sem som";
+});
+
+function playSound(type) {
+  if (!soundEnabled) return;
+  if (type === 'correct') {
+    soundCorrect.currentTime = 0;
+    soundCorrect.play();
+  } else if (type === 'wrong') {
+    soundWrong.currentTime = 0;
+    soundWrong.play();
+  }
+}
+
 // === Carregar pergunta ===
 function loadQuestion() {
   if (currentQuestionIndex < selectedQuestions.length) {
@@ -674,11 +694,9 @@ function selectOption(selectedOption) {
   // Toca som e atualiza pontuação
   if (selectedOption === correctAnswer) {
     score++;
-    soundCorrect.currentTime = 0;
-    soundCorrect.play();
+    playSound('correct');
   } else {
-    soundWrong.currentTime = 0;
-    soundWrong.play();
+    playSound('wrong');
   }
 
   // Próxima pergunta após um pequeno delay
@@ -718,6 +736,7 @@ function restartQuiz() {
 
 // === Iniciar ===
 loadQuestion();
+
 
 
 
