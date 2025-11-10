@@ -6,16 +6,36 @@
 <title>Rádio SancaRock</title>
 <style>
 body {
-  margin: 0;
-  font-family: 'Bebas Neue', Arial, sans-serif;
-  background: radial-gradient(circle at center, #ff4500, #800080, #000);
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
-}
+    margin: 0;
+    font-family: 'Bebas Neue', Arial, sans-serif;
+    background: radial-gradient(circle at center, #ff4500, #800080, #000);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    animation: pageIntro 1.2s ease-out;
+    transform-origin: center;
+  }
+
+  @keyframes pageIntro {
+    0% {
+      opacity: 0;
+      transform: scale(0.8) rotate(-2deg);
+      filter: brightness(0.3);
+    }
+    60% {
+      opacity: 1;
+      transform: scale(1.05) rotate(1deg);
+      filter: brightness(1.2);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) rotate(0);
+      filter: brightness(1);
+    }
+  }
  h1 {
             text-align: center;
             color: #ffffff;
@@ -178,6 +198,7 @@ body {
 </script>
 
 </body>
+
 
 
 
