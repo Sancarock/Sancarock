@@ -143,15 +143,21 @@
     }
 
     function updateVideoTitle() {
-      const data = player.getVideoData();
-      let title = data.title || "Desconhecido";
+  const data = player.getVideoData();
+  let title = data.title || "Desconhecido";
 
-      // Remove o que estiver entre () e []
-      title = title.replace(/\s*\(.*?\)\s*/g, '').replace(/\s*\[.*?\]\s*/g, '');
+  // Remove o que estiver entre () e []
+  title = title.replace(/\s*\(.*?\)\s*/g, '').replace(/\s*\[.*?\]\s*/g, '');
 
-      document.getElementById('videoTitle').textContent = title;
-    }
+  // Remove textos extras comuns após o nome da música
+  title = title
+    .replace(/\s*-\s*(official|video|clip|hd|music|lyrics).*$/i, '') // corta " - Official Video", etc.
+    .replace(/\s*\|\s*.*$/g, '') // corta tudo após "|"
+    .replace(/\s{2,}/g, ' ') // remove espaços duplicados
+    .trim();
 
+  document.getElementById('videoTitle').textContent = title;
+}
     function playRandomVideo() {
       const playlist = player.getPlaylist();
       if (playlist && playlist.length > 0) {
@@ -180,3 +186,4 @@
   </script>
 </body>
 </html>
+
