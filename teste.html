@@ -1,36 +1,201 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Capa do Álbum</title>
-<style>
-  body {
-    background: transparent;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  #albumArt {
-    width: 150px;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.4);
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player YouTube Responsivo</title>
+  <style>
+    body {
+      margin: 0;
+      background: #191919;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 16px;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    #container {
+      width: 100%;
+      max-width: 560px;
+      aspect-ratio: 16/9;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #player {
+      width: 100%;
+      height: 100%;
+      background: #000;
+    }
+
+    #overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      gap: 20px;
+    }
+
+    #overlay img {
+      width: 120px;
+      height: auto;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+      justify-content: center;
+      width: 100%;
+      max-width: 560px;
+    }
+
+    .controls button {
+      padding: 14px 20px;
+      border: none;
+      border-radius: 10px;
+      background: #800000;
+      color: white;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 120px;
+    }
+
+    .controls button:hover {
+      background: #a00000;
+    }
+
+    @media (max-width: 480px) {
+      .controls button {
+        padding: 16px;
+        font-size: 16px;
+        min-width: 100px;
+      }
+      #overlay img {
+        width: 100px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<div align="center"><img src="img/sanca.png" alt="Capa do álbum" name="albumArt" width="150" id="albumArt">
-  
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="js/topao.js"></script>
-    <script>
+  <div id="container" style="position: relative; width: 100%; max-width: 560px; margin: auto;">
+  <!-- Título acima do vídeo -->
+  <div id="videoTitle"
+       style="color: white; text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 8px; font-family: Arial, sans-serif;">
+    Carregando...
+  </div>
 
-
-// Atualiza a cada 10 segundos
-setInterval(atualizarCapa, 10000);
-atualizarCapa();
-  </script>
-  
+  <!-- Player YouTube -->
+  <div id="player" style="width: 100%; aspect-ratio: 16 / 9;"></div>
 </div>
+
+  <div class="controls">
+    <button onclick="nextVideo()">Próximo ▶</button>
+    <button onclick="playRandomVideo()">🔄 Aleatório</button>
+    <button onclick="window.open('https://www.youtube.com/@RádioSancaRock', '_blank')">Nosso Canal</button>
+  </div>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+
+<script>
+  let player;
+  const PLAYLIST_ID = 'PLYXfLV3z1Kzysf0c-wpY6qDuKyj5KHGno';
+
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      width: '100%',
+      height: '100%',
+      playerVars: {
+        listType: 'playlist',
+        list: PLAYLIST_ID,
+        rel: 0,
+        modestbranding: 1,
+        autoplay: 1,
+        mute: 0,
+        controls: 1
+      },
+      events: {
+        onReady: onPlayerReady,
+        onStateChange: onPlayerStateChange
+      }
+    });
+  }
+
+  function onPlayerReady(event) {
+    setTimeout(() => {
+      const playlist = player.getPlaylist();
+      if (playlist && playlist.length > 0) {
+        const randomIndex = Math.floor(Math.random() * playlist.length);
+        player.playVideoAt(randomIndex);
+      } else {
+        setTimeout(() => {
+          player.playVideo();
+        }, 1000);
+      }
+    }, 800);
+  }
+
+  // Atualiza o título sempre que trocar de vídeo
+  function onPlayerStateChange(event) {
+    if (event.data === YT.PlayerState.PLAYING) {
+      updateVideoTitle();
+    }
+  }
+
+  function updateVideoTitle() {
+    const data = player.getVideoData();
+    let title = data.title || "Desconhecido";
+    
+    // Remove o que estiver entre () e []
+    title = title.replace(/\s*\(.*?\)\s*/g, '').replace(/\s*\[.*?\]\s*/g, '');
+
+    // Se o título estiver no formato "Artista - Música", mantemos
+    // Caso contrário, só mostra o título como está
+    document.getElementById('videoTitle').textContent = title;
+  }
+
+  function playRandomVideo() {
+    const playlist = player.getPlaylist();
+    if (playlist && playlist.length > 0) {
+      const randomIndex = Math.floor(Math.random() * playlist.length);
+      player.playVideoAt(randomIndex);
+      document.getElementById('overlay').style.display = 'none';
+    } else {
+      setTimeout(playRandomVideo, 500);
+    }
+  }
+
+  function nextVideo() {
+    if (player) player.nextVideo();
+  }
+
+  function toggleFullscreen() {
+    const container = document.getElementById('container');
+    if (!document.fullscreenElement) {
+      if (container.requestFullscreen) container.requestFullscreen();
+      else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
+      else alert("Gire seu celular para paisagem!");
+    } else {
+      if (document.exitFullscreen) document.exitFullscreen();
+      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    }
+  }
+</script>
 </body>
 </html>
