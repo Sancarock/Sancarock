@@ -555,7 +555,22 @@ function loadQuestion() {
 // === Verificar resposta ===
 function selectOption(selectedOption) {
   const correctAnswer = selectedQuestions[currentQuestionIndex].answer;
+  const optionsContainer = document.getElementById("options");
+  const buttons = optionsContainer.querySelectorAll("button");
 
+  // Desativa cliques após a escolha
+  buttons.forEach(btn => btn.disabled = true);
+
+  // Marca as opções
+  buttons.forEach(btn => {
+    if (btn.innerText === correctAnswer) {
+      btn.classList.add("correct");
+    } else if (btn.innerText === selectedOption) {
+      btn.classList.add("wrong");
+    }
+  });
+
+  // Toca som e atualiza pontuação
   if (selectedOption === correctAnswer) {
     score++;
     soundCorrect.currentTime = 0;
@@ -565,10 +580,12 @@ function selectOption(selectedOption) {
     soundWrong.play();
   }
 
-  currentQuestionIndex++;
-  setTimeout(loadQuestion, 600);
+  // Próxima pergunta após um pequeno delay
+  setTimeout(() => {
+    currentQuestionIndex++;
+    loadQuestion();
+  }, 1000);
 }
-
 // === Mostrar resultado ===
 function showResult() {
   const percentage = (score / selectedQuestions.length) * 100;
@@ -600,3 +617,4 @@ function restartQuiz() {
 
 // === Iniciar ===
 loadQuestion();
+
