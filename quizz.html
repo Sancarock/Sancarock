@@ -17,7 +17,27 @@ body {
     padding: 20px;
     animation: pageIntro 1.2s ease-out;
     transform-origin: center;
+    animation: pageExplosion 2s ease-out;
   }
+    /* ===== Animação de explosão/zoom ===== */
+@keyframes pageExplosion {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+    filter: brightness(3) blur(20px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.1);
+    filter: brightness(1.5) blur(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: brightness(1) blur(0);
+  }
+}
+
 
   @keyframes pageIntro {
     0% {
@@ -198,6 +218,7 @@ body {
 </script>
 
 </body>
+
 
 
 
