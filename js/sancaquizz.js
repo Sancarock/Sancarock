@@ -1,5 +1,106 @@
 ﻿// === Perguntas ===
 const questions = [
+{
+   question: "Quem é conhecido como 'O Pai do Heavy Metal'?", 
+   options: ["Ozzy Osbourne", "Tony Iommi", "Lemmy Kilmister", "Jimmy Page"], 
+   answer: "Tony Iommi"
+},
+{
+  question: "Qual foi o primeiro vocalista do AC/DC?", 
+  options: ["Bon Scott", "Brian Johnson", "Dave Evans", "Mark Evans"], 
+  answer: "Dave Evans"
+},
+{
+  question: "Qual é o nome do primeiro álbum do Iron Maiden?", 
+  options: ["Killers", "Iron Maiden", "The Number of the Beast", "Piece of Mind"], 
+  answer: "Iron Maiden" 
+},
+{
+  question: "A música 'Smoke on the Water' é inspirada em um incêndio que ocorreu onde?", 
+  options: ["Em um show do Deep Purple", "Em um cassino em Montreux", "Em um estúdio de gravação", "Em um festival nos EUA"], 
+  answer: "Em um cassino em Montreux" 
+},
+{
+  question: "Quem foi o primeiro baterista do Nirvana?", 
+  options: ["Dave Grohl", "Aaron Burckhard", "Chad Channing", "Matt Cameron"], 
+  answer: "Aaron Burckhard"
+},
+{
+    question: "Quem sugeriu o nome Led Zeppelin?",
+    options: ["Keith Moon", "Jimmy Page", "Robert Plant", "John Bonham"],
+    answer: "Keith Moon"
+},
+{
+  question: "Qual é o nome verdadeiro de Ronnie James Dio?", 
+  options: ["Ronald James Padavona", "Ronald James Dio", "Robert James Dio", "Richard Padavona"], 
+  answer: "Ronald James Padavona" 
+},
+{
+  question: "O nome 'Jethro Tull' foi inspirado em quê?", 
+  options: ["Um fazendeiro do século XVIII", "Um personagem de livro", "Um bar de Londres", "Um termo celta antigo"], 
+  answer: "Um fazendeiro do século XVIII" 
+},
+{
+  question: "Qual é o nome verdadeiro de Alice Cooper?", 
+  options: ["Vincent Furnier", "Steven Tyler", "Paul Stanley", "Brian Warner"], 
+  answer: "Vincent Furnier" 
+},
+{
+    question: "Qual é o nome verdadeiro de King Diamond?", 
+  options: ["Kim Bendix Petersen", "Lars Ulrich", "Jesper Strömblad", "Michael Poulsen"], 
+  answer: "Kim Bendix Petersen"
+},
+{
+    question: "Qual foi o nome da banda de Lars Ulrich antes da formação do Metallica?",
+    options: ["Phantom Lord", "Leather Charm", "Obsession", "Exodus"],
+    answer: "Leather Charm"
+},
+{
+    question: "Qual desses nomes Kurt Cobain usou antes de decidir por Nirvana?",
+    options: ["Fecal Matter", "Heart-Shaped Box", "Bleach", "The Servants"],
+    answer: "Fecal Matter"
+},
+{
+    question: "De onde veio a inspiração para o nome AC/DC?",
+    options: ["De uma máquina de costura", "De um álbum dos Rolling Stones", "De uma marca de guitarras", "De uma gíria australiana"],
+    answer: "De uma máquina de costura"
+},
+{
+    question: "Qual era o nome da banda de Freddie Mercury antes do Queen?",
+    options: ["Smile", "The Cross", "Ibex", "The Hectics"],
+    answer: "Ibex"
+},
+{
+    question: "O nome Guns N’ Roses surgiu da junção de membros de quais duas bandas?",
+    options: ["L.A. Guns e Hollywood Rose", "Faster Pussycat e Poison", "Jetboy e Warrant", "Ratt e Quiet Riot"],
+    answer: "L.A. Guns e Hollywood Rose"
+},
+{
+    question: "Quem sugeriu o nome Led Zeppelin?",
+    options: ["Keith Moon", "Jimmy Page", "Robert Plant", "John Bonham"],
+    answer: "Keith Moon"
+},
+{
+    question: "O nome Pink Floyd veio da junção de nomes de quais artistas de blues?",
+    options: ["Pink Anderson e Floyd Council", "Buddy Guy e B.B. King", "John Lee Hooker e Muddy Waters", "Howlin’ Wolf e Elmore James"],
+    answer: "Pink Anderson e Floyd Council"
+},
+{
+    question: "O nome Black Sabbath foi inspirado em quê?",
+    options: ["Em um filme de terror italiano", "Em um livro de magia", "Em uma música dos Beatles", "Em uma lenda medieval"],
+    answer: "Em um filme de terror italiano"
+},
+{
+    question: "O nome Iron Maiden foi inspirado em quê?",
+    options: ["Em um instrumento de tortura medieval", "Em uma espada antiga", "Em um poema inglês", "Em uma fábrica de ferro"],
+    answer: "Em um instrumento de tortura medieval"
+},
+{
+    question: "O nome Foo Fighters é uma referência a quê?",
+    options: ["Objetos voadores não identificados vistos na Segunda Guerra", "Um tipo de amplificador", "Uma piada interna da banda", "Um filme de ficção científica"],
+    answer: "Objetos voadores não identificados vistos na Segunda Guerra"
+},
+
   {
     question: "Qual é o nome do lendário baixista do Grand Funk?",
     options: ["Glenn Hughes", "Nick Graham", "Dave Rimmer", "Mel Schacher"],
@@ -16,7 +117,7 @@ const questions = [
     answer: "São primos"
 },
 {
-    question: "Qual foi a causa da morte de Cliff Burton, baixista do Metallica,?",
+    question: "Qual foi a causa da morte de Cliff Burton, baixista do Metallica?",
     options: ["Acidente de Carro", "Acidente de Avião", "Acidente de Ônibus", "Câncer"],
     answer: "Acidente de Ônibus"
 },
@@ -617,5 +718,6 @@ function restartQuiz() {
 
 // === Iniciar ===
 loadQuestion();
+
 
 
