@@ -79,6 +79,20 @@ body {
         #restart-btn:hover {
             background: #cc0000;
         }
+        button.correct {
+        background-color: #2ecc71 !important; /* verde */
+        color: white;
+      }
+      
+      button.wrong {
+        background-color: #e74c3c !important; /* vermelho */
+        color: white;
+      }
+      
+      #options button:disabled {
+        opacity: 0.8;
+        cursor: not-allowed;
+      }
 </style>
 </head>
 <body>
@@ -135,4 +149,5 @@ body {
   <audio id="sound-wrong" src="sounds/wrong.mp3" preload="auto"></audio>
 
   <script src="js/sancaquizz.js"></script>
+
 </body>
