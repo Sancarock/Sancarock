@@ -141,9 +141,9 @@ const questions = [
     answer: "Fleetwood Mac"
 },
 {
-    question: "Qual o nome da primeira banda do Bruce Dickinson?",
-    options: ["Saxon", "Samson", "Budgie", "Moxy"],
-    answer: "Samson"
+    question: "Qual o álbum mais vendido da história?",
+    options: ["Back in Black, de AC/DC (1980)", " Thriller, de Michael Jackson (1982)", "The Dark Side of the Moon, de Pink Floyd (1973)", "Appetite for Destruction, de Guns N’ Roses (1987)"],
+    answer: "Thriller, de Michael Jackson (1982)"
 },
 {
     question: "Quem canta 'Free Bird'?",
@@ -617,4 +617,5 @@ function restartQuiz() {
 
 // === Iniciar ===
 loadQuestion();
+
 
