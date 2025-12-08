@@ -9,7 +9,7 @@ const feeds = [
  ];
 
 // === VARIÁVEIS DE SLOGAN E PATROCINADORES ===
-  let slogan = { titulo: "🤘 Programa Monstros do Rock - Especial Nazareth, Sábado às 20h 🤘", url: null };
+  let slogan = { titulo: "🤘 Programa Monstros do Rock - Especial Deep Purple, Sábado às 20h 🤘", url: null };
   let patrocinadores = [
     { titulo: "VJ Suplementos, A melhor loja de Suplementos de São Carlos", url: "https://www.instagram.com/vjsuplementos_saocarlos/" },
     { titulo: "Rádio Sanca Rock - São Carlos / SP", url: null }
@@ -105,6 +105,7 @@ function mostrarMensagem(index, todasNoticias) {
 }
 
 carregarNoticias();
+
 
 
 
