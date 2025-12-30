@@ -1,9 +1,9 @@
 const banners = [
-  { img: "https://sancarock.netlify.app/propaganda/img/1.png", link: "https://s.shopee.com.br/2qNvmC7NJM" },
-  { img: "https://sancarock.netlify.app/propaganda/img/2.png", link: "https://s.shopee.com.br/3VdcZZEKds" },
-  { img: "https://sancarock.netlify.app/propaganda/img/3.png", link: "https://s.shopee.com.br/8fLijKACKk" },
+  { img: "https://sancarock.netlify.app/propaganda/img/1.png", link: "https://s.shopee.com.br/8zyZCaFqwk" },
+  { img: "https://sancarock.netlify.app/propaganda/img/2.png", link: "https://s.shopee.com.br/8pf903dk2X" },
+  { img: "https://sancarock.netlify.app/propaganda/img/3.png", link: "https://s.shopee.com.br/9zr6O5OrNi" },
   { img: "https://sancarock.netlify.app/propaganda/img/4.png", link: "https://s.shopee.com.br/4LCjaDa9WL" },
-  { img: "https://sancarock.netlify.app/propaganda/img/5.png", link: "https://s.shopee.com.br/qcrQ3TPUY" },
+  { img: "https://sancarock.netlify.app/propaganda/img/5.png", link: "https://s.shopee.com.br/6AeNpfsZ9d" },
   { img: "https://sancarock.netlify.app/propaganda/img/6.png", link: "https://mercadolivre.com/sec/2xeEUcx" },
   { img: "https://sancarock.netlify.app/propaganda/img/7.png", link: "https://s.shopee.com.br/6VHEAgg7DB" },
   { img: "https://sancarock.netlify.app/propaganda/img/8.png", link: "https://s.shopee.com.br/9zr6LEUQpB" },
@@ -143,4 +143,5 @@ function checkLayout() {
 // Inicializa
 window.addEventListener("resize", checkLayout);
 window.addEventListener("load", checkLayout);
+
 
