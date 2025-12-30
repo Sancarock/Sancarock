@@ -7,7 +7,7 @@ const banners = [
   { img: "https://sancarock.netlify.app/propaganda/img/6.png", link: "https://mercadolivre.com/sec/2xeEUcx" },
   { img: "https://sancarock.netlify.app/propaganda/img/7.png", link: "https://s.shopee.com.br/6VHEAgg7DB" },
   { img: "https://sancarock.netlify.app/propaganda/img/8.png", link: "https://s.shopee.com.br/9zr6LEUQpB" },
-  { img: "https://sancarock.netlify.app/propaganda/img/009.gif", link: "https://mercadolivre.com/sec/2hhCKB3" }
+  { img: "https://sancarock.netlify.app/propaganda/img/9.png", link: "https://s.shopee.com.br/BNAZLdw9x?share_channel_code=1" }
 ];
 
 let currentIndex = 0;
