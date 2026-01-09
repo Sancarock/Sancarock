@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expedição</title>
+<link rel="stylesheet" href="css/parados.css"/>
+
+
+<!-- ✅ Bibliotecas JS corretas (devem ficar fora de <script> interno) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<script src="firebase-auth-standalone.js" defer></script>
+<script src="js/firebase.js"></script>
+</head>
+
+<body>
+
+<header>
+    <img src="img/exp.png" alt="Logo Esquerda" class="logo-left">
+<div id="logado"></div>
+    <nav>
+        <a href="almox.html">📦 Almoxarifado</a>
+        <a href="exp.html">📊 Expedição</a>
+        <a href="transp.html">🚚 Transportadoras</a>
+    </nav>
+</header>
+
+<body>
+   
+
+    <input type="text" id="busca" placeholder="Buscar (use ; para múltiplos filtros)..." oninput="filtrarTabela()" />
+
+    <div class="botoes">
+        <button class="btn-voltar" onclick="history.go(-1)">← Voltar</button>
+        <button class="btn-pdf" onclick="gerarPDF()">Baixar PDF</button>
+        <button class="btn-excel" onclick="baixarExcel()">Baixar Excel</button>
+    </div>
+
+    <div id="contador"></div>
+    <table id="tabela"></table>
+<script src="js/parados.js"></script>
+<script src="js/exp.js"></script>
+<script>
+    document.getElementById("btnLogout").addEventListener("click", function () {
+        firebase.auth().signOut()
+            .then(() => {
+                window.location.href = "index.html";
+            })
+            .catch((error) => {
+                console.error("Erro ao deslogar:", error);
+            });
+    });
+</script>
+
+</body>
+</html>

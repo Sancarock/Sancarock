@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Área Restrita</title>
+</head>
+<body>
+
+<h1>Bem-vindo!</h1>
+<button onclick="logout()">Sair</button>
+
+<script src="firebase.js"></script>
+
+<script>
+// impede acesso sem login
+firebase.auth().onAuthStateChanged((user) => {
+  if (!user) {
+    window.location.href = "login.html";
+  }
+});
+
+function logout() {
+  firebase.auth().signOut().then(() => {
+    window.location.href = "login.html";
+  });
+}
+</script>
+
+</body>
+</html>
