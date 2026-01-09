@@ -19,38 +19,6 @@ body {
         flex-wrap: wrap;
     }
 
-    .status-retirado {
-      background-color: #90ee90;
-    }
-
-    .status-ag-coleta {
-      background-color: #ff6961;
-      color: white;
-    }
-
-    .status-falta-nf {
-      background-color: #FFFF00;
-      color: black;
-    }
-
-    .botoes button {
-      background: #007bff;
-      border-radius: 6px;
-      padding: 12px 16px;
-      cursor: pointer;
-      color: #fff;
-      border: none;
-      font-size: 16px;
-      flex: 1 1 140px;
-      max-width: 180px;
-      transition: background 0.3s;
-      margin: 5px;
-    }
-
-    .botoes button:hover {
-      background: #0056b3;
-    }
-
     header img {
         height: 60px;
         width: auto;
@@ -74,6 +42,12 @@ body {
 
     nav a:hover {
         background: #0056b3;
+    }
+
+    h2 img {
+        width: 80%;
+        max-width: 900px;
+        height: auto;
     }
 
     input[type="text"] {
@@ -118,6 +92,12 @@ body {
         background-color: #ddd;
     }
 
+    .site-link {
+        color: #FF6347;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
     @media (max-width: 600px) {
         header {
             flex-direction: column;
@@ -137,3 +117,78 @@ body {
             width: 90%;
         }
     }
+.contador-btn {
+  display: inline-block;
+  background: grey;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: bold;
+  user-select: none;
+  cursor: default;
+  margin-bottom: 10px;
+}
+
+/* BOTÃO AZUL – Mostrar Tudo */
+.btn-azul {
+    background-color: #007bff;
+}
+.btn-azul:hover {
+    background-color: #0056b3;
+}
+
+/* BOTÃO VERMELHO – Pendentes */
+.btn-vermelho {
+    background-color: #e60000;
+}
+.btn-vermelho:hover {
+    background-color: #b30000;
+}
+
+/* BOTÃO ROXO – PDF */
+.btn-roxo {
+    background-color: #8000ff;
+}
+.btn-roxo:hover {
+    background-color: #5a00b3;
+}
+
+/* BOTÃO VERDE – Excel */
+.btn-verde {
+    background-color: #28a745;
+}
+.btn-verde:hover {
+    background-color: #1e7e34;
+}
+
+/* Estilo geral do botão */
+button {
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    margin: 5px;
+}
+button:active {
+    transform: scale(0.98);
+}
+@media (max-width: 600px) {
+    button {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+}
+
+.contador-btn {
+    background: #556B2F;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    margin: 5px;
+    opacity: 0.9;
+}

@@ -1,4 +1,4 @@
-body {
+ body {
         font-family: Arial, sans-serif;
         text-align: center;
         background-image: url('../img/fundo.jpg');
@@ -17,38 +17,6 @@ body {
         justify-content: space-between;
         align-items: center;
         flex-wrap: wrap;
-    }
-
-    .status-retirado {
-      background-color: #90ee90;
-    }
-
-    .status-ag-coleta {
-      background-color: #ff6961;
-      color: white;
-    }
-
-    .status-falta-nf {
-      background-color: #FFFF00;
-      color: black;
-    }
-
-    .botoes button {
-      background: #007bff;
-      border-radius: 6px;
-      padding: 12px 16px;
-      cursor: pointer;
-      color: #fff;
-      border: none;
-      font-size: 16px;
-      flex: 1 1 140px;
-      max-width: 180px;
-      transition: background 0.3s;
-      margin: 5px;
-    }
-
-    .botoes button:hover {
-      background: #0056b3;
     }
 
     header img {
@@ -74,6 +42,12 @@ body {
 
     nav a:hover {
         background: #0056b3;
+    }
+
+    h2 img {
+        width: 80%;
+        max-width: 900px;
+        height: auto;
     }
 
     input[type="text"] {
@@ -118,6 +92,12 @@ body {
         background-color: #ddd;
     }
 
+    .site-link {
+        color: #FF6347;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
     @media (max-width: 600px) {
         header {
             flex-direction: column;
@@ -137,3 +117,14 @@ body {
             width: 90%;
         }
     }
+.contador-btn {
+  display: inline-block;
+  background: grey;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: bold;
+  user-select: none;
+  cursor: default;
+  margin-bottom: 10px;
+}

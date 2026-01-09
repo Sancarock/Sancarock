@@ -19,38 +19,6 @@ body {
         flex-wrap: wrap;
     }
 
-    .status-retirado {
-      background-color: #90ee90;
-    }
-
-    .status-ag-coleta {
-      background-color: #ff6961;
-      color: white;
-    }
-
-    .status-falta-nf {
-      background-color: #FFFF00;
-      color: black;
-    }
-
-    .botoes button {
-      background: #007bff;
-      border-radius: 6px;
-      padding: 12px 16px;
-      cursor: pointer;
-      color: #fff;
-      border: none;
-      font-size: 16px;
-      flex: 1 1 140px;
-      max-width: 180px;
-      transition: background 0.3s;
-      margin: 5px;
-    }
-
-    .botoes button:hover {
-      background: #0056b3;
-    }
-
     header img {
         height: 60px;
         width: auto;
@@ -74,6 +42,12 @@ body {
 
     nav a:hover {
         background: #0056b3;
+    }
+
+    h2 img {
+        width: 80%;
+        max-width: 900px;
+        height: auto;
     }
 
     input[type="text"] {
@@ -116,6 +90,12 @@ body {
 
     tr:hover {
         background-color: #ddd;
+    }
+
+    .site-link {
+        color: #FF6347;
+        text-decoration: none;
+        font-weight: bold;
     }
 
     @media (max-width: 600px) {
