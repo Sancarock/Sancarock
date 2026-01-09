@@ -1,29 +1,19 @@
-const jsonURL = "https://raw.githubusercontent.com/Sancarock/Sancarock/refs/heads/main/sounds/exped.csv";
+const jsonURL = "https://sheets.googleapis.com/v4/spreadsheets/1O2fT4u40Kc2l-RBCMFCqvZ9twrUNRHpypTzm6O-ET30/values/histo_mri!A1:I1700?key=AIzaSyCHRqS0NtxXTBsdyoT72wAj6EGgGBwofS0";
 
 let dadosOriginais = [];
 let dadosAtuais = [];
 
 function carregarJSON() {
     fetch(jsonURL)
-        .then(response => response.text())
-        .then(csv => {
-            
-            // Separa linhas
-            const linhas = csv.trim().split("\n");
-
-            // Separa colunas usando ";"
-            const dados = linhas.map(l => l.split(";"));
-
-            // A primeira linha é o cabeçalho?
-            dadosOriginais = dados;
+        .then(response => response.json())
+        .then(jsonData => {
+            dadosOriginais = jsonData.values;
             dadosAtuais = [...dadosOriginais];
-
-            // 👉 aplica o filtro padrão que já existia
+            // 👉 já aplica o filtro Pendências ao carregar
             filtrarStatus(['falta nf', 'ag. coleta'], [8]);
         })
-        .catch(error => console.error("Erro ao carregar CSV:", error));
+        .catch(error => console.error("Erro ao carregar JSON:", error));
 }
-
 
 function exibirTabela(rows, ocultarColunas = []) {
     const table = document.getElementById("tabela");
